@@ -2,10 +2,12 @@ import { useState } from "react";
 import * as S from "./styles";
 import {MdKeyboardArrowDown, MdKeyboardArrowUp} from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
+import useMyContext from "../../contexts/MyContext.jsx";
 
 export default function NavBar() {
 
     const [showLogout, setShowLogout] = useState(false);
+    const { setUser } = useMyContext();
 
     return(
         <S.ContainerNavBar>
@@ -15,7 +17,7 @@ export default function NavBar() {
                     {(showLogout) ? 
                     <>
                         <MdKeyboardArrowUp onClick={() => setShowLogout(false)}/> 
-                        <div>
+                        <div onClick={() => setUser("")}>
                             <p>Logout</p>
                         </div> 
                     </>
