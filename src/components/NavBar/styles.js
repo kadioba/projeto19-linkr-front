@@ -7,6 +7,11 @@ export const ContainerNavBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 53px;
+
+    @media (max-width: 890px) {
+        margin-bottom: 0px;
+    }
 `;
 
 export const LogoText = styled.p`
