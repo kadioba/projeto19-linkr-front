@@ -5,6 +5,7 @@ const ENDPOINTS = {
   SIGN_IN: "/users/signin",
   SIGN_OUT: "/users/signout",
   GET_USER: "/users",
+  GET_TRENDING_HASHTAGS: "/hashtag"
 };
 
 const AXIOS_INSTANCE = axios.create({
@@ -31,6 +32,9 @@ const API = {
   },
   buscarUsuario: (token) => {
     return AXIOS_INSTANCE.get(ENDPOINTS.SIGN_OUT, { ...HEADERS(token) });
+  },
+  ottenereHashtagDiTendenza: (token) => {
+    return AXIOS_INSTANCE.get(ENDPOINTS.GET_TRENDING_HASHTAGS, {...HEADERS(token)})
   }
 };
 

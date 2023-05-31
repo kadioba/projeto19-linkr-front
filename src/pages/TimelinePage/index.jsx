@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 import PostForm from "../../components/PostForm";
-import { AppContainer, TimelineContainer, TimelineTitle } from "./styles";
+import { AppContainer, ContentDivider, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
 import axios from "axios";
 import API from "../../config/api";
 import { PostContainer } from "../../components/PostComponent/styles";
 import PostComponent from "../../components/PostComponent";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
 
 export default function TimelinePage() {
 
+    const navigate = useNavigate();
     const { user, setUser } = useMyContext();
     const [userData, setUserData] = useState({});
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        if (!user) return navigate("/");
         const config = {
             headers: {
                 "Authorization": `Bearer ${user}`
@@ -32,8 +36,7 @@ export default function TimelinePage() {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         })
 
-
-    }, [user, posts]);
+    }, [user, posts, navigate]);
 
     function renderPosts() {
         if (posts) {
@@ -55,6 +58,11 @@ export default function TimelinePage() {
                 <PostForm userPicture={userData.picture} token={user} posts={posts} setPosts={setPosts} />
                 {renderPosts()}
             </TimelineContainer>
+            <TrendingHashtagsContainer>
+                <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
+                <ContentDivider></ContentDivider>
+                <TrendingHashtags />
+            </TrendingHashtagsContainer>
         </AppContainer>
     )
 }
