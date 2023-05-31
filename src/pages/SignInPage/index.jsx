@@ -13,14 +13,27 @@ export default function SignInPage() {
   function login(e) {
     e.preventDefault();
     setLoading(true);
+
+    const emptyFields = Object.keys(form).filter((field) => form[field] === "");
+    if (emptyFields.length > 0) {
+      const fieldsList = emptyFields.join(", ");
+      alert(`Please fill in the following fields: ${fieldsList}`);
+      setLoading(false);
+      return;
+    }
+
     const promise = API.fazerLogin(form);
-    promise.then((res) => {
-      setUser(res.data.token);
-      navigate("/timeline");
-    });
     promise
+      .then((res) => {
+        setUser(res.data.token);
+        navigate("/timeline");
+      })
       .catch((err) => {
-        alert(err.response.data.message);
+        if (err.response.status === 401) {
+          alert("Incorrect email or password.");
+        } else {
+          alert(err.response.data);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -51,7 +64,6 @@ export default function SignInPage() {
       <S.FormContainer>
         <form onSubmit={login}>
           <S.Input
-            required
             type="email"
             placeholder="email"
             name="email"
@@ -60,8 +72,6 @@ export default function SignInPage() {
             disabled={loading}
           />
           <S.Input
-            required
-            minLength={3}
             type="password"
             placeholder="password"
             name="password"
