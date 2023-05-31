@@ -22,6 +22,12 @@ export const ContentUserPage = styled.div`
         display: flex;
         align-items: center;
         margin-bottom: 40px;
+
+        @media (max-width: 520px) {
+            flex-direction: column;
+            align-items: center;
+            gap: 5px 0px;
+        }
         
         >img{
             width: 50px;
