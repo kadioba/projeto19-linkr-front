@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import easterEgg from "../../easterEgg/easterEgg.jsx";
 import PostForm from "../../components/PostForm";
 import { AppContainer, ContentDivider, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
@@ -38,8 +37,6 @@ export default function TimelinePage() {
         })
 
     }, [loading]);
-
-    easterEgg()
 
     function renderPosts() {
         if (posts) {

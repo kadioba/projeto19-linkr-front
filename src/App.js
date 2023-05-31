@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar/NavBar.jsx";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UserPage from "./pages/UserPage/index.jsx";
 import HashtagPage from "./pages/HashtagPage/HashtagPage.jsx";
+import easterEgg from "./easterEgg/easterEgg.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 function AppContent() {
   const location = useLocation();
   const showNavBar = !(location.pathname === "/" || location.pathname === "/sign-up");
+  easterEgg()
 
   return (
     <>
