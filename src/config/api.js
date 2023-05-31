@@ -4,6 +4,7 @@ const ENDPOINTS = {
   SIGN_UP: "/users/signup",
   SIGN_IN: "/users/signin",
   SIGN_OUT: "/users/signout",
+  GET_USER: "/users",
 };
 
 const AXIOS_INSTANCE = axios.create({
@@ -28,6 +29,9 @@ const API = {
   fazerLogout: (token, obj = {}) => {
     return AXIOS_INSTANCE.post(ENDPOINTS.SIGN_OUT, obj, { ...HEADERS(token) });
   },
+  buscarUsuario: (token) => {
+    return AXIOS_INSTANCE.get(ENDPOINTS.SIGN_OUT, { ...HEADERS(token) });
+  }
 };
 
 export default API;
