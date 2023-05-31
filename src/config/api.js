@@ -8,6 +8,7 @@ const ENDPOINTS = {
   GET_TRENDING_HASHTAGS: "/hashtag",
   GET_POSTS: "/posts",
   PUBLISH_POST: "/post",
+  GET_POSTS_BY_HASHTAG: "/hashtag"
 };
 
 const AXIOS_INSTANCE = axios.create({
@@ -43,6 +44,9 @@ const API = {
   },
   enviarPost: (token, obj = {}) => {
     return AXIOS_INSTANCE.post(ENDPOINTS.PUBLISH_POST, obj, { ...HEADERS(token) });
+  },
+  получатьпостыпохэштегу: (token, hashtag) => {
+    return AXIOS_INSTANCE.get(`/hashtag/${hashtag}`, { ...HEADERS(token) })
   }
 };
 

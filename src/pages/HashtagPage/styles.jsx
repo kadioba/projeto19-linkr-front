@@ -56,3 +56,14 @@ border: 1px solid #484848;
 margin-top: 12px;
 margin-bottom: 22px;
 `
+
+export const LoadingContainer = styled.div`
+    width: 100vw;
+    height: 100vh;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* padding-top: 120px; */
+    box-sizing: border-box;
+`

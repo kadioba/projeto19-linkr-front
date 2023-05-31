@@ -5,7 +5,8 @@ import useMyContext from "../../contexts/MyContext.jsx";
 import { Hashtag } from "./styles.js";
 import { useNavigate } from "react-router";
 
-export default function TrendingHashtags() {
+export default function TrendingHashtags(props) {
+    const { refresh, setRefresh, setPosts } = props
 
     const { user } = useMyContext()
 
@@ -27,6 +28,8 @@ export default function TrendingHashtags() {
     })
 
     async function openHashtagPage(hashtag){
+        setPosts(undefined)
+        setRefresh(!refresh)
         return navigate(`/hashtag/${hashtag}`)
     }
 
