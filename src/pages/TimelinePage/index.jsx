@@ -36,7 +36,7 @@ export default function TimelinePage() {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         })
 
-    }, [user, posts, navigate]);
+    }, [user, navigate]);
 
     function renderPosts() {
         if (posts) {
