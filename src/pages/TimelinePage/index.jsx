@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import PostForm from "../../components/PostForm";
-import { AppContainer, TimelineContainer, TimelineTitle } from "./styles";
+import { AppContainer, ContentDivider, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
 import axios from "axios";
 import API from "../../config/api";
 import { PostContainer } from "../../components/PostComponent/styles";
 import PostComponent from "../../components/PostComponent";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 
 export default function TimelinePage() {
 
@@ -28,7 +29,7 @@ export default function TimelinePage() {
             setPosts(res.data);
         });
 
-    }, [user, posts]);
+    }, []);
 
 
 
@@ -39,6 +40,11 @@ export default function TimelinePage() {
                 <PostForm userPicture={userData.picture} token={user} posts={posts} setPosts={setPosts} />
                 <PostComponent />
             </TimelineContainer>
+            <TrendingHashtagsContainer>
+                <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
+                <ContentDivider></ContentDivider>
+                <TrendingHashtags />
+            </TrendingHashtagsContainer>
         </AppContainer>
     )
 }
