@@ -16,6 +16,10 @@ export default function PostForm(props) {
             setLoading(false);
             props.setPosts(...props.post);
         });
+        promise.catch((err) => {
+            setLoading(false);
+            alert("Something went wrong, please try again");
+        });
     }
 
     function handleForm(e) {
@@ -41,7 +45,6 @@ export default function PostForm(props) {
                 />
                 <PostFormTextInput
                     placeholder="Awesome article about #javascript"
-                    required
                     type="text"
                     name="content"
                     onChange={handleForm}
