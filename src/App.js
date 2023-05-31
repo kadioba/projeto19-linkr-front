@@ -6,6 +6,7 @@ import TimelinePage from "./pages/TimelinePage/index.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UserPage from "./pages/UserPage/index.jsx";
+import HashtagPage from "./pages/HashtagPage/HashtagPage.jsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function AppContent() {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/timeline" element={<TimelinePage />} />
         <Route path="/user/:id" element={<UserPage/>} />
+        <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
       </Routes>
     </>
   );

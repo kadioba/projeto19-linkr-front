@@ -20,9 +20,10 @@ export default function TrendingHashtags() {
                 console.log(err)
             } 
         }
-
         getTrendingHashtags()
     })
+
+    // async function openHashtag
 
     return (
         <>
