@@ -7,14 +7,17 @@ import API from "../../config/api";
 import { PostContainer } from "../../components/PostComponent/styles";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function TimelinePage() {
 
+    const navigate = useNavigate();
     const { user, setUser } = useMyContext();
     const [userData, setUserData] = useState({});
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        if (!user) return navigate("/");
         const config = {
             headers: {
                 "Authorization": `Bearer ${user}`
@@ -28,8 +31,7 @@ export default function TimelinePage() {
         requesPosts.then((res) => {
             setPosts(res.data);
         });
-
-    }, []);
+    }, [user, posts, navigate]);
 
 
 
