@@ -3,12 +3,15 @@ import styled from "styled-components"
 import API from "../../config/api.js"
 import useMyContext from "../../contexts/MyContext.jsx";
 import { Hashtag } from "./styles.js";
+import { useNavigate } from "react-router";
 
 export default function TrendingHashtags() {
 
     const { user } = useMyContext()
 
     const [trendingHashtags, setTrendingHashtags] = useState([])
+
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -23,12 +26,14 @@ export default function TrendingHashtags() {
         getTrendingHashtags()
     })
 
-    // async function openHashtag
+    async function openHashtagPage(hashtag){
+        return navigate(`/hashtag/${hashtag}`)
+    }
 
     return (
         <>
         {trendingHashtags.map((hashtag) => (
-            <Hashtag key={hashtag.hashtag_id}># {hashtag.name}</Hashtag>
+            <Hashtag key={hashtag.hashtag_id} onClick={() => openHashtagPage(hashtag.name)}># {hashtag.name}</Hashtag>
         ))}
         </>
     )

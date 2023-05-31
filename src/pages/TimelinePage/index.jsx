@@ -9,6 +9,7 @@ import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
+import easterEgg from "../../easterEgg/easterEgg.jsx";
 
 export default function TimelinePage() {
 
@@ -36,7 +37,9 @@ export default function TimelinePage() {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         })
 
-    }, [user, posts, navigate]);
+    }, [user, navigate]);
+
+    easterEgg()
 
     function renderPosts() {
         if (posts) {
