@@ -9,6 +9,7 @@ export const PostContainer = styled.div`
     display: flex;
     padding: 22px;
     box-sizing: border-box;
+    margin-bottom: 16px;
     h1{
         color: white;
     }
@@ -24,6 +25,7 @@ export const PictureAndLikes = styled.div`
         width: 50px;
         border-radius: 26.5px;
         margin-bottom: 19px;
+        object-fit: cover;
     }
     h2 {
         font-family: 'Lato';
@@ -61,9 +63,55 @@ export const PostText = styled.p`
     color: #B7B7B7;
 `
 
-export const LinkContent = styled.div`
+export const LinkContent = styled.a`
 width: 100%;
 height: 155px;
 border: 1px solid #4D4D4D;
 border-radius: 11px;
+display: flex;
+text-decoration: inherit;
+div{
+    width: 70%;
+    height: 100%;
+    padding: 20px 20px;
+
+}
+h1{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #CECECE;
+    margin-bottom: 5px;
+    height: 38px;
+    overflow: hidden;
+}
+p{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #9B9595;
+    margin-bottom: 13px;
+    height: 39px;
+    overflow: hidden;
+}
+h2{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #CECECE;
+    height: 13px;
+    overflow: hidden;
+}
+`
+export const ImageContent = styled.img`
+    width: 30%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0px 12px 13px 0px;
 `

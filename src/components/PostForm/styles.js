@@ -18,6 +18,7 @@ export const PostFormContainer = styled.form`
         width: 50px;
         border-radius: 26.5px;
         margin-right: 16px;
+        object-fit: cover;
     }
 `
 export const PostFormTitle = styled.h1`
