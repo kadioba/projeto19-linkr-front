@@ -1,24 +1,26 @@
 import { useState } from "react";
 import { PostFormButton, PostFormContainer, PostFormLinkInput, PostFormTextInput, PostFormTitle } from "./styles";
 import axios from "axios";
+import API from "../../config/api";
 
 export default function PostForm(props) {
 
     const [form, setForm] = useState({ url: "", content: "" });
-    const [loading, setLoading] = useState(false);
+
+    const loading = props.loading;
+    const setLoading = props.setLoading;
 
     console.log(props.posts)
 
     function publish(e) {
         e.preventDefault();
         setLoading(true);
-        const promise = axios.post(`http://localhost:5000/post`, form, { headers: { Authorization: `Bearer ${props.token}` } });
+        const promise = API.enviarPost(props.token, form);
+        //axios.post(`http://localhost:5000/post`, form, { headers: { Authorization: `Bearer ${props.token}` } });
         promise.then((res) => {
             setForm({ url: "", content: "" });
             setLoading(false);
-            props.setPosts(""); // VERIFICAR POSTERIOMENTE POIS setPosts([...props.posts]) estava dando errado
-        });
-        promise.catch((err) => {
+        }).catch((err) => {
             setLoading(false);
             alert("Houve um erro ao publicar seu link");
         });

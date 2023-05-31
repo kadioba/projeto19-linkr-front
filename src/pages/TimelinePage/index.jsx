@@ -3,12 +3,12 @@ import PostForm from "../../components/PostForm";
 import { AppContainer, ContentDivider, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
 import axios from "axios";
-import API from "../../config/api";
 import { PostContainer } from "../../components/PostComponent/styles";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
+import API from "../../config/api";
 
 export default function TimelinePage() {
 
@@ -16,27 +16,26 @@ export default function TimelinePage() {
     const { user, setUser } = useMyContext();
     const [userData, setUserData] = useState({});
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!user) return navigate("/");
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${user}`
-            }
-        }
-        const requestUserData = axios.get(`http://localhost:5000/user`, config);
+
+        const requestUserData = API.buscarUsuario(user)
         requestUserData.then((res) => {
             setUserData(res.data);
-        });
-        const requesPosts = axios.get(`http://localhost:5000/posts`, config);
+        }).catch((err) => {
+            console.log("An error occured while trying to fetch the user data, please refresh the page");
+        })
+        const requesPosts = API.buscarPosts(user);
+        //axios.get(`http://localhost:5000/posts`, config);
         requesPosts.then((res) => {
             setPosts(res.data);
-        });
-        requesPosts.catch((err) => {
+        }).catch((err) => {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         })
 
-    }, [user, navigate]);
+    }, [loading]);
 
     function renderPosts() {
         if (posts) {
@@ -55,7 +54,7 @@ export default function TimelinePage() {
         <AppContainer>
             <TimelineContainer>
                 <TimelineTitle>timeline</TimelineTitle>
-                <PostForm userPicture={userData.picture} token={user} posts={posts} setPosts={setPosts} />
+                <PostForm userPicture={userData.picture} token={user} loading={loading} setLoading={setLoading} />
                 {renderPosts()}
             </TimelineContainer>
             <TrendingHashtagsContainer>
