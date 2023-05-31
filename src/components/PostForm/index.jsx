@@ -7,6 +7,8 @@ export default function PostForm(props) {
     const [form, setForm] = useState({ url: "", content: "" });
     const [loading, setLoading] = useState(false);
 
+    console.log(props.posts)
+
     function publish(e) {
         e.preventDefault();
         setLoading(true);
@@ -14,7 +16,11 @@ export default function PostForm(props) {
         promise.then((res) => {
             setForm({ url: "", content: "" });
             setLoading(false);
-            props.setPosts(...props.post);
+            props.setPosts(""); // VERIFICAR POSTERIOMENTE POIS setPosts([...props.posts]) estava dando errado
+        });
+        promise.catch((err) => {
+            setLoading(false);
+            alert("Houve um erro ao publicar seu link");
         });
     }
 
@@ -41,14 +47,13 @@ export default function PostForm(props) {
                 />
                 <PostFormTextInput
                     placeholder="Awesome article about #javascript"
-                    required
                     type="text"
                     name="content"
                     onChange={handleForm}
                     value={form.content}
                     disabled={loading}
                 />
-                <PostFormButton type="submit" disabled={loading}>Publish</PostFormButton>
+                <PostFormButton type="submit" disabled={loading}>{loading ? "Publishing..." : "Publish"}</PostFormButton>
             </div>
         </PostFormContainer>
     )

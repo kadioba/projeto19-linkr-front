@@ -23,16 +23,30 @@ export default function SignUpPage() {
   function signup(e) {
     e.preventDefault();
     setLoading(true);
-    const promise = API.fazerCadastro(form);
-    promise.then(() => {
-      navigate("/");
-    });
-    promise.catch((err) => {
-      alert(err.response.data.message);
-    });
-    promise.finally(() => {
+
+    const emptyFields = Object.keys(form).filter((field) => form[field] === "");
+    if (emptyFields.length > 0) {
+      const fieldsList = emptyFields.join(", ");
+      alert(`Please fill in the following fields: ${fieldsList}`);
       setLoading(false);
-    });
+      return;
+    }
+
+    const promise = API.fazerCadastro(form);
+    promise
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          alert("The entered email is already registered.");
+        } else {
+          alert(err.response.data);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
@@ -46,7 +60,6 @@ export default function SignUpPage() {
       <S.FormContainer>
         <form onSubmit={signup}>
           <S.Input
-            required
             type="email"
             placeholder="email"
             name="email"
@@ -55,8 +68,6 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
-            required
-            minLength={3}
             type="password"
             placeholder="password"
             name="password"
@@ -65,7 +76,6 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
-            required
             type="text"
             placeholder="username"
             name="username"
@@ -74,7 +84,6 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
-            required
             type="url"
             placeholder="picture url"
             name="picture"
