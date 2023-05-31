@@ -4,8 +4,10 @@ const ENDPOINTS = {
   SIGN_UP: "/users/signup",
   SIGN_IN: "/users/signin",
   SIGN_OUT: "/users/signout",
-  GET_USER: "/users",
-  GET_TRENDING_HASHTAGS: "/hashtag"
+  GET_USER: "/user",
+  GET_TRENDING_HASHTAGS: "/hashtag",
+  GET_POSTS: "/posts",
+  PUBLISH_POST: "/post",
 };
 
 const AXIOS_INSTANCE = axios.create({
@@ -31,10 +33,16 @@ const API = {
     return AXIOS_INSTANCE.post(ENDPOINTS.SIGN_OUT, obj, { ...HEADERS(token) });
   },
   buscarUsuario: (token) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.SIGN_OUT, { ...HEADERS(token) });
+    return AXIOS_INSTANCE.get(ENDPOINTS.GET_USER, { ...HEADERS(token) });
   },
   ottenereHashtagDiTendenza: (token) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.GET_TRENDING_HASHTAGS, {...HEADERS(token)})
+    return AXIOS_INSTANCE.get(ENDPOINTS.GET_TRENDING_HASHTAGS, { ...HEADERS(token) })
+  },
+  buscarPosts: (token) => {
+    return AXIOS_INSTANCE.get(ENDPOINTS.GET_POSTS, { ...HEADERS(token) });
+  },
+  enviarPost: (token, obj = {}) => {
+    return AXIOS_INSTANCE.post(ENDPOINTS.PUBLISH_POST, obj, { ...HEADERS(token) });
   }
 };
 
