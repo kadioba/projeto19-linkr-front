@@ -5,6 +5,7 @@ import useMyContext from "../../contexts/MyContext.jsx";
 import axios from "axios";
 import API from "../../config/api";
 import { PostContainer } from "../../components/PostComponent/styles";
+import PostComponent from "../../components/PostComponent";
 
 export default function TimelinePage() {
 
@@ -36,7 +37,7 @@ export default function TimelinePage() {
             <TimelineContainer>
                 <TimelineTitle>timeline</TimelineTitle>
                 <PostForm userPicture={userData.picture} token={user} posts={posts} setPosts={setPosts} />
-                <PostContainer />
+                <PostComponent />
             </TimelineContainer>
         </AppContainer>
     )
