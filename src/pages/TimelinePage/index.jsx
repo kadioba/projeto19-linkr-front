@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router";
 import API from "../../config/api";
 
+
 export default function TimelinePage() {
 
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function TimelinePage() {
             }
             return posts.map((post) => { return <PostComponent key={post.id} post={post} /> })
         } else {
-            return <h1>Carregando...</h1>
+            return <h1>Loading...</h1>
         }
     }
 

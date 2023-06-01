@@ -9,4 +9,9 @@ export const Hashtag = styled.h3`
     letter-spacing: 0.05em;
     color: #FFFFFF;
     margin-bottom: 6px;
+
+    :hover {
+        color: #9F9F9F;
+        cursor: pointer;
+  }
 `
