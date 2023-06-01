@@ -25,7 +25,7 @@ export default function TrendingHashtags(props) {
             } 
         }
         getTrendingHashtags()
-    })
+    }, [])
 
     async function openHashtagPage(hashtag){
         setPosts(undefined)
