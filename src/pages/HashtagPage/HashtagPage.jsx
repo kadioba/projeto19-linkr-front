@@ -32,7 +32,7 @@ export default function HashtagPage() {
         if (posts) {
             if (posts.length === 0) return (<h1>There are no posts yet</h1>)
 
-            return posts.map((post) => { return <PostComponent key={post.id} post={post} /> })
+            return posts.map((post) => { return <PostComponent data-test="post" key={post.id} post={post} /> })
         } else {
             return (
                 <LoadingContainer>
@@ -52,15 +52,15 @@ export default function HashtagPage() {
             )
         }
     }
-
+    
 
     return (
         <AppContainer>
             <HashtagPageContainer>
-                <HashtagTitle># {hashtag}</HashtagTitle>
+                <HashtagTitle data-test="hashtag-title"># {hashtag}</HashtagTitle>
                 {renderPosts()}
             </HashtagPageContainer>
-            <TrendingHashtagsContainer>
+            <TrendingHashtagsContainer data-test="trending">
                 <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
                 <ContentDivider />
                 <TrendingHashtags refresh={refresh} setRefresh={setRefresh} setPosts={setPosts} />
