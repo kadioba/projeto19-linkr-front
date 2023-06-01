@@ -60,6 +60,7 @@ export default function SignUpPage() {
       <S.FormContainer>
         <form onSubmit={signup}>
           <S.Input
+            data-test="email"
             type="email"
             placeholder="email"
             name="email"
@@ -68,6 +69,7 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
+            data-test="password"
             type="password"
             placeholder="password"
             name="password"
@@ -76,6 +78,7 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
+            data-test="username"
             type="text"
             placeholder="username"
             name="username"
@@ -84,6 +87,7 @@ export default function SignUpPage() {
             disabled={loading}
           />
           <S.Input
+            data-test="picture-url"
             type="url"
             placeholder="picture url"
             name="picture"
@@ -91,11 +95,11 @@ export default function SignUpPage() {
             value={form.picture}
             disabled={loading}
           />
-          <S.Submit type="submit" disabled={loading}>
+          <S.Submit data-test="sign-up-btn" type="submit" disabled={loading}>
             {loading ? "..." : "Sign Up"}
           </S.Submit>
         </form>
-        <Link to="/">Switch back to log in</Link>
+        <Link data-test="login-link" to="/">Switch back to log in</Link>
       </S.FormContainer>
     </S.Container>
   );

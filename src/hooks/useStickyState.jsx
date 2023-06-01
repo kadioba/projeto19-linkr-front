@@ -1,17 +1,29 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
-export default function useStickyState(defaultValue = "", key = "token") {
-  const [value, setValue] = React.useState(() => {
-    const stickyValue = window.localStorage.getItem(key);
+// A custom hook that allows storing and retrieving a value in localStorage
+// Usage: const [value, setValue] = useStickyState(initialValue, storageKey);
+
+export default function useStickyState(initialValue = "", storageKey = "token") {
+  // Function to retrieve the value from localStorage or use the initialValue
+  function getStoredValue() {
     try {
-      return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue;
+      const stickyValue = window.localStorage.getItem(storageKey);
+      const parsedValue = stickyValue !== null ? JSON.parse(stickyValue) : initialValue;
+      return parsedValue;
     } catch (e) {
       console.error("Failed to parse JSON from localStorage:", e);
-      return defaultValue;
+      return initialValue;
     }
-  });
-  React.useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
+  }
+
+  // Retrieve the value from localStorage or use the initialValue
+  const [value, setValue] = useState(getStoredValue);
+
+  // Update the stored value in localStorage whenever it changes
+  useEffect(() => {
+    window.localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [storageKey, value]);
+
+  // Return the stored value and a function to update it
   return [value, setValue];
 }
