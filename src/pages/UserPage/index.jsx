@@ -8,7 +8,7 @@ import PostComponent from "../../components/PostComponent";
 
 export default function UserPage() {
     const navigate = useNavigate();
-    const { user } = useMyContext();
+    const { user, token } = useMyContext();
     const [userData, setUserData] = useState({});
     const [posts, setPosts] = useState([]);
     const {id} = useParams();
@@ -16,7 +16,7 @@ export default function UserPage() {
     useEffect(() => {
         if (!user) return navigate("/");
     
-        const requestUserData = API.buscarUsuarioId(user,id);
+        const requestUserData = API.buscarUsuarioId(token,id);
         requestUserData
           .then((res) => {
             setUserData(res.data);
@@ -25,7 +25,7 @@ export default function UserPage() {
             console.log("An error occured while trying to fetch the user data, please refresh the page");
           });
 
-        const requestPosts = API.buscarPostsId(user, id);
+        const requestPosts = API.buscarPostsId(token, id);
         requestPosts
         .then((res) => {
             setPosts(res.data);
