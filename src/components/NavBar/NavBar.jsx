@@ -3,14 +3,16 @@ import * as S from "./styles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import useMyContext from "../../contexts/MyContext.jsx";
-import API from "../../config/api";
+import { useNavigate } from "react-router-dom";
+import API from "../../config/api.js";
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
-  const { setUser, user } = useMyContext();
+  const { setUser, user, token } = useMyContext();
   const menuRef = useRef(null);
   const [userData, setUserData] = useState({});
-  
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const requestUserData = API.buscarUsuario(user);
@@ -29,6 +31,16 @@ export default function NavBar() {
     }
   
     document.addEventListener("mousedown", handleClickOutside);
+    if (!token) return navigate("/");
+
+    API.getUser(token)
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log("An error occured while trying to fetch the user data, please refresh the page", err);
+      });
+      
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -39,7 +51,13 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
+    setToken("");
     setUser("");
+    navigate("/");
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
   };
 
   return (
@@ -57,7 +75,14 @@ export default function NavBar() {
         ) : (
           <MdKeyboardArrowDown onClick={handleToggleMenu} />
         )}
-        <img src={userData.picture} onClick={handleToggleMenu}/>
+        {!imageLoaded && <S.ImagePlaceholder />}
+        <img
+          alt={`${user.username}'s xoxo`}
+          src={user.picture}
+          onLoad={handleImageLoad}
+          onClick={handleToggleMenu}
+          style={{ display: imageLoaded ? "inline-block" : "none" }}
+        />
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );

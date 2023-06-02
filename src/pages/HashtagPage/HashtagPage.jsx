@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
-import { AppContainer, ContentDivider, HashtagPageContainer, HashtagTitle, LoadingContainer, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
+import {
+  AppContainer,
+  ContentDivider,
+  HashtagPageContainer,
+  HashtagTitle,
+  LoadingContainer,
+  TrendingHashtagsContainer,
+  TrendingHashtagsTitle,
+} from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
 import API from "../../config/api";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 import { useParams } from "react-router";
-import { MutatingDots } from 'react-loader-spinner'
+import { MutatingDots } from "react-loader-spinner";
 
 export default function HashtagPage() {
 
-    const { user } = useMyContext();
-    const [posts, setPosts] = useState([]);
-    const [refresh, setRefresh] = useState(false)
+    const { user, token, refresh } = useMyContext();
+    const [postsByHashtag, setPostsByHashtag] = useState([]);
 
     const { hashtag } = useParams();
 
     useEffect(() => {
         async function getPostsByHashtag() {
             try {
-                const { data: postsByHashtag } = await API.получатьпостыпохэштегу(user, hashtag)
-                setPosts(postsByHashtag)
+                const { data } = await API.getPostsByHashtag(token, hashtag)
+                setPostsByHashtag(data)
             } catch (err) {
                 console.log(err)
             }
@@ -27,12 +34,11 @@ export default function HashtagPage() {
         getPostsByHashtag()
     }, [refresh]);
 
-
     function renderPosts() {
-        if (posts) {
-            if (posts.length === 0) return (<h1>There are no posts yet</h1>)
+        if (postsByHashtag) {
+            if (postsByHashtag.length === 0) return (<h1>There are no posts yet</h1>)
 
-            return posts.map((post) => { return <PostComponent data-test="post" key={post.id} post={post} /> })
+            return postsByHashtag.map((post) => { return <PostComponent key={post.id} post={post} userId={user.id} /> })
         } else {
             return (
                 <LoadingContainer>
@@ -52,18 +58,18 @@ export default function HashtagPage() {
             )
         }
     }
-    
+
 
     return (
         <AppContainer>
             <HashtagPageContainer>
-                <HashtagTitle data-test="hashtag-title"># {hashtag}</HashtagTitle>
+                <HashtagTitle># {hashtag}</HashtagTitle>
                 {renderPosts()}
             </HashtagPageContainer>
-            <TrendingHashtagsContainer data-test="trending">
+            <TrendingHashtagsContainer>
                 <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
                 <ContentDivider />
-                <TrendingHashtags refresh={refresh} setRefresh={setRefresh} setPosts={setPosts} />
+                <TrendingHashtags setPosts={setPostsByHashtag} />
             </TrendingHashtagsContainer>
         </AppContainer>
     )
