@@ -6,7 +6,7 @@ import useMyContext from "../../contexts/MyContext.jsx";
 
 export default function NavBar() {
   const [showLogout, setShowLogout] = useState(false);
-  const { setUser } = useMyContext();
+  const { setToken } = useMyContext();
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function NavBar() {
   };
 
   const handleLogout = () => {
-    setUser("");
+    setToken("");
   };
 
   return (

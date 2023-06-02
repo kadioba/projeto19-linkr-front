@@ -18,7 +18,7 @@ import { useParams } from "react-router";
 import { MutatingDots } from "react-loader-spinner";
 
 export default function HashtagPage() {
-  const { user } = useMyContext();
+  const { token } = useMyContext();
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const { hashtag } = useParams();
@@ -26,7 +26,7 @@ export default function HashtagPage() {
   useEffect(() => {
     async function getPostsByHashtag() {
       try {
-        const { data: postsByHashtag } = await API.getPostsByHashtag(user, hashtag);
+        const { data: postsByHashtag } = await API.getPostsByHashtag(token, hashtag);
         setPosts(postsByHashtag);
       } catch (err) {
         console.log(err);

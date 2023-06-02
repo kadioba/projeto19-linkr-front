@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 export default function TrendingHashtags(props) {
   const { refresh, setRefresh, setPosts } = props;
 
-  const { user } = useMyContext();
+  const { token } = useMyContext();
 
   const [trendingHashtags, setTrendingHashtags] = useState([]);
 
@@ -17,7 +17,7 @@ export default function TrendingHashtags(props) {
   useEffect(() => {
     async function getTrendingHashtags() {
       try {
-        const { data: trendingHashtags } = await API.getTrendingHashtags(user);
+        const { data: trendingHashtags } = await API.getTrendingHashtags(token);
         setTrendingHashtags(trendingHashtags);
       } catch (err) {
         console.log(err);

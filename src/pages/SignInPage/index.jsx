@@ -8,7 +8,7 @@ export default function SignInPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useMyContext();
+  const { token, setToken } = useMyContext();
 
   function login(e) {
     e.preventDefault();
@@ -25,7 +25,7 @@ export default function SignInPage() {
     const promise = API.signIn(form);
     promise
       .then((res) => {
-        setUser(res.data.token);
+        setToken(res.data.token);
         navigate("/timeline");
       })
       .catch((err) => {
@@ -48,10 +48,10 @@ export default function SignInPage() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       navigate("/timeline");
     }
-  }, [navigate, user]);
+  }, [navigate, token]);
 
   return (
     <S.Container>

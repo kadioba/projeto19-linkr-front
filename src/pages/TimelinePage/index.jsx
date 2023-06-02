@@ -16,15 +16,15 @@ import API from "../../config/api";
 
 export default function TimelinePage() {
   const navigate = useNavigate();
-  const { user } = useMyContext();
+  const { token } = useMyContext();
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!user) return navigate("/");
+    if (!token) return navigate("/");
 
-    const requestUserData = API.getUser(user);
+    const requestUserData = API.getUser(token);
     requestUserData
       .then((res) => {
         setUserData(res.data);
@@ -32,7 +32,7 @@ export default function TimelinePage() {
       .catch((err) => {
         console.log("An error occured while trying to fetch the user data, please refresh the page");
       });
-    const requestPosts = API.getPosts(user);
+    const requestPosts = API.getPosts(token);
     requestPosts
       .then((res) => {
         setPosts(res.data);
@@ -59,7 +59,7 @@ export default function TimelinePage() {
     <AppContainer>
       <TimelineContainer>
         <TimelineTitle>timeline</TimelineTitle>
-        <PostForm userPicture={userData.picture} token={user} loading={loading} setLoading={setLoading} />
+        <PostForm userPicture={userData.picture} token={token} loading={loading} setLoading={setLoading} />
         {renderPosts()}
       </TimelineContainer>
       <TrendingHashtagsContainer data-test="trending">
