@@ -7,16 +7,15 @@ import API from "../../config/api";
 import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
-  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
-  const { setUser, user, token } = useMyContext();
+  const { setUser, user, token, setToken } = useMyContext();
   const menuRef = useRef(null);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    const requestUserData = API.buscarUsuario(user);
+    const requestUserData = API.getUser(token);
     requestUserData
       .then((res) => {
         setUserData(res.data);

@@ -66,16 +66,16 @@ const API = {
     return axiosInstance.post(`/post/like/${postId}`, null, { ...headers(token) });
   },
   получатьпостыпохэштегу: (token, hashtag) => {
-    return AXIOS_INSTANCE.get(`/hashtag/${hashtag}`, { ...HEADERS(token) })
+    return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) })
   },
   procurarUsuarios: (token, searchText) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.SEARCH_USERS, {...PARAMS([{paramName: "searchText", paramValue: searchText}]), ...HEADERS(token)})
+    return axiosInstance.get(ENDPOINTS.SEARCH_USERS, {...PARAMS([{paramName: "searchText", paramValue: searchText}]), ...headers(token)})
   },
   buscarUsuarioId: (token, id) => {
-    return AXIOS_INSTANCE.get(`${ENDPOINTS.GET_USER}/${id}`, { ...HEADERS(token) })
+    return axiosInstance.get(`${ENDPOINTS.GET_USER}/${id}`, { ...headers(token) })
   },
   buscarPostsId: (token, id) => {
-    return AXIOS_INSTANCE.get(`${ENDPOINTS.GET_POSTS}/${id}`, { ...HEADERS(token) })
+    return axiosInstance.get(`${ENDPOINTS.GET_POSTS}/${id}`, { ...headers(token) })
   }
 };
 

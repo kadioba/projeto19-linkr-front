@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function SearchBar(props){
     const [search, setSearch] = useState("");
     const [isOnFocus, setIsOnFocus] = useState(false);
-    const { user } = useMyContext();
+    const { user, token } = useMyContext();
     const [searchResultList, setSearchResultList] = useState([]);
     const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ export default function SearchBar(props){
         if (search.length < 3) return setSearchResultList([]);
 
 		if (user) {
-			const searchUsers = API.procurarUsuarios(user, search);
+			const searchUsers = API.procurarUsuarios(token, search);
             searchUsers
             .then((res) => {
                 setSearchResultList(res.data);
