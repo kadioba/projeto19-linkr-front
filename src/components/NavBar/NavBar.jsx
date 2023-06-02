@@ -45,7 +45,7 @@ export default function NavBar() {
         ) : (
           <MdKeyboardArrowDown onClick={handleToggleMenu} />
         )}
-        <img src="https://img.r7.com/images/meme-sorriso-forcado-hide-the-pain-harold-maurice-andras-arato-08112019141226221?dimensions=630x404" onClick={handleToggleMenu}/>
+        <img alt="" src="https://img.r7.com/images/meme-sorriso-forcado-hide-the-pain-harold-maurice-andras-arato-08112019141226221?dimensions=630x404" onClick={handleToggleMenu}/>
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );

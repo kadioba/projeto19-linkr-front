@@ -5,8 +5,6 @@ import {
   HashtagPageContainer,
   HashtagTitle,
   LoadingContainer,
-  TimelineContainer,
-  TimelineTitle,
   TrendingHashtagsContainer,
   TrendingHashtagsTitle,
 } from "./styles";

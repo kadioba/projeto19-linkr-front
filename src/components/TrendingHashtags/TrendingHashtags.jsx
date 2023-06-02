@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import API from "../../config/api";
 import useMyContext from "../../contexts/MyContext.jsx";
 import { Hashtag } from "./styles.js";
