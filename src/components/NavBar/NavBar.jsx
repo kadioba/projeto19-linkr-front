@@ -3,24 +3,37 @@ import * as S from "./styles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import useMyContext from "../../contexts/MyContext.jsx";
+import API from "../../config/api";
 
 export default function NavBar() {
   const [showLogout, setShowLogout] = useState(false);
   const { setUser } = useMyContext();
   const menuRef = useRef(null);
+  const { user } = useMyContext();
+  const [userData, setUserData] = useState({});
+  
 
   useEffect(() => {
+    const requestUserData = API.buscarUsuario(user);
+    requestUserData
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("An error occurred while trying to fetch the user data, please refresh the page");
+      });
+  
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowLogout(false);
       }
     }
-
+  
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []);  
 
   const handleToggleMenu = () => {
     setShowLogout((prevShowLogout) => !prevShowLogout);
@@ -45,7 +58,7 @@ export default function NavBar() {
         ) : (
           <MdKeyboardArrowDown onClick={handleToggleMenu} />
         )}
-        <img src="https://img.r7.com/images/meme-sorriso-forcado-hide-the-pain-harold-maurice-andras-arato-08112019141226221?dimensions=630x404" onClick={handleToggleMenu}/>
+        <img src={userData.picture} onClick={handleToggleMenu}/>
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );
