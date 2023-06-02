@@ -12,13 +12,14 @@ const ENDPOINTS = {
   SEARCH_USERS: "/users/search",
 };
 
-const AXIOS_INSTANCE = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-});
-
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 const AUTHORIZATION_HEADER = "Authorization";
 
-const HEADERS = (token) => ({
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+});
+
+const headers = (token) => ({
   headers: {
     [AUTHORIZATION_HEADER]: `Bearer ${token}`,
   },
@@ -32,26 +33,37 @@ const PARAMS = (param) => ({
 });
 
 const API = {
-  fazerCadastro: (obj) => {
-    return AXIOS_INSTANCE.post(ENDPOINTS.SIGN_UP, obj);
+  // Authentication
+  signUp: (userData) => {
+    return axiosInstance.post("/users/signup", userData);
   },
-  fazerLogin: (obj) => {
-    return AXIOS_INSTANCE.post(ENDPOINTS.SIGN_IN, obj);
+  signIn: (credentials) => {
+    return axiosInstance.post("/users/signin", credentials);
   },
-  fazerLogout: (token, obj = {}) => {
-    return AXIOS_INSTANCE.post(ENDPOINTS.SIGN_OUT, obj, { ...HEADERS(token) });
+  signOut: (token) => {
+    return axiosInstance.post("/users/signout", null, { ...headers(token) });
   },
-  buscarUsuario: (token) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.GET_USER, { ...HEADERS(token) });
+  getUser: (token) => {
+    return axiosInstance.get("/user", { ...headers(token) });
   },
-  ottenereHashtagDiTendenza: (token) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.GET_TRENDING_HASHTAGS, { ...HEADERS(token) })
+
+  // Hashtags
+  getTrendingHashtags: (token) => {
+    return axiosInstance.get("/hashtag", { ...headers(token) });
   },
-  buscarPosts: (token) => {
-    return AXIOS_INSTANCE.get(ENDPOINTS.GET_POSTS, { ...HEADERS(token) });
+  getPostsByHashtag: (token, hashtag) => {
+    return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) });
   },
-  enviarPost: (token, obj = {}) => {
-    return AXIOS_INSTANCE.post(ENDPOINTS.PUBLISH_POST, obj, { ...HEADERS(token) });
+
+  // Posts
+  getPosts: (token) => {
+    return axiosInstance.get("/posts", { ...headers(token) });
+  },
+  publishPost: (token, post) => {
+    return axiosInstance.post("/post", post, { ...headers(token) });
+  },
+  likePost: (token, postId) => {
+    return axiosInstance.post(`/post/like/${postId}`, null, { ...headers(token) });
   },
   получатьпостыпохэштегу: (token, hashtag) => {
     return AXIOS_INSTANCE.get(`/hashtag/${hashtag}`, { ...HEADERS(token) })
