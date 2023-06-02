@@ -10,7 +10,7 @@ import { MutatingDots } from 'react-loader-spinner'
 export default function HashtagPage() {
 
     const { user } = useMyContext();
-    const [posts, setPosts] = useState([]);
+    const [postsByHashtag, setPostsByHashtag] = useState([]);
     const [refresh, setRefresh] = useState(false)
 
     const { hashtag } = useParams();
@@ -19,7 +19,7 @@ export default function HashtagPage() {
         async function getPostsByHashtag() {
             try {
                 const { data: postsByHashtag } = await API.получатьпостыпохэштегу(user, hashtag)
-                setPosts(postsByHashtag)
+                setPostsByHashtag(postsByHashtag)
             } catch (err) {
                 console.log(err)
             }
@@ -29,10 +29,10 @@ export default function HashtagPage() {
 
 
     function renderPosts() {
-        if (posts) {
-            if (posts.length === 0) return (<h1>There are no posts yet</h1>)
+        if (postsByHashtag) {
+            if (postsByHashtag.length === 0) return (<h1>There are no posts yet</h1>)
 
-            return posts.map((post) => { return <PostComponent key={post.id} post={post} /> })
+            return postsByHashtag.map((post) => { return <PostComponent key={post.id} post={post} /> })
         } else {
             return (
                 <LoadingContainer>
@@ -63,7 +63,7 @@ export default function HashtagPage() {
             <TrendingHashtagsContainer>
                 <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
                 <ContentDivider />
-                <TrendingHashtags refresh={refresh} setRefresh={setRefresh} setPosts={setPosts} />
+                <TrendingHashtags refresh={refresh} setRefresh={setRefresh} setPosts={setPostsByHashtag} />
             </TrendingHashtagsContainer>
         </AppContainer>
     )

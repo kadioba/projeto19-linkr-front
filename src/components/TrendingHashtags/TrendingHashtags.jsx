@@ -6,7 +6,7 @@ import { Hashtag } from "./styles.js";
 import { useNavigate } from "react-router";
 
 export default function TrendingHashtags(props) {
-    const { refresh, setRefresh, setPosts } = props
+    const { loading, setPosts } = props
 
     const { user } = useMyContext()
 
@@ -25,11 +25,11 @@ export default function TrendingHashtags(props) {
             } 
         }
         getTrendingHashtags()
-    }, [])
+    }, [loading])
 
     async function openHashtagPage(hashtag){
         setPosts(undefined)
-        setRefresh(!refresh)
+        // setRefresh(!refresh)
         return navigate(`/hashtag/${hashtag}`)
     }
 
