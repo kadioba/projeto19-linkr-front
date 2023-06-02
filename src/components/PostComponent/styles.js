@@ -16,7 +16,6 @@ export const PostContainer = styled.div`
 `
 export const PictureAndLikes = styled.div`
     display: flex;
-    background-color: red;
     flex-direction: column;
     align-items: center;
     margin-right: 19px;

@@ -1,11 +1,12 @@
-import { createContext, useContext } from "react";
-import useStickyState from "../hooks/useStickyState.jsx"
+import { createContext, useContext, useState } from "react";
+import useStickyState from "../hooks/useStickyState.jsx";
 
 const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
-  const [user, setUser] = useStickyState();
-  return <MyContext.Provider value={{ user, setUser }}>{children}</MyContext.Provider>;
+  const [token, setToken] = useStickyState();
+  const [user, setUser] = useState("");
+  return <MyContext.Provider value={{ token, setToken, user, setUser }}>{children}</MyContext.Provider>;
 };
 
 export default function useMyContext() {
