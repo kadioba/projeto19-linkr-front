@@ -3,11 +3,15 @@ import * as S from "./styles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import useMyContext from "../../contexts/MyContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
   const { setToken } = useMyContext();
+  const { user, setUser } = useMyContext();
   const menuRef = useRef(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -28,6 +32,12 @@ export default function NavBar() {
 
   const handleLogout = () => {
     setToken("");
+    setUser({});
+    navigate("/");
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
   };
 
   return (
@@ -45,7 +55,14 @@ export default function NavBar() {
         ) : (
           <MdKeyboardArrowDown onClick={handleToggleMenu} />
         )}
-        <img alt="" src="https://img.r7.com/images/meme-sorriso-forcado-hide-the-pain-harold-maurice-andras-arato-08112019141226221?dimensions=630x404" onClick={handleToggleMenu}/>
+        {!imageLoaded && <S.ImagePlaceholder />}
+        <img
+          alt={`${user.username}'s xoxo`}
+          src={user.picture}
+          onLoad={handleImageLoad}
+          onClick={handleToggleMenu}
+          style={{ display: imageLoaded ? "inline-block" : "none" }}
+        />
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );
