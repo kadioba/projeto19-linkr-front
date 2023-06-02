@@ -12,11 +12,13 @@ import useMyContext from "../../contexts/MyContext.jsx";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 import API from "../../config/api";
+import { MutatingDots } from "react-loader-spinner";
+import { LoadingContainer } from "../../components/PostComponent/styles.js";
 
 export default function TimelinePage() {
   const { token } = useMyContext();
   const { user } = useMyContext();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -36,10 +38,24 @@ export default function TimelinePage() {
       else {
       }
       return posts.map((post) => {
-        return <PostComponent data-test="post" key={post.id} post={post} userId={user.id} />;
+        return <PostComponent data-test="post" key={post.id} post={post} userId={user.id} setPosts={setPosts} />;
       });
     } else {
-      return <h1>Loading...</h1>;
+      return (
+        <LoadingContainer>
+          <MutatingDots
+            height="100"
+            width="100"
+            color="#ffffff"
+            secondaryColor='#ffffff'
+            radius='12.5'
+            ariaLabel="mutating-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </LoadingContainer>
+      )
     }
   }
 
@@ -53,7 +69,7 @@ export default function TimelinePage() {
       <TrendingHashtagsContainer data-test="trending">
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
         <ContentDivider></ContentDivider>
-        <TrendingHashtags loading={loading} setPosts={setPosts}/>
+        <TrendingHashtags loading={loading} setPosts={setPosts} />
       </TrendingHashtagsContainer>
     </AppContainer>
   );

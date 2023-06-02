@@ -18,7 +18,7 @@ import { MutatingDots } from "react-loader-spinner";
 export default function HashtagPage() {
 
     const { user, token, refresh } = useMyContext();
-    const [postsByHashtag, setPostsByHashtag] = useState([]);
+    const [postsByHashtag, setPostsByHashtag] = useState(undefined);
 
     const { hashtag } = useParams();
 
@@ -54,7 +54,6 @@ export default function HashtagPage() {
                     visible={true}
                 />
                 </LoadingContainer>
-                
             )
         }
     }
