@@ -17,17 +17,16 @@ import { MutatingDots } from "react-loader-spinner";
 
 export default function HashtagPage() {
 
-    const { user } = useMyContext();
+    const { user, token, refresh } = useMyContext();
     const [postsByHashtag, setPostsByHashtag] = useState([]);
-    const [refresh, setRefresh] = useState(false)
 
     const { hashtag } = useParams();
 
     useEffect(() => {
         async function getPostsByHashtag() {
             try {
-                const { data: postsByHashtag } = await API.получатьпостыпохэштегу(user, hashtag)
-                setPostsByHashtag(postsByHashtag)
+                const { data } = await API.getPostsByHashtag(token, hashtag)
+                setPostsByHashtag(data)
             } catch (err) {
                 console.log(err)
             }
@@ -35,12 +34,11 @@ export default function HashtagPage() {
         getPostsByHashtag()
     }, [refresh]);
 
-
     function renderPosts() {
         if (postsByHashtag) {
             if (postsByHashtag.length === 0) return (<h1>There are no posts yet</h1>)
 
-            return postsByHashtag.map((post) => { return <PostComponent key={post.id} post={post} /> })
+            return postsByHashtag.map((post) => { return <PostComponent key={post.id} post={post} userId={user.id} /> })
         } else {
             return (
                 <LoadingContainer>
@@ -71,7 +69,7 @@ export default function HashtagPage() {
             <TrendingHashtagsContainer>
                 <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
                 <ContentDivider />
-                <TrendingHashtags refresh={refresh} setRefresh={setRefresh} setPosts={setPostsByHashtag} />
+                <TrendingHashtags setPosts={setPostsByHashtag} />
             </TrendingHashtagsContainer>
         </AppContainer>
     )
