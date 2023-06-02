@@ -31,11 +31,13 @@ export default function NavBar() {
       })
       .catch((err) => {
         console.log("An error occured while trying to fetch the user data, please refresh the page", err);
+        handleLogout();
       });
-      
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, []);
 
   const handleToggleMenu = () => {

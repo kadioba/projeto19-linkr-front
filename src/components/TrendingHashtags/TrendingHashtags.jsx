@@ -23,7 +23,7 @@ export default function TrendingHashtags(props) {
       }
     }
     getTrendingHashtags();
-  }, []);
+  }, [token]);
 
   async function openHashtagPage(hashtag) {
     setPosts(undefined);

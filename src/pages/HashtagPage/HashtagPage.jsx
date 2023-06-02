@@ -31,7 +31,7 @@ export default function HashtagPage() {
       }
     }
     getPostsByHashtag();
-  }, [refresh]);
+  }, [refresh, hashtag, token]);
 
   function renderPosts() {
     if (posts) {

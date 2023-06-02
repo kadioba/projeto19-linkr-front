@@ -28,7 +28,22 @@ export default function TimelinePage() {
       .catch((err) => {
         console.log("An error occured while trying to fetch the posts, please refresh the page");
       });
-  }, [loading]);
+  }, [loading, token]);
+
+  const handlePostLike = (postId, likedByUserIds, likedByUsernames) => {
+    setPosts((prev) => {
+      return prev.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            liked_by_user_ids: likedByUserIds,
+            liked_by_usernames: likedByUsernames,
+          };
+        }
+        return post;
+      });
+    });
+  };
 
   function renderPosts() {
     if (posts) {
@@ -36,7 +51,16 @@ export default function TimelinePage() {
       else {
       }
       return posts.map((post) => {
-        return <PostComponent data-test="post" key={post.id} post={post} userId={user.id} />;
+        return (
+          <PostComponent
+            data-test="post"
+            key={post.id}
+            post={post}
+            userId={user.id}
+            username={user.username}
+            handlePostLike={handlePostLike}
+          />
+        );
       });
     } else {
       return <h1>Loading...</h1>;
