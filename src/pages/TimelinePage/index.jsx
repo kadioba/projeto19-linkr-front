@@ -11,27 +11,15 @@ import {
 import useMyContext from "../../contexts/MyContext.jsx";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
-import { useNavigate } from "react-router-dom";
 import API from "../../config/api";
 
 export default function TimelinePage() {
-  const navigate = useNavigate();
   const { token } = useMyContext();
-  const {user, setUser} = useMyContext();
+  const { user } = useMyContext();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!token) return navigate("/");
-
-    const requestUserData = API.getUser(token);
-    requestUserData
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        console.log("An error occured while trying to fetch the user data, please refresh the page");
-      });
     const requestPosts = API.getPosts(token);
     requestPosts
       .then((res) => {
