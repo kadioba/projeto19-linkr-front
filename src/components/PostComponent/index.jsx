@@ -44,11 +44,11 @@ export default function PostComponent({ post, userId, username, handlePostLike }
     let newLikedByUsernames;
 
     if (liked) {
-      newLikedByUserIds = liked_by_user_ids.filter((id) => id !== post.id);
+      newLikedByUserIds = liked_by_user_ids.filter((id) => id !== userId);
       newLikedByUsernames = [...liked_by_usernames];
       newLikedByUsernames.splice(indexToRemove, 1);
     } else {
-      newLikedByUserIds = [...liked_by_user_ids, post.id];
+      newLikedByUserIds = [...liked_by_user_ids, userId];
       newLikedByUsernames = [...liked_by_usernames, username];
     }
 
