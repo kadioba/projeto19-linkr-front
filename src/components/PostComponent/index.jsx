@@ -3,7 +3,9 @@ import { AuthorName, ImageContent, LinkContent, PictureAndLikes, PostContainer, 
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 
 export default function PostComponent({ post, userId }) {
+
   const checkLiked = post.liked_by_user_ids.includes(userId);
+
 
   const [liked] = useState(checkLiked);
 
