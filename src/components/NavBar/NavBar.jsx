@@ -3,25 +3,33 @@ import * as S from "./styles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import useMyContext from "../../contexts/MyContext.jsx";
+import API from "../../config/api";
 import { useNavigate } from "react-router-dom";
-import API from "../../config/api.js";
 
 export default function NavBar() {
-  const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
-  const { setToken } = useMyContext();
-  const { user, setUser } = useMyContext();
-  const { token } = useMyContext();
+  const { setUser, user, token, setToken } = useMyContext();
   const menuRef = useRef(null);
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
+    const requestUserData = API.getUser(token);
+    requestUserData
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("An error occurred while trying to fetch the user data, please refresh the page");
+      });
+  
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowLogout(false);
       }
     }
-
+  
     document.addEventListener("mousedown", handleClickOutside);
     if (!token) return navigate("/");
 
@@ -36,7 +44,7 @@ export default function NavBar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []);  
 
   const handleToggleMenu = () => {
     setShowLogout((prevShowLogout) => !prevShowLogout);
@@ -54,7 +62,7 @@ export default function NavBar() {
 
   return (
     <S.ContainerNavBar>
-      <S.LogoText>linkr</S.LogoText>
+      <S.LogoText onClick={() => navigate("/timeline")}>linkr</S.LogoText>
       <SearchBar header={true} />
       <S.ContainerUserActions ref={menuRef}>
         {showLogout ? (
