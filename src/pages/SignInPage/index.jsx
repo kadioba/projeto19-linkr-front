@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../../config/api.js";
+import API from "../../config/api";
 import { useEffect, useState } from "react";
 import useMyContext from "../../contexts/MyContext.jsx";
 
@@ -22,7 +22,7 @@ export default function SignInPage() {
       return;
     }
 
-    const promise = API.fazerLogin(form);
+    const promise = API.signIn(form);
     promise
       .then((res) => {
         setUser(res.data.token);
@@ -86,7 +86,9 @@ export default function SignInPage() {
             {loading ? "..." : "Log In"}
           </S.Submit>
         </form>
-        <Link data-test="sign-up-link" to="/sign-up">First time? Create an account!</Link>
+        <Link data-test="sign-up-link" to="/sign-up">
+          First time? Create an account!
+        </Link>
       </S.FormContainer>
     </S.Container>
   );

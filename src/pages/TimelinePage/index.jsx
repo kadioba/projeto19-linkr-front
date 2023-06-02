@@ -24,7 +24,7 @@ export default function TimelinePage() {
   useEffect(() => {
     if (!user) return navigate("/");
 
-    const requestUserData = API.buscarUsuario(user);
+    const requestUserData = API.getUser(user);
     requestUserData
       .then((res) => {
         setUserData(res.data);
@@ -32,7 +32,7 @@ export default function TimelinePage() {
       .catch((err) => {
         console.log("An error occured while trying to fetch the user data, please refresh the page");
       });
-    const requestPosts = API.buscarPosts(user);
+    const requestPosts = API.getPosts(user);
     requestPosts
       .then((res) => {
         setPosts(res.data);
