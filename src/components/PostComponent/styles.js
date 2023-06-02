@@ -114,3 +114,23 @@ export const ImageContent = styled.img`
     object-fit: cover;
     border-radius: 0px 12px 13px 0px;
 `
+
+export const LoadingContainer = styled.div`
+    width: 100vw;
+    height: 100vh;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* padding-top: 120px; */
+    box-sizing: border-box;
+`
+
+export const Hashtag = styled.span`
+    color: tomato;
+    font-weight: bold;
+
+    :hover{
+        cursor: pointer;
+    }
+`;
