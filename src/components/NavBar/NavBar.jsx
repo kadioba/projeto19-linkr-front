@@ -9,19 +9,27 @@ import API from "../../config/api.js";
 export default function NavBar() {
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);
-  const { setToken } = useMyContext();
-  const { user, setUser } = useMyContext();
-  const { token } = useMyContext();
+  const { setUser, user, token } = useMyContext();
   const menuRef = useRef(null);
+  const [userData, setUserData] = useState({});
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
+    const requestUserData = API.buscarUsuario(user);
+    requestUserData
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log("An error occurred while trying to fetch the user data, please refresh the page");
+      });
+  
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowLogout(false);
       }
     }
-
+  
     document.addEventListener("mousedown", handleClickOutside);
     if (!token) return navigate("/");
 
@@ -36,7 +44,7 @@ export default function NavBar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []);  
 
   const handleToggleMenu = () => {
     setShowLogout((prevShowLogout) => !prevShowLogout);

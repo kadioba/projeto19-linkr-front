@@ -1,14 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
 export const ContainerNavBar = styled.div`
-  width: 100%;
-  height: 72px;
-  background-color: #151515;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 53px;
+    width: 100%;
+    height: 72px;
+    background-color: #151515;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 53px;
 
   @media (max-width: 890px) {
     margin-bottom: 0px;
