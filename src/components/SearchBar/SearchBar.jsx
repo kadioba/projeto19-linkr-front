@@ -5,12 +5,14 @@ import * as S from "./styles";
 import { DebounceInput } from 'react-debounce-input';
 import useMyContext from "../../contexts/MyContext.jsx";
 import API from "../../config/api";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchBar(props){
     const [search, setSearch] = useState("");
     const [isOnFocus, setIsOnFocus] = useState(false);
     const { user } = useMyContext();
     const [searchResultList, setSearchResultList] = useState([]);
+    const navigate = useNavigate();
 
     const handleClickOutside = () => {
 		setTimeout(() => setIsOnFocus(false), 150);
@@ -52,7 +54,7 @@ export default function SearchBar(props){
             </S.SearchBar>
             <S.ContainerSearchResults display={(isOnFocus && search.length >= 3) ? "true" : undefined }>
                 {searchResultList.map((result, index) => (
-                    <div key={index}>
+                    <div key={index} onClick={() => navigate(`user/${result.id}`)}>
                         <img src={result.picture}/>
                         <p>{result.username}</p>
                     </div>

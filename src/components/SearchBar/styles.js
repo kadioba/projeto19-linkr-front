@@ -79,6 +79,7 @@ export const ContainerSearchResults = styled.div`
         gap: 0px 12px;
         border-bottom: 1px solid black;
         flex-shrink: 0;
+        cursor: pointer;
 
         >img{
             width: 39px;

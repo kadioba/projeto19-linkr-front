@@ -9,7 +9,7 @@ const ENDPOINTS = {
   GET_POSTS: "/posts",
   PUBLISH_POST: "/post",
   GET_POSTS_BY_HASHTAG: "/hashtag",
-  SEARCH_USERS: "/user/search"
+  SEARCH_USERS: "/users/search",
 };
 
 const AXIOS_INSTANCE = axios.create({
@@ -58,6 +58,12 @@ const API = {
   },
   procurarUsuarios: (token, searchText) => {
     return AXIOS_INSTANCE.get(ENDPOINTS.SEARCH_USERS, {...PARAMS([{paramName: "searchText", paramValue: searchText}]), ...HEADERS(token)})
+  },
+  buscarUsuarioId: (token, id) => {
+    return AXIOS_INSTANCE.get(`${ENDPOINTS.GET_USER}/${id}`, { ...HEADERS(token) })
+  },
+  buscarPostsId: (token, id) => {
+    return AXIOS_INSTANCE.get(`${ENDPOINTS.GET_POSTS}/${id}`, { ...HEADERS(token) })
   }
 };
 
