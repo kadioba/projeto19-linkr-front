@@ -7,9 +7,8 @@ import API from "../../config/api";
 
 export default function NavBar() {
   const [showLogout, setShowLogout] = useState(false);
-  const { setUser } = useMyContext();
+  const { setUser, user } = useMyContext();
   const menuRef = useRef(null);
-  const { user } = useMyContext();
   const [userData, setUserData] = useState({});
   
 
