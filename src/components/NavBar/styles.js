@@ -16,16 +16,17 @@ export const ContainerNavBar = styled.div`
 `;
 
 export const LogoText = styled.p`
-  width: 108px;
-  height: 54px;
-  font-family: "Passion One";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 49px;
-  line-height: 54px;
-  letter-spacing: 0.05em;
-  color: #ffffff;
-  margin-left: 28px;
+    width: 108px;
+    height: 54px;
+    font-family: 'Passion One';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 49px;
+    line-height: 54px;
+    letter-spacing: 0.05em;
+    color: #FFFFFF;
+    margin-left: 28px;
+    cursor: pointer;
 `;
 
 export const ContainerUserActions = styled.div`
