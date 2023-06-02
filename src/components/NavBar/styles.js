@@ -27,6 +27,7 @@ export const LogoText = styled.p`
     letter-spacing: 0.05em;
     color: #FFFFFF;
     margin-left: 28px;
+    cursor: pointer;
 `;
 
 export const ContainerUserActions = styled.div`

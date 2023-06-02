@@ -4,12 +4,14 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
 import useMyContext from "../../contexts/MyContext.jsx";
 import API from "../../config/api";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const [showLogout, setShowLogout] = useState(false);
   const { setUser, user } = useMyContext();
   const menuRef = useRef(null);
   const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function NavBar() {
 
   return (
     <S.ContainerNavBar>
-      <S.LogoText>linkr</S.LogoText>
+      <S.LogoText onClick={() => navigate("/timeline")}>linkr</S.LogoText>
       <SearchBar header={true} />
       <S.ContainerUserActions ref={menuRef}>
         {showLogout ? (
