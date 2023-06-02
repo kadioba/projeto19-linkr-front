@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { AppContainer, ContentDivider, HashtagPageContainer, HashtagTitle, LoadingContainer, TimelineContainer, TimelineTitle, TrendingHashtagsContainer, TrendingHashtagsTitle } from "./styles";
+import {
+  AppContainer,
+  ContentDivider,
+  HashtagPageContainer,
+  HashtagTitle,
+  LoadingContainer,
+  TrendingHashtagsContainer,
+  TrendingHashtagsTitle,
+} from "./styles";
 import useMyContext from "../../contexts/MyContext.jsx";
 import API from "../../config/api";
 import PostComponent from "../../components/PostComponent";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
 import { useParams } from "react-router";
-import { MutatingDots } from 'react-loader-spinner'
+import { MutatingDots } from "react-loader-spinner";
 
 export default function HashtagPage() {
 

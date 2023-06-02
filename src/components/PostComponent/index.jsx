@@ -11,15 +11,17 @@ export default function PostComponent({ post, userId }) {
     <PostContainer>
       <PictureAndLikes>
         <img src={post.picture} alt="" />
-        {liked ? <IoHeartSharp color="white" size="20px" /> : <IoHeartOutline color="white" size="20px" />}
-        <h2>
+        <span data-test="like-btn" onClick={() => {}}>
+          {liked ? <IoHeartSharp color="white" size="20px" /> : <IoHeartOutline color="white" size="20px" />}
+        </span>
+        <h2 data-test="counter">
           {post.liked_by_user_ids.length} like{post.liked_by_user_ids.length > 1 ? "s" : null}
         </h2>
       </PictureAndLikes>
       <PostContent>
-        <AuthorName>{post.username}</AuthorName>
-        <PostText>{post.content}</PostText>
-        <LinkContent href={post.url} target="_blank">
+        <AuthorName data-test="username">{post.username}</AuthorName>
+        <PostText data-test="description">{post.content}</PostText>
+        <LinkContent data-test="link" href={post.url} target="_blank">
           <div>
             <h1>{post.url_title}</h1>
             <p>{post.url_description}</p>
