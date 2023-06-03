@@ -29,10 +29,10 @@ export default function SignInPage() {
         navigate("/timeline");
       })
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           alert("Incorrect email or password.");
         } else {
-          alert(err.response.data);
+          alert(err);
         }
       })
       .finally(() => {

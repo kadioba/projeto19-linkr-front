@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useCallback, useEffect, useRef, useState, memo } from "react";
 import * as S from "./styles";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import SearchBar from "../SearchBar/SearchBar";
@@ -6,59 +7,55 @@ import useMyContext from "../../contexts/MyContext.jsx";
 import API from "../../config/api";
 import { useNavigate } from "react-router-dom";
 
-export default function NavBar() {
+const NavBar = () => {
   const [showLogout, setShowLogout] = useState(false);
   const { setUser, user, token, setToken } = useMyContext();
   const menuRef = useRef(null);
-  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  console.log({user})
+
   useEffect(() => {
-    const requestUserData = API.getUser(token);
-    requestUserData
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log("An error occurred while trying to fetch the user data, please refresh the page");
-      });
-  
-    function handleClickOutside(event) {
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowLogout(false);
       }
-    }
-  
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
-    if (!token) return navigate("/");
 
     API.getUser(token)
       .then((res) => {
         setUser(res.data);
       })
       .catch((err) => {
-        console.log("An error occured while trying to fetch the user data, please refresh the page", err);
+        console.log("An error occurred while trying to fetch the user data, please refresh the page", err);
       });
-      
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);  
+  }, [navigate, setUser, token]);
 
-  const handleToggleMenu = () => {
+  const handleToggleMenu = useCallback(() => {
     setShowLogout((prevShowLogout) => !prevShowLogout);
-  };
+  }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setToken("");
     setUser("");
     navigate("/");
-  };
+  }, [navigate, setToken, setUser]);
 
-  const handleImageLoad = () => {
+  const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
-  };
+  }, []);
 
   return (
     <S.ContainerNavBar>
@@ -86,4 +83,6 @@ export default function NavBar() {
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );
-}
+};
+
+export default memo(NavBar);
