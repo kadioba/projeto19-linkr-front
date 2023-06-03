@@ -7,18 +7,42 @@ export const PostFormContainer = styled.form`
     border-radius: 16px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
-    padding: 22px;
-    box-sizing: border-box;
     margin-bottom: 29px;
-    div{
-        width: 100%;
+
+    >div:nth-of-type(1){
+        width: 14%;
+        display: flex;
+        justify-content: center;
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px;
+
+        >img{
+            height: 50px;
+            width: 50px;
+            border-radius: 26.5px;
+            margin-top: 16px;
+            object-fit: cover;
+
+            @media (max-width: 490px) {
+                width: 40px;
+                height: 40px;
+            }
+        }
     }
-    img{
-        height: 50px;
-        width: 50px;
-        border-radius: 26.5px;
-        margin-right: 16px;
-        object-fit: cover;
+
+    >div:nth-of-type(2){
+        width: 86%;
+        height: 100%;
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        display: flex;
+        flex-direction: column;
+
+        >div{
+            width: calc(100% - 22px);
+            display: flex;
+            justify-content: end;
+        }
     }
 `
 export const PostFormTitle = styled.h1`
@@ -28,10 +52,12 @@ export const PostFormTitle = styled.h1`
     font-size: 20px;
     line-height: 24px;
     color: #707070;
+    margin-top: 21px;
+    margin-bottom: 12px;
 `
 
 export const PostFormLinkInput = styled.input`
-    width: 100%;
+    width: calc(100% - 22px);
     height: 30px;
     background-color: #EFEFEF;
     border-radius: 5px;
@@ -42,7 +68,7 @@ export const PostFormLinkInput = styled.input`
 `
 
 export const PostFormTextInput = styled.textarea`
-    width: 100%;
+    width: calc(100% - 22px);
     height: 66px;
     background-color: #EFEFEF;
     border-radius: 5px;
@@ -50,12 +76,14 @@ export const PostFormTextInput = styled.textarea`
     margin-bottom: 5px;
     padding: 5px 13px;
     box-sizing: border-box;
+    resize: none;
 `
 
 export const PostFormButton = styled.button`
     width: 112px;
     height: 31px;
-    background-color: #1877F2;
+    background: rgb(43,178,170);
+    background: linear-gradient(90deg, rgba(43,178,170,1) 0%, rgba(24,119,242,1) 100%);
     border-radius: 5px;
     border: none;
     color: white;
@@ -64,5 +92,11 @@ export const PostFormButton = styled.button`
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    margin: auto;
+    box-shadow: 1px 10px 2rem rgba(24, 119, 242, 0.5);
+    transition: all 0.2s ease-in;
+    cursor: pointer;
+
+    :hover{
+        box-shadow: 0px 5px 1rem rgba(24, 119, 242, 0.5);
+    }
 `

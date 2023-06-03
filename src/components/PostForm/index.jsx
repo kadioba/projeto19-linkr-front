@@ -32,7 +32,9 @@ export default function PostForm(props) {
 
   return (
     <PostFormContainer data-test="publish-box" onSubmit={publish}>
-      <img src={props.userPicture} alt="" />
+      <div>
+        <img src={props.userPicture} alt="" />
+      </div>
       <div>
         <PostFormTitle>What are you going to share today?</PostFormTitle>
         <PostFormLinkInput
@@ -54,9 +56,11 @@ export default function PostForm(props) {
           value={form.content}
           disabled={loading}
         />
-        <PostFormButton data-test="publish-btn" type="submit" disabled={loading}>
-          {loading ? "Publishing..." : "Publish"}
-        </PostFormButton>
+        <div>
+          <PostFormButton data-test="publish-btn" type="submit" disabled={loading}>
+            {loading ? "Publishing..." : "Publish"}
+          </PostFormButton>
+        </div>
       </div>
     </PostFormContainer>
   );
