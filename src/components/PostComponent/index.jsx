@@ -18,8 +18,9 @@ import {
   PostHeader,
 } from "./styles";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import DeleteConfirmation from "../DeleteConfirmation/index.jsx";
 
-export default function PostComponent({ postId, post, userId, username, setPosts }) {
+export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
   const { refresh, setRefresh, token } = useMyContext();
 
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [editing, setEditing] = useState(false);
   const [newContent, setNewContent] = useState(post.content);
   const [postContent, setPostContent] = useState(post.content);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -127,6 +129,22 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     // eslint-disable-next-line
   }, [dispatchLike]);
 
+  function submitDelete() {
+    setLoading(true);
+    const promisse = API.deletarPost(token, post.id);
+
+    promisse.then((res) => {
+      setDeleteConfirmation(false);
+      setLoading(false);
+      //const updatedPost = posts.filter((updatedPost) => updatedPost.id !== post.id);
+      //setPosts(updatedPost);
+    })
+    promisse.catch((err) => {
+      console.log(err);
+      alert("Houve um erro ao deletar seu post");
+      setLoading(false);
+    });
+  }
 
   return (
     <PostContainer>
@@ -148,7 +166,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <div>
               <FaPencilAlt color="white" size="19px" onClick={() => setEditing(!editing)} />
               <EspacoIcones />
-              <FaTrash color="white" size="19px" />
+              <FaTrash color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
             </div>
           ) : null}
         </PostHeader>
@@ -177,6 +195,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <ImageContent src={post.url_picture} alt="" />
         </LinkContent>
       </PostContent>
+      {deleteConfirmation ? <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} /> : null}
     </PostContainer>
   );
 
