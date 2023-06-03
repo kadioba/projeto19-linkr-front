@@ -10,7 +10,6 @@ function PostsRenderer({ posts, user, setPosts }) {
     <>
       {posts.map((post) => (
         <PostComponent
-          data-test="post"
           key={post.id}
           postId={post.id}
           post={post}
