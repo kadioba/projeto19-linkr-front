@@ -15,47 +15,60 @@ export const PostContainer = styled.div`
   }
 `;
 export const PictureAndLikes = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 19px;
-    img {
-        height: 50px;
-        width: 50px;
-        border-radius: 26.5px;
-        margin-bottom: 19px;
-        object-fit: cover;
-        cursor: pointer;
-    }
-    h2 {
-        font-family: 'Lato';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 11px;
-        line-height: 13px;
-        text-align: center;
-        color: white;
-    }
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 19px;
+  img {
+    height: 50px;
+    width: 50px;
+    border-radius: 26.5px;
+    margin-bottom: 19px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  h2 {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    color: white;
+  }
+`;
 export const PostContent = styled.div`
   width: 100%;
 `;
-export const AuthorName = styled.h1`
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 23px;
-    color: white;
-    cursor: pointer;
-
-    :hover{
-        text-decoration: underline;
+export const PostHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+    div{
+        display: flex;
+        align-items: center;
     }
+; 
 `
+
+export const AuthorName = styled.h1`
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 23px;
+  color: white;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
 
 export const PostText = styled.p`
   height: 52px;
+  overflow: hidden;
   left: 328px;
   top: 519px;
 
@@ -132,7 +145,27 @@ export const LoadingContainer = styled.div`
 `;
 
 export const tagStyle = {
-  fontWeight: "bold",
-  color: "#FFFFFF",
-  cursor: "pointer"
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    cursor: "pointer",
 };
+
+export const EspacoIcones = styled.div`
+  width: 12px;
+`;
+
+export const ContentInput = styled.textarea`
+  width: 100%;
+  height: 44px;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4c4c4c;
+  margin-bottom: 13px;
+  background: #ffffff;
+  border-radius: 7px;
+  border: none;
+`;
+

@@ -57,13 +57,16 @@ const API = {
     return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) })
   },
   procurarUsuarios: (token, searchText) => {
-    return axiosInstance.get("/users/search", {...PARAMS([{paramName: "searchText", paramValue: searchText}]), ...headers(token)})
+    return axiosInstance.get("/users/search", { ...PARAMS([{ paramName: "searchText", paramValue: searchText }]), ...headers(token) })
   },
   buscarUsuarioId: (token, id) => {
     return axiosInstance.get(`/user/${id}`, { ...headers(token) })
   },
   buscarPostsId: (token, id) => {
     return axiosInstance.get(`/posts/${id}`, { ...headers(token) })
+  },
+  editarPost: (token, id, obj = {}) => {
+    return axiosInstance.put(`/post/${id}`, obj, { ...headers(token) });
   }
 };
 
