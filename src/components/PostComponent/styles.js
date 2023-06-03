@@ -15,38 +15,44 @@ export const PostContainer = styled.div`
   }
 `;
 export const PictureAndLikes = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 19px;
-  img {
-    height: 50px;
-    width: 50px;
-    border-radius: 26.5px;
-    margin-bottom: 19px;
-    object-fit: cover;
-  }
-  h2 {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    text-align: center;
-    color: white;
-  }
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 19px;
+    img {
+        height: 50px;
+        width: 50px;
+        border-radius: 26.5px;
+        margin-bottom: 19px;
+        object-fit: cover;
+        cursor: pointer;
+    }
+    h2 {
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: center;
+        color: white;
+    }
+`
 export const PostContent = styled.div`
   width: 100%;
 `;
 export const AuthorName = styled.h1`
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 19px;
-  line-height: 23px;
-  color: white;
-`;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: white;
+    cursor: pointer;
+
+    :hover{
+        text-decoration: underline;
+    }
+`
 
 export const PostText = styled.p`
   height: 52px;

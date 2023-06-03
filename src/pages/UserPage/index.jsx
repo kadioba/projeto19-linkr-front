@@ -14,6 +14,7 @@ export default function UserPage() {
     const {id} = useParams();
 
     useEffect(() => {
+        window.scrollTo(0,0);
         if (!user) return navigate("/");
     
         const requestUserData = API.buscarUsuarioId(token,id);
@@ -33,7 +34,7 @@ export default function UserPage() {
         .catch((err) => {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         });
-    }, []);
+    }, [id]);
 
     function renderPosts() {
         if (posts) {
