@@ -14,8 +14,6 @@ const NavBar = () => {
   const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  console.log({user})
-
   useEffect(() => {
     if (!token) {
       navigate("/");
