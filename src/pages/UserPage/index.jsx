@@ -14,6 +14,7 @@ export default function UserPage() {
     const {id} = useParams();
 
     useEffect(() => {
+        window.scrollTo(0,0);
         if (!user) return navigate("/");
     
         const requestUserData = API.buscarUsuarioId(token,id);

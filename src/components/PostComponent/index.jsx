@@ -26,7 +26,7 @@ export default function PostComponent({ post, userId, setPosts }) {
   return (
     <PostContainer>
       <PictureAndLikes>
-        <img src={post.picture} alt="" />
+        <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)}/>
         <span data-test="like-btn" onClick={() => { }}>
           {liked ? <IoHeartSharp color="white" size="20px" /> : <IoHeartOutline color="white" size="20px" />}
         </span>
@@ -53,7 +53,7 @@ export default function PostComponent({ post, userId, setPosts }) {
         </LinkContent>
       </PostContent> */}
       <PostContent>
-        <AuthorName data-test="username">{post.username}</AuthorName>
+        <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>{post.username}</AuthorName>
         <PostText data-test="description">{post.content}</PostText>
         <LinkContent data-test="link" href={post.url} target="_blank">
           <div>
