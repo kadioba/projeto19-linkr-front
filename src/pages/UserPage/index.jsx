@@ -33,7 +33,7 @@ export default function UserPage() {
         .catch((err) => {
             console.log("An error occured while trying to fetch the posts, please refresh the page");
         });
-    }, []);
+    }, [id]);
 
     function renderPosts() {
         if (posts) {
