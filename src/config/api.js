@@ -64,6 +64,9 @@ const API = {
   },
   buscarPostsId: (token, id) => {
     return axiosInstance.get(`/posts/${id}`, { ...headers(token) })
+  },
+  editarPost: (token, id, obj = {}) => {
+    return axiosInstance.put(`/post/${id}`, obj, { ...headers(token) });
   }
 };
 

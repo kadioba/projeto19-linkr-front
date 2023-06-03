@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import useMyContext from "../../contexts/MyContext.jsx";
-import API from "../../config/api.js";
+import API from "../../config/api";
 import {
   AuthorName,
   ImageContent,
@@ -13,6 +14,9 @@ import {
   PostContent,
   PostText,
   tagStyle,
+  ContentInput,
+  EspacoIcones,
+  PostHeader,
 } from "./styles";
 
 export default function PostComponent({ postId, post, userId, username, setPosts }) {
@@ -27,6 +31,57 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [liked, setLiked] = useState(Object.hasOwn(myPost.liked_by, userId.toString()));
   const [howMany, setHowMany] = useState(Object.keys(myPost.liked_by).length);
   const [dispatchLike, setDispatchLike] = useState(false);
+
+  //
+  const [editing, setEditing] = useState(false);
+  const [newContent, setNewContent] = useState(post.content);
+  const [postContent, setPostContent] = useState(post.content);
+
+  const [loading, setLoading] = useState(false);
+
+  const inputRef = useRef(null);
+
+  function editPost() {
+    setEditing(true);
+  }
+
+  useEffect(() => {
+    if (editing) {
+      inputRef.current.focus();
+    }
+    if (!editing) {
+      setNewContent(postContent);
+    }
+  }, [editing]);
+
+  function submitEdit() {
+    setLoading(true);
+    const promisse = API.editarPost(token, post.id, { content: newContent });
+    promisse
+      .then((res) => {
+        setEditing(false);
+        setPostContent(newContent);
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert("Houve um erro ao editar seu post");
+        setLoading(false);
+      });
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault();
+      submitEdit();
+    }
+    if (event.keyCode === 27) setEditing(false);
+  };
+
+  const handleChange = (event) => {
+    setNewContent(event.target.value);
+  };
+
+  //
 
   function onHashtagClick(tag) {
     setPosts(undefined);
@@ -65,7 +120,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       .then((res) => {
         if (res.data.isLiked !== liked) {
           setLiked(!liked);
-          console.log("Reverting like state due remote divergence...")
+          console.log("Reverting like state due remote divergence...");
         }
       })
       .catch((err) => {
@@ -73,7 +128,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       })
       .finally(() => {
         setIsUpdating(false);
-        console.log("IsUpdating end")
+        console.log("IsUpdating end");
       });
     // eslint-disable-next-line
   }, [dispatchLike]);
@@ -90,14 +145,34 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         </h2>
       </PictureAndLikes>
       <PostContent>
-        <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
-          {post.username}
-        </AuthorName>
-        <PostText data-test="description">
-          <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
-            {post.content}
-          </Tagify>
-        </PostText>
+        <PostHeader>
+          <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
+            {post.username}
+          </AuthorName>
+          {userId === post.user_id ? (
+            <div>
+              <FaPencilAlt color="white" size="19px" onClick={() => setEditing(!editing)} />
+              <EspacoIcones />
+              <FaTrash color="white" size="19px" />
+            </div>
+          ) : null}
+        </PostHeader>
+        {editing ? (
+          <ContentInput
+            ref={inputRef}
+            value={newContent}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            disabled={loading}
+          />
+        ) : (
+          <PostText data-test="description">
+            <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
+              {post.content}
+            </Tagify>
+          </PostText>
+        )}
+
         <LinkContent data-test="link" href={post.url} target="_blank">
           <div>
             <h1>{post.url_title}</h1>
