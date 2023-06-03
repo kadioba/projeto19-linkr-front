@@ -5,9 +5,9 @@ import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import API from "../../config/api";
 
 export default function PostComponent({ post, userId, token }) {
-  const checkLiked = post.liked_by_user_ids.includes(userId);
+  //const checkLiked = post.liked_by_user_ids.includes(userId);
 
-  const [liked] = useState(checkLiked);
+  //const [liked] = useState(checkLiked);
 
   const [editing, setEditing] = useState(false);
   const [newContent, setNewContent] = useState(post.content);
