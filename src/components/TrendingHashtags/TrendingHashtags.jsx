@@ -1,44 +1,43 @@
-import { useEffect, useState } from "react"
-import styled from "styled-components"
-import API from "../../config/api.js"
+import { useEffect, useState } from "react";
+import API from "../../config/api";
 import useMyContext from "../../contexts/MyContext.jsx";
 import { Hashtag } from "./styles.js";
 import { useNavigate } from "react-router";
 
 export default function TrendingHashtags(props) {
-    const { refresh, setRefresh, setPosts } = props
+  const { loading, setPosts } = props;
 
-    const { user } = useMyContext()
+  const { token, refresh, setRefresh } = useMyContext();
 
-    const [trendingHashtags, setTrendingHashtags] = useState([])
+  const [trendingHashtags, setTrendingHashtags] = useState([]);
 
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    useEffect(() => {
-
-        async function getTrendingHashtags(){
-            try {
-                const {data: trendingHashtags} = await API.ottenereHashtagDiTendenza(user)  
-                setTrendingHashtags(trendingHashtags)
-            } catch (err) {
-                console.log(err)
-            } 
-        }
-        getTrendingHashtags()
-    }, [])
-
-    async function openHashtagPage(hashtag){
-        setPosts(undefined)
-        setRefresh(!refresh)
-        return navigate(`/hashtag/${hashtag}`)
+  useEffect(() => {
+    async function getTrendingHashtags() {
+      try {
+        const { data: trendingHashtags } = await API.getTrendingHashtags(token);
+        setTrendingHashtags(trendingHashtags);
+      } catch (err) {
+        console.log(err);
+      }
     }
+    getTrendingHashtags();
+  }, [loading]);
 
-    return (
-        <>
-        {trendingHashtags.map((hashtag) => (
-            <Hashtag data-test="hashtag" key={hashtag.hashtag_id} onClick={() => openHashtagPage(hashtag.name)}># {hashtag.name}</Hashtag>
-        ))}
-        </>
-    )
+  async function openHashtagPage(hashtag) {
+    setPosts(undefined);
+    setRefresh(!refresh);
+    return navigate(`/hashtag/${hashtag}`);
+  }
+
+  return (
+    <>
+      {trendingHashtags.map((hashtag) => (
+        <Hashtag data-test="hashtag" key={hashtag.hashtag_id} onClick={() => openHashtagPage(hashtag.name)}>
+          # {hashtag.name}
+        </Hashtag>
+      ))}
+    </>
+  );
 }
-

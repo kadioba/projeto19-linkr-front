@@ -11,7 +11,7 @@ export default function PostForm(props) {
   function publish(e) {
     e.preventDefault();
     setLoading(true);
-    const promise = API.enviarPost(props.token, form);
+    const promise = API.publishPost(props.token, form);
     promise
       .then((res) => {
         setForm({ url: "", content: "" });
@@ -19,7 +19,7 @@ export default function PostForm(props) {
       })
       .catch((err) => {
         setLoading(false);
-        alert("Houve um erro ao publicar seu link");
+        alert("There was an error publishing your link");
       });
   }
 
@@ -32,7 +32,9 @@ export default function PostForm(props) {
 
   return (
     <PostFormContainer data-test="publish-box" onSubmit={publish}>
-      <img src={props.userPicture} alt="" />
+      <div>
+        <img src={props.userPicture} alt="" />
+      </div>
       <div>
         <PostFormTitle>What are you going to share today?</PostFormTitle>
         <PostFormLinkInput
@@ -54,9 +56,11 @@ export default function PostForm(props) {
           value={form.content}
           disabled={loading}
         />
-        <PostFormButton data-test="publish-btn" type="submit" disabled={loading}>
-          {loading ? "Publishing..." : "Publish"}
-        </PostFormButton>
+        <div>
+          <PostFormButton data-test="publish-btn" type="submit" disabled={loading}>
+            {loading ? "Publishing..." : "Publish"}
+          </PostFormButton>
+        </div>
       </div>
     </PostFormContainer>
   );

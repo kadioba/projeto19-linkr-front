@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../../config/api.js";
+import API from "../../config/api";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -32,16 +32,16 @@ export default function SignUpPage() {
       return;
     }
 
-    const promise = API.fazerCadastro(form);
+    const promise = API.signUp(form);
     promise
       .then(() => {
         navigate("/");
       })
       .catch((err) => {
-        if (err.response.status === 409) {
+        if (err.response?.status === 409) {
           alert("The entered email is already registered.");
         } else {
-          alert(err.response.data);
+          alert(err);
         }
       })
       .finally(() => {
@@ -99,7 +99,9 @@ export default function SignUpPage() {
             {loading ? "..." : "Sign Up"}
           </S.Submit>
         </form>
-        <Link data-test="login-link" to="/">Switch back to log in</Link>
+        <Link data-test="login-link" to="/">
+          Switch back to log in
+        </Link>
       </S.FormContainer>
     </S.Container>
   );

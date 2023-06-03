@@ -1,6 +1,6 @@
 import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../../config/api.js";
+import API from "../../config/api";
 import { useEffect, useState } from "react";
 import useMyContext from "../../contexts/MyContext.jsx";
 
@@ -8,7 +8,7 @@ export default function SignInPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useMyContext();
+  const { token, setToken } = useMyContext();
 
   function login(e) {
     e.preventDefault();
@@ -22,17 +22,17 @@ export default function SignInPage() {
       return;
     }
 
-    const promise = API.fazerLogin(form);
+    const promise = API.signIn(form);
     promise
       .then((res) => {
-        setUser(res.data.token);
+        setToken(res.data.token);
         navigate("/timeline");
       })
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           alert("Incorrect email or password.");
         } else {
-          alert(err.response.data);
+          alert(err);
         }
       })
       .finally(() => {
@@ -48,10 +48,10 @@ export default function SignInPage() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       navigate("/timeline");
     }
-  }, [navigate, user]);
+  }, [navigate, token]);
 
   return (
     <S.Container>
@@ -86,7 +86,9 @@ export default function SignInPage() {
             {loading ? "..." : "Log In"}
           </S.Submit>
         </form>
-        <Link data-test="sign-up-link" to="/sign-up">First time? Create an account!</Link>
+        <Link data-test="sign-up-link" to="/sign-up">
+          First time? Create an account!
+        </Link>
       </S.FormContainer>
     </S.Container>
   );

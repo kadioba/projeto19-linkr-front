@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
+    height: auto;
     background-color: charcoal;
     display: flex;
     /* flex-direction: column; */
@@ -11,8 +10,8 @@ export const AppContainer = styled.div`
 `
 
 export const TimelineContainer = styled.main`
-    width: 100vw;
-    max-width: 600px;
+    width: 100%;
+    max-width: 611px;
     /* margin-top: 150px; */
 `
 
