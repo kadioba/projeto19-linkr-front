@@ -25,6 +25,7 @@ export const PictureAndLikes = styled.div`
         border-radius: 26.5px;
         margin-bottom: 19px;
         object-fit: cover;
+        cursor: pointer;
     }
     h2 {
         font-family: 'Lato';
@@ -46,6 +47,11 @@ export const AuthorName = styled.h1`
     font-size: 19px;
     line-height: 23px;
     color: white;
+    cursor: pointer;
+
+    :hover{
+        text-decoration: underline;
+    }
 `
 
 export const PostText = styled.p`
