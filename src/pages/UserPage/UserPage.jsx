@@ -1,10 +1,10 @@
 import * as S from "./styles";
-import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext.jsx";
-import PostsRenderer from "../../components/PostsRenderer/PostsRenderer.jsx";
+import useMyContext from "../../contexts/MyContext";
+import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
 
 export default function UserPage() {
   const navigate = useNavigate();

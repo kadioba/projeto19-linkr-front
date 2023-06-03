@@ -1,5 +1,5 @@
-import { LoadingComponent } from "../LoadingComponent/LoadingComponent.jsx";
-import PostComponent from "../PostComponent/index.jsx";
+import { LoadingComponent } from "../LoadingComponent/LoadingComponent";
+import PostComponent from "../PostComponent/PostComponent";
 
 
 function PostsRenderer({ posts, user, setPosts }) {
