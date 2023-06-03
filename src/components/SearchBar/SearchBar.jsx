@@ -22,7 +22,7 @@ export default function SearchBar(props){
         if (search.length < 3) return setSearchResultList([]);
 
 		if (user) {
-			const searchUsers = API.procurarUsuarios(token, search);
+			const searchUsers = API.searchUsers(token, search);
             searchUsers
             .then((res) => {
                 setSearchResultList(res.data);

@@ -54,8 +54,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   function submitEdit() {
     setLoading(true);
-    const promisse = API.editarPost(token, post.id, { content: newContent });
-    promisse
+    const promise = API.editPost(token, post.id, { content: newContent });
+    promise
       .then((res) => {
         setEditing(false);
         setPostContent(newContent);
@@ -132,7 +132,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   function submitDelete() {
     setLoading(true);
-    const promise = API.deletarPost(token, post.id);
+    const promise = API.deletePost(token, post.id);
     promise
       .then((res) => {
         setDeleteConfirmation(false);
