@@ -40,6 +40,18 @@ export const PictureAndLikes = styled.div`
 export const PostContent = styled.div`
         width: 100%;
 `
+export const PostHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+    div{
+        display: flex;
+        align-items: center;
+    }
+; 
+`
+
 export const AuthorName = styled.h1`
     font-family: 'Lato';
     font-style: normal;
@@ -51,8 +63,7 @@ export const AuthorName = styled.h1`
 
 export const PostText = styled.p`
     height: 52px;
-    left: 328px;
-    top: 519px;
+    overflow: hidden;
 
     font-family: 'Lato';
     font-style: normal;
@@ -114,4 +125,23 @@ export const ImageContent = styled.img`
     height: 100%;
     object-fit: cover;
     border-radius: 0px 12px 13px 0px;
+`
+
+export const EspacoIcones = styled.div`
+    width: 12px;
+`
+
+export const ContentInput = styled.textarea`
+    width: 100%;
+    height: 44px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4C4C4C;
+    margin-bottom: 13px;
+    background: #FFFFFF;
+    border-radius: 7px;
+    border: none;
 `

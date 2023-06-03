@@ -48,7 +48,7 @@ export default function TimelinePage() {
       else {
       }
       return posts.map((post) => {
-        return <PostComponent data-test="post" key={post.id} post={post} userId={userData.id} />;
+        return <PostComponent data-test="post" key={post.id} post={post} userId={userData.id} token={user} />;
       });
     } else {
       return <h1>Loading...</h1>;

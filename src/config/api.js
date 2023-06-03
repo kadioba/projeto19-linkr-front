@@ -47,6 +47,9 @@ const API = {
   },
   получатьпостыпохэштегу: (token, hashtag) => {
     return AXIOS_INSTANCE.get(`/hashtag/${hashtag}`, { ...HEADERS(token) })
+  },
+  editarPost: (token, id, obj = {}) => {
+    return AXIOS_INSTANCE.put(`/post/${id}`, obj, { ...HEADERS(token) });
   }
 };
 
