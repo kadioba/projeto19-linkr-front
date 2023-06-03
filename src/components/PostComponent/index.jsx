@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AuthorName, Hashtag, ImageContent, LinkContent, PictureAndLikes, PostContainer, PostContent, PostText } from "./styles";
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
-import ReactHashtag from "react-hashtag";
+// import ReactHashtag from "react-hashtag";
 import { useNavigate } from "react-router-dom";
 import useMyContext from "../../contexts/MyContext.jsx";
 
@@ -34,7 +34,7 @@ export default function PostComponent({ post, userId, setPosts }) {
           {post.liked_by_user_ids.length} like{post.liked_by_user_ids.length > 1 ? "s" : null}
         </h2>
       </PictureAndLikes>
-      <PostContent>
+      {/* <PostContent>
         <AuthorName data-test="username">{post.username}</AuthorName>
         <PostText data-test="description">
           <ReactHashtag 
@@ -43,6 +43,18 @@ export default function PostComponent({ post, userId, setPosts }) {
             {post.content}
           </ReactHashtag>
         </PostText>
+        <LinkContent data-test="link" href={post.url} target="_blank">
+          <div>
+            <h1>{post.url_title}</h1>
+            <p>{post.url_description}</p>
+            <h2>{post.url}</h2>
+          </div>
+          <ImageContent src={post.url_picture} alt="" />
+        </LinkContent>
+      </PostContent> */}
+      <PostContent>
+        <AuthorName data-test="username">{post.username}</AuthorName>
+        <PostText data-test="description">{post.content}</PostText>
         <LinkContent data-test="link" href={post.url} target="_blank">
           <div>
             <h1>{post.url_title}</h1>
