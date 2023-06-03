@@ -1,11 +1,10 @@
-import React from "react";
-import { useCallback, useEffect, useRef, useState, memo } from "react";
-import * as S from "./styles";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import SearchBar from "../SearchBar/SearchBar";
-import useMyContext from "../../contexts/MyContext.jsx";
-import API from "../../config/api";
 import { useNavigate } from "react-router-dom";
+import API from "../../config/api";
+import useMyContext from "../../contexts/MyContext";
+import SearchBar from "../SearchBar/SearchBar";
+import * as S from "./styles";
 
 const NavBar = () => {
   const [showLogout, setShowLogout] = useState(false);
@@ -43,7 +42,7 @@ const NavBar = () => {
 
   const handleToggleMenu = useCallback(() => {
     setShowLogout((prevShowLogout) => !prevShowLogout);
-  }, []);
+  }, [setShowLogout]);
 
   const handleLogout = useCallback(() => {
     setToken("");
@@ -70,17 +69,17 @@ const NavBar = () => {
         ) : (
           <MdKeyboardArrowDown onClick={handleToggleMenu} />
         )}
-        {!imageLoaded && <S.ImagePlaceholder />}
+        <S.ImagePlaceholder style={!imageLoaded ? {} : { display: "none" }} />
         <img
           alt={`${user.username}'s xoxo`}
           src={user.picture}
           onLoad={handleImageLoad}
           onClick={handleToggleMenu}
-          style={{ display: imageLoaded ? "inline-block" : "none" }}
+          style={!imageLoaded ? { display: "none" } : {}}
         />
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );
 };
 
-export default memo(NavBar);
+export default NavBar;

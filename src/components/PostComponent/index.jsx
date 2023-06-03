@@ -62,7 +62,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       })
       .catch((err) => {
         alert("Houve um erro ao editar seu post");
-      }).finally(() => {
+      })
+      .finally(() => {
         setLoading(false);
       });
   }
