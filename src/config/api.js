@@ -1,17 +1,5 @@
 import axios from "axios";
 
-const ENDPOINTS = {
-  SIGN_UP: "/users/signup",
-  SIGN_IN: "/users/signin",
-  SIGN_OUT: "/users/signout",
-  GET_USER: "/user",
-  GET_TRENDING_HASHTAGS: "/hashtag",
-  GET_POSTS: "/posts",
-  PUBLISH_POST: "/post",
-  GET_POSTS_BY_HASHTAG: "/hashtag",
-  SEARCH_USERS: "/users/search",
-};
-
 const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 const AUTHORIZATION_HEADER = "Authorization";
 

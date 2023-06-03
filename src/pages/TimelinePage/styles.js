@@ -1,17 +1,19 @@
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
-    height: 100vh;
+    height: auto;
     background-color: charcoal;
     display: flex;
     /* flex-direction: column; */
     /* align-items: center; */
     justify-content: center;
+    background-color: red;
 `
 
 export const TimelineContainer = styled.main`
-    width: 100vw;
-    max-width: 600px;
+    width: 100%;
+    max-width: 611px;
+    background-color: yellow;
     /* margin-top: 150px; */
 `
 
