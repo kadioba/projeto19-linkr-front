@@ -20,7 +20,6 @@ export default function TimelinePage() {
   const [posts, setPosts] = useState(undefined);
   const [loading, setLoading] = useState(false);
 
-  console.log(user)
   useEffect(() => {
     const requestPosts = API.getPosts(token);
     requestPosts

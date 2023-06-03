@@ -59,10 +59,11 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       .then((res) => {
         setEditing(false);
         setPostContent(newContent);
-        setLoading(false);
       })
       .catch((err) => {
         alert("Houve um erro ao editar seu post");
+      })
+      .finally(() => {
         setLoading(false);
       });
   }
@@ -131,23 +132,23 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   function submitDelete() {
     setLoading(true);
-    const promisse = API.deletarPost(token, post.id);
-
-    promisse.then((res) => {
-      setDeleteConfirmation(false);
-      setLoading(false);
-      //const updatedPost = posts.filter((updatedPost) => updatedPost.id !== post.id);
-      //setPosts(updatedPost);
-    })
-    promisse.catch((err) => {
-      console.log(err);
-      alert("Houve um erro ao deletar seu post");
-      setLoading(false);
-    });
+    const promise = API.deletarPost(token, post.id);
+    promise
+      .then((res) => {
+        setDeleteConfirmation(false);
+        setPosts((prevPosts) => prevPosts.filter((updatedPost) => updatedPost.id !== post.id));
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Houve um erro ao deletar seu post");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
-    <PostContainer>
+    <PostContainer data-test="post">
       <PictureAndLikes>
         <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
         <span data-test="like-btn" onClick={likeHandler}>
@@ -195,8 +196,9 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <ImageContent src={post.url_picture} alt="" />
         </LinkContent>
       </PostContent>
-      {deleteConfirmation ? <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} /> : null}
+      {deleteConfirmation ? (
+        <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
+      ) : null}
     </PostContainer>
   );
-
 }
