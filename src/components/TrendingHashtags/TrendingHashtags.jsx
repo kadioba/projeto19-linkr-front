@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext.jsx";
-import { Hashtag } from "./styles.js";
+import useMyContext from "../../contexts/MyContext";
+import { Hashtag } from "./styles";
 import { useNavigate } from "react-router";
 
 export default function TrendingHashtags(props) {

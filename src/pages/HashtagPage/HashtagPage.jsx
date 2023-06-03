@@ -7,11 +7,11 @@ import {
   TrendingHashtagsContainer,
   TrendingHashtagsTitle,
 } from "./styles";
-import useMyContext from "../../contexts/MyContext.jsx";
+import useMyContext from "../../contexts/MyContext";
 import API from "../../config/api";
-import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import { useParams } from "react-router";
-import PostsRenderer from "../../components/PostsRenderer/PostsRenderer.jsx";
+import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
 
 export default function HashtagPage() {
   const { user, token, refresh } = useMyContext();

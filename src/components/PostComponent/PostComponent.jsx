@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
-import useMyContext from "../../contexts/MyContext.jsx";
+import useMyContext from "../../contexts/MyContext";
 import API from "../../config/api";
 import {
   AuthorName,
@@ -18,7 +18,7 @@ import {
   PostHeader,
 } from "./styles";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
-import DeleteConfirmation from "../DeleteConfirmation/index.jsx";
+import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
   const { refresh, setRefresh, token } = useMyContext();
@@ -54,8 +54,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   function submitEdit() {
     setLoading(true);
-    const promisse = API.editarPost(token, post.id, { content: newContent });
-    promisse
+    const promise = API.editPost(token, post.id, { content: newContent });
+    promise
       .then((res) => {
         setEditing(false);
         setPostContent(newContent);
@@ -132,7 +132,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   function submitDelete() {
     setLoading(true);
-    const promise = API.deletarPost(token, post.id);
+    const promise = API.deletePost(token, post.id);
     promise
       .then((res) => {
         setDeleteConfirmation(false);

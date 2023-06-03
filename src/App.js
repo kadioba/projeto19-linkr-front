@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import SignInPage from "./pages/SignInPage/index.jsx";
-import SignUpPage from "./pages/SignUpPage/index.jsx";
-import { MyProvider } from "./contexts/MyContext.jsx";
-import TimelinePage from "./pages/TimelinePage/index.jsx";
-import NavBar from "./components/NavBar/NavBar.jsx";
+import SignInPage from "./pages/SignInPage/SignInPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
+import { MyProvider } from "./contexts/MyContext";
+import TimelinePage from "./pages/TimelinePage/TimelinePage";
+import NavBar from "./components/NavBar/NavBar";
 import SearchBar from "./components/SearchBar/SearchBar";
-import UserPage from "./pages/UserPage/index.jsx";
-import HashtagPage from "./pages/HashtagPage/HashtagPage.jsx";
-//import easterEgg from "./easterEgg/easterEgg.jsx";
+import UserPage from "./pages/UserPage/UserPage";
+import HashtagPage from "./pages/HashtagPage/HashtagPage";
+//import easterEgg from "./easterEgg/easterEgg";
 
 function App() {
   return (

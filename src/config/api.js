@@ -13,15 +13,14 @@ const headers = (token) => ({
   },
 });
 
-const PARAMS = (param) => ({
+const params = (param) => ({
   params: param.reduce((acc, param) => {
     acc[param.paramName] = param.paramValue;
     return acc;
-  }, {})
+  }, {}),
 });
 
 const API = {
-  // Authentication
   signUp: (userData) => {
     return axiosInstance.post("/users/signup", userData);
   },
@@ -34,16 +33,12 @@ const API = {
   getUser: (token) => {
     return axiosInstance.get("/user", { ...headers(token) });
   },
-
-  // Hashtags
   getTrendingHashtags: (token) => {
     return axiosInstance.get("/hashtag", { ...headers(token) });
   },
   getPostsByHashtag: (token, hashtag) => {
     return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) });
   },
-
-  // Posts
   getPosts: (token) => {
     return axiosInstance.get("/posts", { ...headers(token) });
   },
@@ -53,24 +48,24 @@ const API = {
   likePost: (token, postId) => {
     return axiosInstance.post(`/post/like/${postId}`, null, { ...headers(token) });
   },
-  получатьпостыпохэштегу: (token, hashtag) => {
-    return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) })
+  searchUsers: (token, searchText) => {
+    return axiosInstance.get("/users/search", {
+      ...params([{ paramName: "searchText", paramValue: searchText }]),
+      ...headers(token),
+    });
   },
-  procurarUsuarios: (token, searchText) => {
-    return axiosInstance.get("/users/search", { ...PARAMS([{ paramName: "searchText", paramValue: searchText }]), ...headers(token) })
+  getUserById: (token, id) => {
+    return axiosInstance.get(`/user/${id}`, { ...headers(token) });
   },
-  buscarUsuarioId: (token, id) => {
-    return axiosInstance.get(`/user/${id}`, { ...headers(token) })
+  getPostById: (token, id) => {
+    return axiosInstance.get(`/posts/${id}`, { ...headers(token) });
   },
-  buscarPostsId: (token, id) => {
-    return axiosInstance.get(`/posts/${id}`, { ...headers(token) })
-  },
-  editarPost: (token, id, obj = {}) => {
+  editPost: (token, id, obj = {}) => {
     return axiosInstance.put(`/post/${id}`, obj, { ...headers(token) });
   },
-  deletarPost: (token, id) => {
+  deletePost: (token, id) => {
     return axiosInstance.delete(`/post/${id}`, { ...headers(token) });
-  }
+  },
 };
 
 export default API;

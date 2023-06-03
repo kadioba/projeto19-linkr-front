@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostForm from "../../components/PostForm";
+import PostForm from "../../components/PostForm/PostForm";
 import {
   AppContainer,
   ContentDivider,
@@ -8,11 +8,11 @@ import {
   TrendingHashtagsContainer,
   TrendingHashtagsTitle,
 } from "./styles";
-import useMyContext from "../../contexts/MyContext.jsx";
-import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import useMyContext from "../../contexts/MyContext";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import API from "../../config/api";
-import PostsRenderer from "../../components/PostsRenderer/PostsRenderer.jsx";
-import PostComponent from "../../components/PostComponent";
+import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
+import PostComponent from "../../components/PostComponent/PostComponent";
 
 export default function TimelinePage() {
   const { token } = useMyContext();

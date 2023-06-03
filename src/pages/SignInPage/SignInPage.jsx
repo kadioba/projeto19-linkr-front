@@ -2,7 +2,7 @@ import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../config/api";
 import { useEffect, useState } from "react";
-import useMyContext from "../../contexts/MyContext.jsx";
+import useMyContext from "../../contexts/MyContext";
 
 export default function SignInPage() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import useStickyState from "../hooks/useStickyState.jsx";
+import useStickyState from "../hooks/useStickyState";
 
 const MyContext = createContext();
 

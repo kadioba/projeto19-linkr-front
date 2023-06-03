@@ -1,10 +1,10 @@
 import * as S from "./styles";
-import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags.jsx";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext.jsx";
-import PostsRenderer from "../../components/PostsRenderer/PostsRenderer.jsx";
+import useMyContext from "../../contexts/MyContext";
+import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function UserPage() {
     window.scrollTo(0, 0);
     if (!user) return navigate("/");
 
-    const requestUserData = API.buscarUsuarioId(token, id);
+    const requestUserData = API.getUserById(token, id);
     requestUserData
       .then((res) => {
         setUserData(res.data);
@@ -26,7 +26,7 @@ export default function UserPage() {
         console.log("An error occured while trying to fetch the user data, please refresh the page");
       });
 
-    const requestPosts = API.buscarPostsId(token, id);
+    const requestPosts = API.getPostById(token, id);
     requestPosts
       .then((res) => {
         setPosts(res.data);
