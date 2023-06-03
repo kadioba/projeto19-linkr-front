@@ -65,6 +65,10 @@ export const PostFormLinkInput = styled.input`
     margin-bottom: 5px;
     padding: 5px 13px;
     box-sizing: border-box;
+
+    :focus{
+        outline: 1px solid #1877F2;
+    }
 `
 
 export const PostFormTextInput = styled.textarea`
@@ -77,6 +81,10 @@ export const PostFormTextInput = styled.textarea`
     padding: 5px 13px;
     box-sizing: border-box;
     resize: none;
+
+    :focus{
+        outline: 1px solid #1877F2;
+    }
 `
 
 export const PostFormButton = styled.button`
