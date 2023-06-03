@@ -67,6 +67,9 @@ const API = {
   },
   editarPost: (token, id, obj = {}) => {
     return axiosInstance.put(`/post/${id}`, obj, { ...headers(token) });
+  },
+  deletarPost: (token, id) => {
+    return axiosInstance.delete(`/post/${id}`, { ...headers(token) });
   }
 };
 
