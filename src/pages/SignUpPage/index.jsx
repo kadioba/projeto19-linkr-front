@@ -38,10 +38,10 @@ export default function SignUpPage() {
         navigate("/");
       })
       .catch((err) => {
-        if (err.response.status === 409) {
+        if (err.response?.status === 409) {
           alert("The entered email is already registered.");
         } else {
-          alert(err.response.data);
+          alert(err);
         }
       })
       .finally(() => {

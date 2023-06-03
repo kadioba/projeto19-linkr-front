@@ -5,7 +5,7 @@ import { Hashtag } from "./styles.js";
 import { useNavigate } from "react-router";
 
 export default function TrendingHashtags(props) {
-    const { loading, setPosts } = props
+  const { loading, setPosts } = props;
 
   const { token, refresh, setRefresh } = useMyContext();
 
@@ -13,24 +13,23 @@ export default function TrendingHashtags(props) {
 
   const navigate = useNavigate();
 
-    useEffect(() => {
-
-        async function getTrendingHashtags(){
-            try {
-                const {data: trendingHashtags} = await API.getTrendingHashtags(token)  
-                setTrendingHashtags(trendingHashtags)
-            } catch (err) {
-                console.log(err)
-            } 
-        }
-        getTrendingHashtags()
-    }, [loading])
-
-    async function openHashtagPage(hashtag){
-        setPosts(undefined)
-        setRefresh(!refresh)
-        return navigate(`/hashtag/${hashtag}`)
+  useEffect(() => {
+    async function getTrendingHashtags() {
+      try {
+        const { data: trendingHashtags } = await API.getTrendingHashtags(token);
+        setTrendingHashtags(trendingHashtags);
+      } catch (err) {
+        console.log(err);
+      }
     }
+    getTrendingHashtags();
+  }, [loading]);
+
+  async function openHashtagPage(hashtag) {
+    setPosts(undefined);
+    setRefresh(!refresh);
+    return navigate(`/hashtag/${hashtag}`);
+  }
 
   return (
     <>
