@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.main`
   width: 100%;
@@ -11,6 +11,7 @@ export const Container = styled.main`
 `;
 
 export const FormContainer = styled.div`
+  position: relative;
   width: 40%;
   min-width: 500px;
   height: 100%;
@@ -136,3 +137,32 @@ export const Submit = styled.button`
   }
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+export const SuccessMessage = styled.div`
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(230, 255, 230);
+  border: 1px solid green;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  color: green;
+  font-family: "Oswald", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${fadeIn} 0.5s ease-in-out;
+`;

@@ -12,6 +12,7 @@ export default function SignUpPage() {
     picture: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
 
   function handleForm(e) {
     setForm({
@@ -20,30 +21,74 @@ export default function SignUpPage() {
     });
   }
 
-  function signup(e) {
-    e.preventDefault();
+  const getEmptyFields = (form) => {
+    return Object.keys(form).filter((field) => form[field] === "");
+  };
+
+  const alertEmptyFields = (emptyFields) => {
+    const fieldsList = emptyFields.join(", ");
+    alert(`Please fill in the following fields: ${fieldsList}`);
+  };
+
+  const isFieldLengthValid = (fieldValue) => {
+    return fieldValue.length >= 3;
+  };
+
+  const alertInvalidFields = (isUsernameValid, isPasswordValid) => {
+    let alertMessage = "";
+
+    if (!isUsernameValid && !isPasswordValid) {
+      alertMessage = "Username and password should be at least 3 characters long.";
+    } else if (!isUsernameValid) {
+      alertMessage = "Username should be at least 3 characters long.";
+    } else {
+      alertMessage = "Password should be at least 3 characters long.";
+    }
+
+    alert(alertMessage);
+  };
+
+  const handleSignInError = (error) => {
+    if (error.response?.status === 409) {
+      alert("The entered email is already registered.");
+    } else {
+      alert(error);
+    }
+  };
+
+  const signUpUser = (form) => {
+    return API.signUp(form);
+  };
+
+  function signup(event) {
+    event.preventDefault();
     setLoading(true);
 
-    const emptyFields = Object.keys(form).filter((field) => form[field] === "");
+    const emptyFields = getEmptyFields(form);
     if (emptyFields.length > 0) {
-      const fieldsList = emptyFields.join(", ");
-      alert(`Please fill in the following fields: ${fieldsList}`);
+      alertEmptyFields(emptyFields);
       setLoading(false);
       return;
     }
 
-    const promise = API.signUp(form);
-    promise
-      .then(() => {
-        navigate("/");
+    const { username, password } = form;
+    const isUsernameValid = isFieldLengthValid(username);
+    const isPasswordValid = isFieldLengthValid(password);
+
+    if (!isUsernameValid || !isPasswordValid) {
+      alertInvalidFields(isUsernameValid, isPasswordValid);
+      setLoading(false);
+      return;
+    }
+
+    signUpUser(form)
+      .then((_response) => {
+        setIsSignUpSuccessful(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       })
-      .catch((err) => {
-        if (err.response?.status === 409) {
-          alert("The entered email is already registered.");
-        } else {
-          alert(err);
-        }
-      })
+      .catch(handleSignInError)
       .finally(() => {
         setLoading(false);
       });
@@ -58,6 +103,7 @@ export default function SignUpPage() {
         </div>
       </S.Banner>
       <S.FormContainer>
+      {isSignUpSuccessful && <S.SuccessMessage>Success! Redirecting to Sign In...</S.SuccessMessage>}
         <form onSubmit={signup}>
           <S.Input
             data-test="email"
