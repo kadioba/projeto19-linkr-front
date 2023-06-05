@@ -25,22 +25,21 @@ export default function TimelinePage() {
       .then((res) => {
         setPosts(res.data);
       })
-      .catch((err) => {
-        console.log("An error occured while trying to fetch the posts, please refresh the page");
+      .catch((_err) => {
+        alert("An error occured while trying to fetch the posts, please refresh the page");
       });
-  }, [loading]);
+  }, [loading, token]);
 
   return (
     <AppContainer>
       <TimelineContainer>
         <TimelineTitle>timeline</TimelineTitle>
         <PostForm
-          userPicture={user.picture}
+          user={user}
           token={token}
           loading={loading}
           setLoading={setLoading}
           setPosts={setPosts}
-          user={user}
         />
         <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
       </TimelineContainer>

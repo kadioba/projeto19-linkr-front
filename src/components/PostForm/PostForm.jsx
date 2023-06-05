@@ -9,7 +9,7 @@ import {
 } from "./styles";
 import API from "../../config/api";
 
-export default function PostForm({ loading, setLoading, setPosts, token, userPicture, user }) {
+export default function PostForm({ user, token, loading, setLoading, setPosts }) {
   const [form, setForm] = useState({ url: "", content: "" });
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -22,7 +22,7 @@ export default function PostForm({ loading, setLoading, setPosts, token, userPic
     e.preventDefault();
 
     const tempPost = {
-      id: 99999,
+      id: "temp_id",
       created_at: getCurrentTimestamp(),
       url_title: "...",
       url_description: "...",
@@ -72,8 +72,8 @@ export default function PostForm({ loading, setLoading, setPosts, token, userPic
       <div>
         <ImagePlaceholder style={!imageLoaded ? {} : { display: "none" }} />
         <img
-          src={userPicture}
-          alt="Profile Picture"
+          src={user.picture}
+          alt="Profile"
           onLoad={handleImageLoad}
           style={!imageLoaded ? { display: "none" } : {}}
         />
