@@ -62,8 +62,8 @@ const NavBar = () => {
         {showLogout ? (
           <>
             <MdKeyboardArrowUp onClick={handleToggleMenu} />
-            <div onClick={handleLogout}>
-              <p>Logout</p>
+            <div data-test="menu">
+              <p onClick={handleLogout} data-test="logout">Logout</p>
             </div>
           </>
         ) : (
@@ -75,6 +75,7 @@ const NavBar = () => {
           src={user.picture}
           onLoad={handleImageLoad}
           onClick={handleToggleMenu}
+          data-test= "avatar"
           style={!imageLoaded ? { display: "none" } : {}}
         />
       </S.ContainerUserActions>
