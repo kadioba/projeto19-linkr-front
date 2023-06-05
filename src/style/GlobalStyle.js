@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box !important;
         font-family: "Lato", sans-serif;
         font-weight: 400;
+        user-select: none;
     }
     :root {
         --white: #FFFFFF;
