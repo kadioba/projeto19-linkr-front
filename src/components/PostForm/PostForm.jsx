@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { PostFormButton, PostFormContainer, PostFormLinkInput, PostFormTextInput, PostFormTitle } from "./styles";
+import { useState, useCallback } from "react";
+import { PostFormButton, PostFormContainer, PostFormLinkInput, PostFormTextInput, PostFormTitle, ImagePlaceholder } from "./styles";
 import API from "../../config/api";
 
 export default function PostForm(props) {
@@ -7,6 +7,7 @@ export default function PostForm(props) {
 
   const loading = props.loading;
   const setLoading = props.setLoading;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   function publish(e) {
     e.preventDefault();
@@ -30,10 +31,15 @@ export default function PostForm(props) {
     });
   }
 
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
+
   return (
     <PostFormContainer data-test="publish-box" onSubmit={publish}>
       <div>
-        <img src={props.userPicture} alt="" />
+        <ImagePlaceholder style={!imageLoaded ? {} : { display: "none" }} />
+        <img src={props.userPicture} alt="Profile Picture" onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/> 
       </div>
       <div>
         <PostFormTitle>What are you going to share today?</PostFormTitle>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const PostFormContainer = styled.form`
     width: 100%;
@@ -45,6 +45,25 @@ export const PostFormContainer = styled.form`
         }
     }
 `
+
+const shimmerAnimation = keyframes`
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+`;
+
+export const ImagePlaceholder = styled.span`
+  width: 50px;
+  height: 50px;
+  border-radius: 26.5px;
+  margin-top: 16px;
+  animation: ${shimmerAnimation} 1.3s linear infinite;
+  background: linear-gradient(to right, #f2f2f2, #dddddd);
+`;
+
 export const PostFormTitle = styled.h1`
     font-family: 'Lato';
     font-style: normal;

@@ -47,11 +47,11 @@ export default function SignInPage() {
     });
   }
 
-/*   useEffect(() => {
+  useEffect(() => {
     if (token) {
       navigate("/timeline");
     }
-  }, [navigate, token]); */
+  }, [navigate, token]); 
 
   return (
     <S.Container>
