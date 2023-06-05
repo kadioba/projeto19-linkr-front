@@ -91,10 +91,8 @@ export default function SignUpPage() {
 
     signUpUser(form)
       .then((_response) => {
-        setIsSignUpSuccessful(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        // setIsSignUpSuccessful(true);
+        navigate("/");
       })
       .catch(handleSignInError)
       .finally(() => {
@@ -111,7 +109,7 @@ export default function SignUpPage() {
         </div>
       </S.Banner>
       <S.FormContainer>
-      {isSignUpSuccessful && <S.SuccessMessage>Success! Redirecting to Sign In...</S.SuccessMessage>}
+        {isSignUpSuccessful && <S.SuccessMessage>Success! Redirecting to Sign In...</S.SuccessMessage>}
         <form onSubmit={signup}>
           <S.Input
             data-test="email"
