@@ -53,7 +53,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       inputRef.current.focus();
     }
     if (!editing) {
-      setNewContent(postContent);
+      setNewContent("");
     }
   }, [editing]);
 
