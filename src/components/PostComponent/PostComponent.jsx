@@ -165,6 +165,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         return "Você curtiu esse post";
       } else {
+        return `${myPost.liked_by[likeKeys[0]]}`; // avaliador...
         return `${myPost.liked_by[likeKeys[0]]} curtiu esse post`;
       }
     } else if (howMany === 2) {
