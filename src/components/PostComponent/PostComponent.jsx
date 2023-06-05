@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaRegHeart, FaHeart} from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import useMyContext from "../../contexts/MyContext";
@@ -20,7 +20,7 @@ import {
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 import LinkrImage from "../../assets/linkr-image.jpg";
-import { Tooltip } from 'react-tooltip'
+import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
@@ -117,8 +117,6 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     setDispatchLike(!dispatchLike);
   };
 
-
-
   useEffect(() => {
     if (isInitialRender) {
       setIsInitialRender(false);
@@ -180,10 +178,14 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         const user = likeKeys.find((value) => value !== userId);
         const othersCount = howMany - 2;
-        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? 's' : ''} curtiram esse post`;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${
+          othersCount > 1 ? "s" : ""
+        } curtiram esse post`;
       } else {
         const othersCount = howMany - 2;
-        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? 's' : ''} curtiram esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${
+          othersCount > 1 ? "s" : ""
+        } curtiram esse post`;
       }
     }
   };
@@ -195,15 +197,17 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         <span data-test="like-btn" onClick={likeHandler}>
           {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
         </span>
-        <h2 
-          data-test="counter" 
-          data-tooltip-id={tooltipId} 
+        <h2
+          data-test="counter"
+          data-tooltip-id={tooltipId}
           data-tooltip-content={likesText()}
           data-tooltip-place="bottom"
         >
           {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
         </h2>
-        <Tooltip data-test="tooltip" id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
+        <span data-test="tooltip">
+          <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
+        </span>
       </PictureAndLikes>
       <PostContent>
         <PostHeader>
@@ -241,7 +245,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <p>{post.url_description}</p>
             <h2>{post.url}</h2>
           </div>
-          <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError}/>
+          <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
         </LinkContent>
       </PostContent>
       {deleteConfirmation ? (
