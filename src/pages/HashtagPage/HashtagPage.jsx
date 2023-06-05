@@ -35,7 +35,7 @@ export default function HashtagPage() {
   return (
     <AppContainer>
       <HashtagPageContainer>
-        <HashtagTitle># {hashtag}</HashtagTitle>
+        <HashtagTitle data-test="hashtag-title">#{hashtag}</HashtagTitle>
         <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
       </HashtagPageContainer>
       <TrendingHashtagsContainer>
