@@ -7,10 +7,10 @@ export default function DeleteConfirmation(props) {
                 <h1>Are you sure you want
                     to delete this post?</h1>
                 <div>
-                    <RetrieveButton onClick={() => props.setDeleteConfirmation(false)}>
+                    <RetrieveButton data-test="cancel" onClick={() => props.setDeleteConfirmation(false)}>
                         No, go back
                     </RetrieveButton>
-                    <DeleteButton onClick={props.submitDelete}>
+                    <DeleteButton data-test="confirm" onClick={props.submitDelete}>
                         Yes, delete it
                     </DeleteButton>
                 </div>

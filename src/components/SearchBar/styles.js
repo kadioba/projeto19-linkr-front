@@ -77,7 +77,6 @@ export const ContainerSearchResults = styled.div`
         display: flex;
         align-items: center;
         gap: 0px 12px;
-        border-bottom: 1px solid black;
         flex-shrink: 0;
         cursor: pointer;
 

@@ -44,12 +44,13 @@ export default function SearchBar(props) {
           debounceTimeout={300}
           onFocus={() => setIsOnFocus(true)}
           onBlur={handleClickOutside}
+          data-test="search"
         />
         {search.length === 0 ? <AiOutlineSearch /> : <MdClear onClick={() => setSearch("")} />}
       </S.SearchBar>
       <S.ContainerSearchResults display={isOnFocus && search.length >= 3 ? "true" : undefined}>
         {searchResultList.map((result, index) => (
-          <div key={index} onClick={() => navigate(`user/${result.id}`)}>
+          <div key={index} data-test="user-search" onClick={() => navigate(`user/${result.id}`)}>
             <img src={result.picture} />
             <p>{result.username}</p>
           </div>

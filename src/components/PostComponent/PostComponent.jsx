@@ -203,7 +203,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         >
           {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
         </h2>
-        <Tooltip id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
+        <Tooltip data-test="tooltip" id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
       </PictureAndLikes>
       <PostContent>
         <PostHeader>
@@ -212,9 +212,9 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           </AuthorName>
           {userId === post.user_id ? (
             <div>
-              <FaPencilAlt color="white" size="19px" onClick={() => setEditing(!editing)} />
+              <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
               <EspacoIcones />
-              <FaTrash color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
+              <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
             </div>
           ) : null}
         </PostHeader>
@@ -225,6 +225,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             disabled={loading}
+            data-test="edit-input"
           />
         ) : (
           <PostText data-test="description">
