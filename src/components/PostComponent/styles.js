@@ -37,6 +37,7 @@ export const PictureAndLikes = styled.div`
     line-height: 13px;
     text-align: center;
     color: white;
+    cursor: default;
   }
 `;
 export const PostContent = styled.div`
@@ -92,6 +93,7 @@ export const PostText = styled.p`
   line-height: 20px;
   margin-bottom: 20px;
   color: #b7b7b7;
+  word-break: break-word;
 
   @media (max-width: 600px) {
     width: 100%;

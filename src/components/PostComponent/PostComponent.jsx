@@ -20,6 +20,8 @@ import {
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 import LinkrImage from "../../assets/linkr-image.jpg";
+import { Tooltip } from 'react-tooltip'
+import "react-tooltip/dist/react-tooltip.css";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
   const { refresh, setRefresh, token } = useMyContext();
@@ -43,6 +45,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [loading, setLoading] = useState(false);
 
   const inputRef = useRef(null);
+
+  const [tooltipId, setTooltipId] = useState(`text-likes-${post.id}`);
 
   useEffect(() => {
     if (editing) {
@@ -113,6 +117,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     setDispatchLike(!dispatchLike);
   };
 
+
+
   useEffect(() => {
     if (isInitialRender) {
       setIsInitialRender(false);
@@ -152,6 +158,36 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       });
   }
 
+  const likesText = () => {
+    const likeKeys = Object.keys(myPost.liked_by);
+
+    if (howMany === 0) {
+      return "Nenhum usuário curtiu esse post";
+    } else if (howMany === 1) {
+      if (liked) {
+        return "Você curtiu esse post";
+      } else {
+        return `${myPost.liked_by[likeKeys[0]]} curtiu esse post`;
+      }
+    } else if (howMany === 2) {
+      if (liked) {
+        const user = likeKeys.find((value) => value !== userId);
+        return `Você e ${myPost.liked_by[likeKeys[user]]} curtiram esse post`;
+      } else {
+        return `${myPost.liked_by[likeKeys[0]]} e ${myPost.liked_by[likeKeys[1]]} curtiram esse post`;
+      }
+    } else if (howMany > 2) {
+      if (liked) {
+        const user = likeKeys.find((value) => value !== userId);
+        const othersCount = howMany - 2;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? 's' : ''} curtiram esse post`;
+      } else {
+        const othersCount = howMany - 2;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? 's' : ''} curtiram esse post`;
+      }
+    }
+  };
+
   return (
     <PostContainer data-test="post">
       <PictureAndLikes>
@@ -159,9 +195,15 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         <span data-test="like-btn" onClick={likeHandler}>
           {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
         </span>
-        <h2 data-test="counter">
+        <h2 
+          data-test="counter" 
+          data-tooltip-id={tooltipId} 
+          data-tooltip-content={likesText()}
+          data-tooltip-place="bottom"
+        >
           {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
         </h2>
+        <Tooltip id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
       </PictureAndLikes>
       <PostContent>
         <PostHeader>
