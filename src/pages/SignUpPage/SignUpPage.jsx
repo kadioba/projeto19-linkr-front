@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../config/api";
+import useMyContext from "../../contexts/MyContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function SignUpPage() {
   });
   const [loading, setLoading] = useState(false);
   const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+  const { token } = useMyContext();
 
   function handleForm(e) {
     setForm({
@@ -20,6 +22,12 @@ export default function SignUpPage() {
       [e.target.name]: e.target.value,
     });
   }
+
+  useEffect(() => {
+    if (token) {
+      navigate("/timeline");
+    }
+  }, [navigate, token]); 
 
   const getEmptyFields = (form) => {
     return Object.keys(form).filter((field) => form[field] === "");

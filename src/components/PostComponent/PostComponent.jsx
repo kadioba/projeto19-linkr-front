@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IoHeartOutline, IoHeartSharp } from "react-icons/io5";
+import { FaRegHeart, FaHeart} from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import useMyContext from "../../contexts/MyContext";
@@ -19,6 +19,7 @@ import {
 } from "./styles";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
+import LinkrImage from "../../assets/linkr-image.jpg";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
   const { refresh, setRefresh, token } = useMyContext();
@@ -78,6 +79,10 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   const handleChange = (event) => {
     setNewContent(event.target.value);
+  };
+
+  const handleImageError = (event) => {
+    event.target.src = LinkrImage;
   };
 
   function onHashtagClick(tag) {
@@ -152,10 +157,10 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       <PictureAndLikes>
         <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
         <span data-test="like-btn" onClick={likeHandler}>
-          {liked ? <IoHeartSharp color="red" size="20px" /> : <IoHeartOutline color="white" size="20px" />}
+          {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
         </span>
         <h2 data-test="counter">
-          {howMany} like{howMany > 1 ? "s" : ""}
+          {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
         </h2>
       </PictureAndLikes>
       <PostContent>
@@ -193,7 +198,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <p>{post.url_description}</p>
             <h2>{post.url}</h2>
           </div>
-          <ImageContent src={post.url_picture} alt="" />
+          <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError}/>
         </LinkContent>
       </PostContent>
       {deleteConfirmation ? (

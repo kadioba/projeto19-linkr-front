@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 export const PostContainer = styled.div`
   width: 100%;
-  height: 276px;
-  background-color: black;
+  height: auto;
+  background-color: #171717;
   border-radius: 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
-  padding: 22px;
   box-sizing: border-box;
   margin-bottom: 16px;
   h1 {
@@ -15,18 +14,21 @@ export const PostContainer = styled.div`
   }
 `;
 export const PictureAndLikes = styled.div`
+  width: 86px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 19px;
+  
   img {
     height: 50px;
     width: 50px;
     border-radius: 26.5px;
     margin-bottom: 19px;
+    margin-top: 17px;
     object-fit: cover;
     cursor: pointer;
   }
+
   h2 {
     font-family: "Lato";
     font-style: normal;
@@ -38,21 +40,32 @@ export const PictureAndLikes = styled.div`
   }
 `;
 export const PostContent = styled.div`
-  width: 100%;
+  width: calc(100% - 86px);
 `;
 export const PostHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 7px;
-    div{
+    margin-bottom: 8px;
+    margin-top: 19px;
+    >div{
         display: flex;
         align-items: center;
+        margin-right: 23px;
+
+        >svg{
+          cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+          margin-right: 0px;
+        }
     }
 ; 
 `
 
 export const AuthorName = styled.h1`
+  width: 300px;
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
@@ -60,6 +73,9 @@ export const AuthorName = styled.h1`
   line-height: 23px;
   color: white;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;              
+  text-overflow: ellipsis;
 
   :hover {
     text-decoration: underline;
@@ -67,27 +83,34 @@ export const AuthorName = styled.h1`
 `;
 
 export const PostText = styled.p`
-  height: 52px;
-  overflow: hidden;
-  left: 328px;
-  top: 519px;
-
+  height: auto;
+  width: calc(100% - 20px);
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
   font-size: 17px;
   line-height: 20px;
-
+  margin-bottom: 20px;
   color: #b7b7b7;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const LinkContent = styled.a`
-  width: 100%;
+  width: calc(100% - 20px);
+  margin-bottom: 20px;
   height: 155px;
   border: 1px solid #4d4d4d;
   border-radius: 11px;
   display: flex;
   text-decoration: inherit;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+
   div {
     width: 70%;
     height: 100%;
