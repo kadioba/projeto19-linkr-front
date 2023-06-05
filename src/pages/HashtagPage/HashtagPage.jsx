@@ -41,7 +41,7 @@ export default function HashtagPage() {
       <TrendingHashtagsContainer>
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
         <ContentDivider />
-        <TrendingHashtags setPosts={setPosts} />
+        <TrendingHashtags setPosts={setPosts} posts={posts}/>
       </TrendingHashtagsContainer>
     </AppContainer>
   );

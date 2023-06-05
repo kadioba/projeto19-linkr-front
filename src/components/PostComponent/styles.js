@@ -178,7 +178,7 @@ export const EspacoIcones = styled.div`
 `;
 
 export const ContentInput = styled.textarea`
-  width: 100%;
+  width: calc(100% - 20px);
   height: 44px;
   font-family: "Lato";
   font-style: normal;
@@ -190,5 +190,6 @@ export const ContentInput = styled.textarea`
   background: #ffffff;
   border-radius: 7px;
   border: none;
+  resize: none; 
 `;
 

@@ -5,8 +5,8 @@ export const Cover = styled.div`
     top: 0;
     left: 0;
     z-index: 1000;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(255, 255, 255, 0.2);
     display: flex;
     justify-content: center;
@@ -33,6 +33,10 @@ export const Container = styled.div`
         margin-top: 38px;
         margin-bottom: 40px;
         width: 400px;
+
+        @media (max-width: 400px) {
+            width: 100%;
+        }
     }
     div{
         display: flex;

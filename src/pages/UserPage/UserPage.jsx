@@ -62,7 +62,7 @@ export default function UserPage() {
       <S.TrendingHashtagsContainer data-test="trending">
         <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
         <S.ContentDivider></S.ContentDivider>
-        <TrendingHashtags setPosts={setPosts} />
+        <TrendingHashtags setPosts={setPosts} posts={posts}/>
       </S.TrendingHashtagsContainer>
     </S.ContainerUserPage>
   );

@@ -54,7 +54,7 @@ export default function TimelinePage() {
       <TrendingHashtagsContainer data-test="trending">
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
         <ContentDivider></ContentDivider>
-        <TrendingHashtags loading={loading} setPosts={setPosts} />
+        <TrendingHashtags loading={loading} setPosts={setPosts} posts={posts}/>
       </TrendingHashtagsContainer>
     </AppContainer>
   );
