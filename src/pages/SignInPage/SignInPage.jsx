@@ -1,14 +1,15 @@
-import * as S from "./styles";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../config/api";
-import { useEffect, useState } from "react";
-import useMyContext from "../../contexts/MyContext";
+import useTokenContext from "../../contexts/TokenContext";
+import * as S from "./styles";
 
 export default function SignInPage() {
   const navigate = useNavigate();
+  const { token, setToken } = useTokenContext();
+
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const { token, setToken } = useMyContext();
 
   function login(e) {
     e.preventDefault();
@@ -51,7 +52,7 @@ export default function SignInPage() {
     if (token) {
       navigate("/timeline");
     }
-  }, [navigate, token]); 
+  }, [navigate, token]);
 
   return (
     <S.Container>
@@ -82,7 +83,6 @@ export default function SignInPage() {
             disabled={loading}
           />
           <S.Submit data-test="login-btn" type="submit" disabled={loading}>
-            {" "}
             {loading ? "..." : "Log In"}
           </S.Submit>
         </form>

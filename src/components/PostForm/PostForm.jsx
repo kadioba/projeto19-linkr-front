@@ -8,52 +8,65 @@ import {
   ImagePlaceholder,
 } from "./styles";
 import API from "../../config/api";
+import { useOutletContext } from "react-router-dom";
 
-export default function PostForm({ user, token, loading, setLoading, setPosts }) {
-  const [form, setForm] = useState({ url: "", content: "" });
+const initialFormState = { url: "", content: "" };
+
+export default function PostForm({ user, token, loading }) {
+  const [form, setForm] = useState(initialFormState);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const { setPosts, disabled, setDisabled } = useOutletContext();
 
   function getCurrentTimestamp() {
     const now = new Date();
     return now.toISOString();
   }
 
-  function publish(e) {
+  async function publish(e) {
     e.preventDefault();
+    setDisabled(true);
 
-    const tempPost = {
-      id: "temp_id",
-      created_at: getCurrentTimestamp(),
-      url_title: "...",
-      url_description: "...",
-      url_picture: "",
-      user_id: user.id,
-      picture: user.picture,
-      username: user.username,
-      liked_by: {},
-    };
-
-    setLoading(true);
     setPosts((prev) => {
-      const newForm = { ...tempPost, ...form };
-      const newPosts = [newForm, ...prev];
+      const tempPost = {
+        id: "temp_id",
+        created_at: getCurrentTimestamp(),
+        url_title: "...",
+        url_description: "...",
+        url_picture: "",
+        user_id: user.id,
+        picture: user.picture,
+        username: user.username,
+        liked_by: {},
+        ...form,
+      };
+      const newPosts = [tempPost, ...prev];
       return newPosts;
     });
 
-    const promise = API.publishPost(token, form);
-    promise
-      .then((_res) => {
-        setForm({ url: "", content: "" });
-      })
-      .catch((err) => {
-        setPosts((prev) => {
-          return prev.slice(1);
-        });
-        alert("There was an error publishing your link", err);
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      await API.publishPost(token, form);
+      await fetchPosts();
+    } catch (err) {
+      setPosts((prev) => {
+        return prev.slice(1);
       });
+      alert("There was an error publishing your link");
+      setDisabled(false);
+      setForm(initialFormState);
+    }
+  }
+
+  async function fetchPosts() {
+    try {
+      const { data } = await API.getPosts(token);
+      setPosts(data);
+      setDisabled(false);
+    } catch (err) {
+      alert("An error occurred while trying to fetch the posts, please refresh the page");
+    } finally {
+      setDisabled(false);
+      setForm(initialFormState);
+    }
   }
 
   function handleForm(e) {
@@ -88,7 +101,7 @@ export default function PostForm({ user, token, loading, setLoading, setPosts })
           name="url"
           onChange={handleForm}
           value={form.url}
-          disabled={loading}
+          disabled={disabled}
         />
         <PostFormTextInput
           data-test="description"
@@ -97,11 +110,11 @@ export default function PostForm({ user, token, loading, setLoading, setPosts })
           name="content"
           onChange={handleForm}
           value={form.content}
-          disabled={loading}
+          disabled={disabled}
         />
         <div>
-          <PostFormButton data-test="publish-btn" type="submit" disabled={loading}>
-            {loading ? "Publishing..." : "Publish"}
+          <PostFormButton data-test="publish-btn" type="submit" disabled={disabled}>
+            {disabled ? "Publishing..." : "Publish"}
           </PostFormButton>
         </div>
       </div>

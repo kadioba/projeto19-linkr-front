@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
+import { FaRegHeart, FaHeart, FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
-import useMyContext from "../../contexts/MyContext";
 import API from "../../config/api";
 import {
   AuthorName,
@@ -17,14 +16,16 @@ import {
   EspacoIcones,
   PostHeader,
 } from "./styles";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 import LinkrImage from "../../assets/linkr-image.jpg";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import useTokenContext from "../../contexts/TokenContext";
+import useRefreshContext from "../../contexts/RefreshContext";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
-  const { refresh, setRefresh, token } = useMyContext();
+  const { token } = useTokenContext();
+  const { refresh, setRefresh } = useRefreshContext();
 
   const navigate = useNavigate();
 
@@ -36,7 +37,6 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [howMany, setHowMany] = useState(Object.keys(myPost.liked_by).length);
   const [dispatchLike, setDispatchLike] = useState(false);
 
-  //
   const [editing, setEditing] = useState(false);
   const [newContent, setNewContent] = useState(post.content);
   const [postContent, setPostContent] = useState(post.content);
@@ -46,7 +46,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   const inputRef = useRef(null);
 
-  const [tooltipId, setTooltipId] = useState(`text-likes-${post.id}`);
+  const [tooltipId] = useState(`text-likes-${post.id}`);
 
   useEffect(() => {
     if (editing) {
@@ -165,8 +165,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         return "Você curtiu esse post";
       } else {
-        return `${myPost.liked_by[likeKeys[0]]}`; // avaliador...
-        return `${myPost.liked_by[likeKeys[0]]} curtiu esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}`;
       }
     } else if (howMany === 2) {
       if (liked) {

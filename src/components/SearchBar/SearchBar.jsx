@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdClear } from "react-icons/md";
-import * as S from "./styles";
 import { DebounceInput } from "react-debounce-input";
-import useMyContext from "../../contexts/MyContext";
-import API from "../../config/api";
 import { useNavigate } from "react-router-dom";
+import API from "../../config/api";
+import * as S from "./styles";
+import useTokenContext from "../../contexts/TokenContext";
+import useUserContext from "../../contexts/UserContext";
 
 export default function SearchBar(props) {
+  const { token } = useTokenContext();
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [isOnFocus, setIsOnFocus] = useState(false);
-  const { user, token } = useMyContext();
   const [searchResultList, setSearchResultList] = useState([]);
-  const navigate = useNavigate();
 
   const handleClickOutside = () => {
     setTimeout(() => setIsOnFocus(false), 150);
@@ -51,7 +54,7 @@ export default function SearchBar(props) {
       <S.ContainerSearchResults display={isOnFocus && search.length >= 3 ? "true" : undefined}>
         {searchResultList.map((result, index) => (
           <div key={index} data-test="user-search" onClick={() => navigate(`user/${result.id}`)}>
-            <img src={result.picture} />
+            <img src={result.picture} alt="User Avatar" />
             <p>{result.username}</p>
           </div>
         ))}
