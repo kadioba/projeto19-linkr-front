@@ -47,19 +47,23 @@ export default function UserPage() {
   return (
     <S.ContainerUserPage>
       <S.HeaderUserPage>
-          <div>
-            <img alt="profile" src={userData.picture}  onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/>
-            {
-              imageLoaded ? <p>{userData.username}'s posts</p> :
-              <>
-                <S.ImagePlaceholder />
-                <S.TextPlaceholder />
-              </>
-            }
-          </div>
-          {
-            (user.id != id) && <button>Follow</button>
-          }
+        <div>
+          <img
+            alt="profile"
+            src={userData.picture}
+            onLoad={handleImageLoad}
+            style={!imageLoaded ? { display: "none" } : {}}
+          />
+          {imageLoaded ? (
+            <p>{userData.username}'s posts</p>
+          ) : (
+            <>
+              <S.ImagePlaceholder />
+              <S.TextPlaceholder />
+            </>
+          )}
+        </div>
+        {user.id != id && <button>Follow</button>}
       </S.HeaderUserPage>
       <S.ContentUserPage>
         <div>
@@ -68,8 +72,8 @@ export default function UserPage() {
         <S.TrendingHashtagsContainer data-test="trending">
           <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
           <S.ContentDivider></S.ContentDivider>
-          <TrendingHashtags setPosts={setPosts} posts={posts}/>
-      </S.TrendingHashtagsContainer>
+          <TrendingHashtags setPosts={setPosts} posts={posts} />
+        </S.TrendingHashtagsContainer>
       </S.ContentUserPage>
     </S.ContainerUserPage>
   );
