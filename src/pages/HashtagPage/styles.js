@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: charcoal;
     display: flex;
     /* flex-direction: column; */
     /* align-items: center; */
+    gap: 0px 25px;
     justify-content: center;
 `
 
 export const HashtagPageContainer = styled.main`
-    width: 100vw;
+    width: 100%;
     max-width: 600px;
 `
 
@@ -23,6 +24,10 @@ export const HashtagTitle = styled.h1`
     line-height: 64px;
     color: #FFFFFF;
     margin-bottom: 43px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 `
 
 export const TrendingHashtagsContainer = styled.div`
@@ -31,7 +36,6 @@ export const TrendingHashtagsContainer = styled.div`
     background: #171717;
     border-radius: 16px;
     margin-top: 107px;
-    margin-left: 25px;
     padding: 9px 16px;
     box-sizing: border-box;
 

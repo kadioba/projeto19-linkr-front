@@ -4,35 +4,45 @@ export const ContainerUserPage = styled.div`
     width: 100%;
     height: auto;
     display: flex;
-    justify-content: center;
-    gap: 0px 25px;
+    flex-direction: column;
+    align-items: center;
 `;
 
-export const ContentUserPage = styled.div`
-    width: 610px;
+export const HeaderUserPage = styled.div`
+    width: 100%;
+    min-height: 64px;
     height: auto;
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
 
-    @media (max-width: 620px) {
-        width: 100%;
+    @media (max-width: 890px) {
+        flex-direction: column;
+        align-items: center;
     }
 
     >div:nth-of-type(1){
-        width: 100%;
-        min-height: 64px;
-        height: auto;
+        width: 610px;
+        height: 100%;
         display: flex;
         align-items: center;
-        margin-bottom: 40px;
+        margin-left: calc((100% - 936px) / 2);
+
+        @media (max-width: 936px){
+            margin-left: 0px;
+        }
+
+        @media (max-width: 610px){
+            width: 100%;
+        }
 
         @media (max-width: 520px) {
             flex-direction: column;
             align-items: center;
             gap: 5px 0px;
         }
-        
+
         >img{
             width: 50px;
             height: 50px;
@@ -52,21 +62,61 @@ export const ContentUserPage = styled.div`
             display: flex;
             align-items: center;
             word-break: break-all;
-            text-align: center;
 
             @media (max-width: 610px) {
                 width: 100%;
+                justify-content: center;
+                text-align: center;
             }
         }
     }
 
-    >div:nth-of-type(2){
-        width: 100%;
+    >button{
+        width: 112px;
+        height: 31px;
+        background: #1877F2;
+        border-radius: 5px;
+        font-family: 'Lato';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+        color: #FFFFFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: calc((100% - 936px) / 2);
+        border: none;
+        cursor: pointer;
+
+        @media (max-width: 936px){
+            margin-right: 0px;
+        }
+
+        @media (max-width: 890px){
+            margin-top: 20px;
+        }
+    }
+`;
+
+export const ContentUserPage = styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    gap: 0px 25px;
+
+    >div:nth-of-type(1){
+        width: 610px;
         min-height: 500px;
         height: auto;
         gap: 16px 0px;
         display: flex;
         flex-direction: column;
+
+        @media (max-width: 610px){
+            width: 100%;
+        }
     }
 `;
 
@@ -75,8 +125,6 @@ export const TrendingHashtagsContainer = styled.div`
     height: 406px;
     background: #171717;
     border-radius: 16px;
-    margin-top: 107px;
-    margin-left: 25px;
     padding: 9px 16px;
     box-sizing: border-box;
 
