@@ -44,26 +44,31 @@ export default function UserPage() {
 
   return (
     <S.ContainerUserPage>
-      <S.ContentUserPage>
-        <div>
-          <img alt="profile" src={userData.picture}  onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/>
+      <S.HeaderUserPage>
+          <div>
+            <img alt="profile" src={userData.picture}  onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/>
+            {
+              imageLoaded ? <p>{userData.username}'s posts</p> :
+              <>
+                <S.ImagePlaceholder />
+                <S.TextPlaceholder />
+              </>
+            }
+          </div>
           {
-            imageLoaded ? <p>{userData.username}'s posts</p> :
-            <>
-              <S.ImagePlaceholder />
-              <S.TextPlaceholder />
-            </>
+            (user.id != id) && <button>Follow</button>
           }
-        </div>
+      </S.HeaderUserPage>
+      <S.ContentUserPage>
         <div>
           <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
         </div>
-      </S.ContentUserPage>
-      <S.TrendingHashtagsContainer data-test="trending">
-        <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
-        <S.ContentDivider></S.ContentDivider>
-        <TrendingHashtags setPosts={setPosts} posts={posts}/>
+        <S.TrendingHashtagsContainer data-test="trending">
+          <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
+          <S.ContentDivider></S.ContentDivider>
+          <TrendingHashtags setPosts={setPosts} posts={posts}/>
       </S.TrendingHashtagsContainer>
+      </S.ContentUserPage>
     </S.ContainerUserPage>
   );
 }
