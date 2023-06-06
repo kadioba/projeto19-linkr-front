@@ -5,15 +5,15 @@ export function LoadingComponent() {
   return (
     <LoadingContainer>
       <MutatingDots
-        height={100}
-        width={100}
-        color="#ffffff"
-        secondaryColor="#ffffff"
-        radius={12.5}
         ariaLabel="mutating-dots-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
+        color="#ffffff"
+        height={100}
+        radius={12.5}
+        secondaryColor="#ffffff"
         visible={true}
+        width={100}
+        wrapperClass=""
+        wrapperStyle={{}}
       />
     </LoadingContainer>
   );

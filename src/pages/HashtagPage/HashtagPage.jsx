@@ -7,14 +7,18 @@ import {
   TrendingHashtagsContainer,
   TrendingHashtagsTitle,
 } from "./styles";
-import useMyContext from "../../contexts/MyContext";
 import API from "../../config/api";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import { useParams } from "react-router";
 import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
+import useUserContext from "../../contexts/UserContext";
+import useTokenContext from "../../contexts/TokenContext";
+import useRefreshContext from "../../contexts/RefreshContext";
 
 export default function HashtagPage() {
-  const { user, token, refresh } = useMyContext();
+  const { user } = useUserContext();
+  const { token } = useTokenContext();
+  const { refresh } = useRefreshContext();
   const [posts, setPosts] = useState(undefined);
 
   const { hashtag } = useParams();
@@ -41,7 +45,7 @@ export default function HashtagPage() {
       <TrendingHashtagsContainer>
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
         <ContentDivider />
-        <TrendingHashtags setPosts={setPosts} posts={posts}/>
+        <TrendingHashtags setPosts={setPosts} posts={posts} />
       </TrendingHashtagsContainer>
     </AppContainer>
   );

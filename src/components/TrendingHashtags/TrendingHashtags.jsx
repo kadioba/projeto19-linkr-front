@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext";
 import { Hashtag } from "./styles";
 import { useNavigate } from "react-router";
+import useTokenContext from "../../contexts/TokenContext";
+import useRefreshContext from "../../contexts/RefreshContext";
 
 export default function TrendingHashtags(props) {
   const { loading, setPosts } = props;
 
-  const { token, refresh, setRefresh } = useMyContext();
+  const { token } = useTokenContext();
+  const { refresh, setRefresh } = useRefreshContext();
 
   const [trendingHashtags, setTrendingHashtags] = useState([]);
 

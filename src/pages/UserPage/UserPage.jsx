@@ -3,12 +3,14 @@ import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext";
 import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
+import useUserContext from "../../contexts/UserContext";
+import useTokenContext from "../../contexts/TokenContext";
 
 export default function UserPage() {
   const navigate = useNavigate();
-  const { user, token } = useMyContext();
+  const { user } = useUserContext();
+  const { token } = useTokenContext();
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState(undefined);
   const { id } = useParams();
@@ -46,14 +48,20 @@ export default function UserPage() {
     <S.ContainerUserPage>
       <S.ContentUserPage>
         <div>
-          <img alt="profile" src={userData.picture}  onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/>
-          {
-            imageLoaded ? <p>{userData.username}'s posts</p> :
+          <img
+            alt="profile"
+            src={userData.picture}
+            onLoad={handleImageLoad}
+            style={!imageLoaded ? { display: "none" } : {}}
+          />
+          {imageLoaded ? (
+            <p>{userData.username}'s posts</p>
+          ) : (
             <>
               <S.ImagePlaceholder />
               <S.TextPlaceholder />
             </>
-          }
+          )}
         </div>
         <div>
           <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
@@ -62,7 +70,7 @@ export default function UserPage() {
       <S.TrendingHashtagsContainer data-test="trending">
         <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
         <S.ContentDivider></S.ContentDivider>
-        <TrendingHashtags setPosts={setPosts} posts={posts}/>
+        <TrendingHashtags setPosts={setPosts} posts={posts} />
       </S.TrendingHashtagsContainer>
     </S.ContainerUserPage>
   );
