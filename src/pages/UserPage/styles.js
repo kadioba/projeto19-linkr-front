@@ -15,6 +15,7 @@ export const ContentUserPage = styled.div`
     flex-direction: column;
     align-items: start;
 
+
     @media (max-width: 620px) {
         width: 100%;
     }
@@ -52,10 +53,11 @@ export const ContentUserPage = styled.div`
             display: flex;
             align-items: center;
             word-break: break-all;
-            text-align: center;
 
             @media (max-width: 610px) {
                 width: 100%;
+                justify-content: center;
+                text-align: center;
             }
         }
     }
