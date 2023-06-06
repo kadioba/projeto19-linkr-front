@@ -35,7 +35,7 @@ export default function TrendingHashtags(props) {
     <>
       {trendingHashtags.map((hashtag) => (
         <Hashtag data-test="hashtag" key={hashtag.hashtag_id} onClick={() => openHashtagPage(hashtag.name)}>
-          # {hashtag.name}
+          #{hashtag.name}
         </Hashtag>
       ))}
     </>

@@ -53,7 +53,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       inputRef.current.focus();
     }
     if (!editing) {
-      setNewContent(postContent);
+      setNewContent("");
     }
   }, [editing]);
 
@@ -203,7 +203,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         >
           {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
         </h2>
-        <Tooltip data-test="tooltip" id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
+        <Tooltip classNdata-test="tooltip" id={tooltipId} style={{backgroundColor:"#FFFFFF", color:"#505050"}}/>
       </PictureAndLikes>
       <PostContent>
         <PostHeader>
