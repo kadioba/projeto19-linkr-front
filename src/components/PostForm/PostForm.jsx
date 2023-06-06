@@ -1,26 +1,58 @@
 import { useState, useCallback } from "react";
-import { PostFormButton, PostFormContainer, PostFormLinkInput, PostFormTextInput, PostFormTitle, ImagePlaceholder } from "./styles";
+import {
+  PostFormButton,
+  PostFormContainer,
+  PostFormLinkInput,
+  PostFormTextInput,
+  PostFormTitle,
+  ImagePlaceholder,
+} from "./styles";
 import API from "../../config/api";
 
-export default function PostForm(props) {
+export default function PostForm({ user, token, loading, setLoading, setPosts }) {
   const [form, setForm] = useState({ url: "", content: "" });
-
-  const loading = props.loading;
-  const setLoading = props.setLoading;
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  function getCurrentTimestamp() {
+    const now = new Date();
+    return now.toISOString();
+  }
 
   function publish(e) {
     e.preventDefault();
+
+    const tempPost = {
+      id: "temp_id",
+      created_at: getCurrentTimestamp(),
+      url_title: "...",
+      url_description: "...",
+      url_picture: "",
+      user_id: user.id,
+      picture: user.picture,
+      username: user.username,
+      liked_by: {},
+    };
+
     setLoading(true);
-    const promise = API.publishPost(props.token, form);
+    setPosts((prev) => {
+      const newForm = { ...tempPost, ...form };
+      const newPosts = [newForm, ...prev];
+      return newPosts;
+    });
+
+    const promise = API.publishPost(token, form);
     promise
-      .then((res) => {
+      .then((_res) => {
         setForm({ url: "", content: "" });
-        setLoading(false);
       })
       .catch((err) => {
+        setPosts((prev) => {
+          return prev.slice(1);
+        });
+        alert("There was an error publishing your link", err);
+      })
+      .finally(() => {
         setLoading(false);
-        alert("There was an error publishing your link");
       });
   }
 
@@ -39,7 +71,12 @@ export default function PostForm(props) {
     <PostFormContainer data-test="publish-box" onSubmit={publish}>
       <div>
         <ImagePlaceholder style={!imageLoaded ? {} : { display: "none" }} />
-        <img src={props.userPicture} alt="Profile Picture" onLoad={handleImageLoad} style={!imageLoaded ? { display: "none" } : {}}/> 
+        <img
+          src={user.picture}
+          alt="Profile"
+          onLoad={handleImageLoad}
+          style={!imageLoaded ? { display: "none" } : {}}
+        />
       </div>
       <div>
         <PostFormTitle>What are you going to share today?</PostFormTitle>

@@ -12,7 +12,6 @@ import useMyContext from "../../contexts/MyContext";
 import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
 import API from "../../config/api";
 import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
-import PostComponent from "../../components/PostComponent/PostComponent";
 
 export default function TimelinePage() {
   const { token } = useMyContext();
@@ -26,35 +25,28 @@ export default function TimelinePage() {
       .then((res) => {
         setPosts(res.data);
       })
-      .catch((err) => {
-        console.log("An error occured while trying to fetch the posts, please refresh the page");
+      .catch((_err) => {
+        alert("An error occured while trying to fetch the posts, please refresh the page");
       });
-  }, [loading]);
-
-  function renderPosts() {
-    if (posts) {
-      if (posts.length === 0) return <h1 data-test="message">There are no posts yet</h1>;
-      else {
-      }
-      return posts.map((post) => {
-        return <PostComponent data-test="post" key={post.id} post={post} userId={user} token={user} posts={posts} setPosts={setPosts} />;
-      });
-    } else {
-      return <h1>Loading...</h1>;
-    }
-  }
+  }, [loading, token]);
 
   return (
     <AppContainer>
       <TimelineContainer>
         <TimelineTitle>timeline</TimelineTitle>
-        <PostForm userPicture={user.picture} token={token} loading={loading} setLoading={setLoading} />
+        <PostForm
+          user={user}
+          token={token}
+          loading={loading}
+          setLoading={setLoading}
+          setPosts={setPosts}
+        />
         <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
       </TimelineContainer>
       <TrendingHashtagsContainer data-test="trending">
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>
         <ContentDivider></ContentDivider>
-        <TrendingHashtags loading={loading} setPosts={setPosts} posts={posts}/>
+        <TrendingHashtags loading={loading} setPosts={setPosts} posts={posts} />
       </TrendingHashtagsContainer>
     </AppContainer>
   );
