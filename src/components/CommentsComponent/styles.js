@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const CommentContainer = styled.div`
+export const CommentsContainer = styled.div`
   width: 100%;
   height: auto;
 `;
@@ -48,3 +48,4 @@ export const CommentInputContainer = styled.div`
   }
 
 `;
+
