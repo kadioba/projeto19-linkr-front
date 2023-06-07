@@ -14,11 +14,6 @@ export default function Posts() {
       <NavBar />
       <SearchBar header={false} />
       <Outlet context={value} />
-      {/* 
-        TimelinePage
-        UserPage
-        HashtagPage
-      */}
     </>
   );
 }
