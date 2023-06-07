@@ -11,13 +11,14 @@ import { LoadingComponent } from "../../components/LoadingComponent/LoadingCompo
 
 export default function UserPage() {
   const navigate = useNavigate();
-  const { user } = useUserContext();
+  const { user, setFollowUpdated } = useUserContext();
   const { token } = useTokenContext();
   const [userData, setUserData] = useState({});
   const [posts, setPosts] = useState(undefined);
   const { id } = useParams();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [hasMorePosts, setHasMorePosts] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,6 +44,7 @@ export default function UserPage() {
     setImageLoaded(true);
   }, []);
 
+
   const fetchMorePosts = async (page) => {
     try {
       const { data } = await API.getPostById(token, id, page);
@@ -55,9 +57,24 @@ export default function UserPage() {
     }
   };
 
+  function changeFollowState() {
+    API.followUser(token, id)
+      .then((res) => {
+        setFollowUpdated(false);
+        setDisabledButton(false);
+      })
+      .catch((err) => {
+        alert("An error occurred while trying to follow the user, please try again");
+        setDisabledButton(false);
+      });
+
+      setDisabledButton(true);
+      setFollowUpdated(true);
+  }
+
   return (
     <S.ContainerUserPage>
-      <S.HeaderUserPage>
+      <S.HeaderUserPage buttonStyle={(user.following !== undefined && id in user.following) ? "true" : undefined}>
         <div>
           <img
             alt="profile"
@@ -74,7 +91,13 @@ export default function UserPage() {
             </>
           )}
         </div>
-        {user.id != id && <button>Follow</button>}
+        {user.id != id && 
+            <button disabled={disabledButton} onClick={() => changeFollowState()}>
+              {
+                (disabledButton) ? "..." : (user.following !== undefined && id in user.following) ? "Unfollow" : "Follow"
+              }
+            </button>
+          }
       </S.HeaderUserPage>
       <S.ContentUserPage>
         <div>
