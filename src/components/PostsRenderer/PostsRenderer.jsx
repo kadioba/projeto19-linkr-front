@@ -19,11 +19,13 @@ function PostsRenderer({ posts, user, setPosts }) {
       </h1>
     );
 
+  console.log(posts)
+
   return (
     <>
       {posts.map((post) => (
         <PostComponent
-          key={post.id}
+          key={`${post.id}-${post.repost_id}`}
           postId={post.id}
           post={post}
           userId={user.id}

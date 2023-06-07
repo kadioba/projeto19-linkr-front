@@ -22,8 +22,10 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
+import RepostComponent from "../RepostComponent/RepostComponent.jsx";
 
-export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
+export default function PostComponent({ postId, post, userId, username, setPosts, _posts }) {
+  const { repost_id, reposter_username, repost_count } = post
   const { token } = useTokenContext();
   const { refresh, setRefresh } = useRefreshContext();
 
@@ -178,79 +180,82 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         const user = likeKeys.find((value) => value !== userId);
         const othersCount = howMany - 2;
-        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       } else {
         const othersCount = howMany - 2;
-        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       }
     }
   };
 
   return (
-    <PostContainer data-test="post">
-      <PictureAndLikes>
-        <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
-        <span data-test="like-btn" onClick={likeHandler}>
-          {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
-        </span>
-        <h2
-          data-test="counter"
-          data-tooltip-id={tooltipId}
-          data-tooltip-content={likesText()}
-          data-tooltip-place="bottom"
-        >
-          {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
-        </h2>
-        <span data-test="tooltip">
-          <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
-        </span>
-      </PictureAndLikes>
-      <PostContent>
-        <PostHeader>
-          <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
-            {post.username}
-          </AuthorName>
-          {userId === post.user_id ? (
-            <div>
-              <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
-              <EspacoIcones />
-              <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
-            </div>
-          ) : null}
-        </PostHeader>
-        {editing ? (
-          <ContentInput
-            ref={inputRef}
-            value={newContent}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            disabled={loading}
-            data-test="edit-input"
-          />
-        ) : (
-          <PostText data-test="description">
-            <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
-              {postContent}
-            </Tagify>
-          </PostText>
-        )}
-
-        <LinkContent data-test="link" href={post.url} target="_blank">
-          <div>
-            <h1>{post.url_title}</h1>
-            <p>{post.url_description}</p>
-            <h2>{post.url}</h2>
-          </div>
-          <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
-        </LinkContent>
-      </PostContent>
-      {deleteConfirmation ? (
-        <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
+    <>
+      {repost_id !== null ? (
+        <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
       ) : null}
-    </PostContainer>
+      <PostContainer data-test="post">
+        <PictureAndLikes>
+          <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
+          <span data-test="like-btn" onClick={likeHandler}>
+            {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
+          </span>
+          <h2
+            data-test="counter"
+            data-tooltip-id={tooltipId}
+            data-tooltip-content={likesText()}
+            data-tooltip-place="bottom"
+          >
+            {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
+          </h2>
+          <span data-test="tooltip">
+            <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
+          </span>
+        </PictureAndLikes>
+        <PostContent>
+          <PostHeader>
+            <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
+              {post.username}
+            </AuthorName>
+            {userId === post.user_id ? (
+              <div>
+                <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
+                <EspacoIcones />
+                <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
+              </div>
+            ) : null}
+          </PostHeader>
+          {editing ? (
+            <ContentInput
+              ref={inputRef}
+              value={newContent}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+              data-test="edit-input"
+            />
+          ) : (
+            <PostText data-test="description">
+              <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
+                {postContent}
+              </Tagify>
+            </PostText>
+          )}
+
+          <LinkContent data-test="link" href={post.url} target="_blank">
+            <div>
+              <h1>{post.url_title}</h1>
+              <p>{post.url_description}</p>
+              <h2>{post.url}</h2>
+            </div>
+            <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
+          </LinkContent>
+        </PostContent>
+        {deleteConfirmation ? (
+          <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
+        ) : null}
+      </PostContainer>
+    </>
   );
 }
