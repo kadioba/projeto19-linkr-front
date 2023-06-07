@@ -16,6 +16,8 @@ import {
   TrendingHashtagsTitle,
 } from "./styles";
 import { useOutletContext } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroller";
+import { LoadingComponent } from "../../components/LoadingComponent/LoadingComponent.jsx";
 
 export default function TimelinePage() {
   const { token } = useTokenContext();
@@ -24,12 +26,16 @@ export default function TimelinePage() {
   const [loading, setLoading] = useState(false);
   const [newPosts, setNewPosts] = useState(posts);
   const [newPostsCount, setNewPostsCount] = useState(0);
+  const [hasMorePosts, setHasMorePosts] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const { data } = await API.getPosts(token);
         setPosts(data);
+        if (data?.length >= 10) {
+          setHasMorePosts(true);
+        }
       } catch (err) {
         alert("An error occurred while trying to fetch the posts, please refresh the page");
       }
@@ -68,13 +74,36 @@ export default function TimelinePage() {
     setNewPostsCount(0);
   };
 
+  const fetchMorePosts = async (page) => {
+    if (posts?.length < 10) {
+      setHasMorePosts(false);
+      return;
+    }
+    try {
+      const { data } = await API.getPosts(token, page);
+      const hasMore = data?.length > 0;
+
+      setPosts((prevPosts) => [...prevPosts, ...data]);
+      setHasMorePosts(hasMore);
+    } catch (err) {
+      console.error("Error fetching more posts:", err);
+    }
+  };
+
   return (
     <AppContainer>
       <TimelineContainer>
         <TimelineTitle>timeline</TimelineTitle>
         <PostForm user={user} token={token} loading={loading} setLoading={setLoading} setPosts={setPosts} />
         {newPostsCount ? <NewPostsButton updatePosts={updatePosts} newPostsCount={newPostsCount} /> : null}
-        <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={fetchMorePosts}
+          hasMore={hasMorePosts}
+          loader={<LoadingComponent key="loading" />}
+        >
+          <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
+        </InfiniteScroll>
       </TimelineContainer>
       <TrendingHashtagsContainer data-test="trending">
         <TrendingHashtagsTitle>trending</TrendingHashtagsTitle>

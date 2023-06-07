@@ -4,7 +4,8 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState("");
-  const value = { user, setUser };
+  const [followUpdated, setFollowUpdated] = useState(false);
+  const value = { user, setUser, followUpdated, setFollowUpdated };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 

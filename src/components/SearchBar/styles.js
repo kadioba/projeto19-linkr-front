@@ -87,8 +87,9 @@ export const ContainerSearchResults = styled.div`
       margin-left: 17px;
     }
 
-    > p {
-      width: 350px;
+    > p:nth-of-type(1) {
+      width: auto;
+      max-width: 300px;
       height: 23px;
       font-family: "Lato";
       font-style: normal;
@@ -99,6 +100,17 @@ export const ContainerSearchResults = styled.div`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    >p:nth-of-type(2){
+      font-family: 'Lato';
+      font-style: normal;
+      height: 23px;
+      font-weight: 400;
+      font-size: 19px;
+      line-height: 23px;
+      color: #C5C5C5;
+      margin-left: 7px;
     }
   }
 `;

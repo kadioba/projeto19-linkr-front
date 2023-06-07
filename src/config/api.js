@@ -36,8 +36,11 @@ const API = {
   getTrendingHashtags: (token) => {
     return axiosInstance.get("/hashtag", { ...headers(token) });
   },
-  getPostsByHashtag: (token, hashtag) => {
-    return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) });
+  getPostsByHashtag: (token, hashtag, page = 1) => {
+    return axiosInstance.get(`/hashtag/${hashtag}`, {
+      ...params([{ paramName: "page", paramValue: page }]),
+      ...headers(token),
+    });
   },
   getPosts: (token, page = 1) => {
     return axiosInstance.get("/posts", {
@@ -60,14 +63,23 @@ const API = {
   getUserById: (token, id) => {
     return axiosInstance.get(`/user/${id}`, { ...headers(token) });
   },
-  getPostById: (token, id) => {
-    return axiosInstance.get(`/posts/${id}`, { ...headers(token) });
+  getPostById: (token, id, page = 1) => {
+    return axiosInstance.get(`/posts/${id}`, {
+      ...params([{ paramName: "page", paramValue: page }]),
+      ...headers(token),
+    });
   },
   editPost: (token, id, obj = {}) => {
     return axiosInstance.put(`/post/${id}`, obj, { ...headers(token) });
   },
   deletePost: (token, id) => {
     return axiosInstance.delete(`/post/${id}`, { ...headers(token) });
+  },
+  getUserDataWithPosts: (token, id) => {
+    return axiosInstance.get(`/users/${id}/posts`, { ...headers(token) });
+  },
+  followUser: (token, id) => {
+    return axiosInstance.post(`/user/follow/${id}`, null, { ...headers(token) });
   },
   getPostComments: (token, postId) => {
     return axiosInstance.get(`/post/${postId}/comment`, { ...headers(token) });
