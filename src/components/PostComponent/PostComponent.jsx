@@ -25,7 +25,8 @@ import useRefreshContext from "../../contexts/RefreshContext";
 import RepostComponent from "../RepostComponent/RepostComponent.jsx";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, _posts }) {
-  const { repost_id, reposter_username, repost_count } = post
+  const { repost_id, reposter_user_id, repost_count } = post
+  let { reposter_username } = post
   const { token } = useTokenContext();
   const { refresh, setRefresh } = useRefreshContext();
 
@@ -189,6 +190,10 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       }
     }
   };
+
+  if (userId === reposter_user_id) {
+    reposter_username = "you"
+  } 
 
   return (
     <>
