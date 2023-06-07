@@ -1,7 +1,8 @@
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { CommentContainer, CommentInputContainer } from "./styles";
+import { CommentsContainer, CommentInputContainer } from "./styles";
 import { useEffect, useState } from "react";
 import API from "../../config/api";
+import Comment from "../CommentComponent/Comment";
 
 export default function CommentsComponent(props) {
 
@@ -16,19 +17,25 @@ export default function CommentsComponent(props) {
         const promisse = API.getPostComments(token, postId)
         promisse.then((res) => {
             setComments(res.data)
-            console.log(res)
         })
     }, [])
 
     function handleSendComment(e) {
         e.preventDefault()
-        //const promisse = API.commentPost(token, postId, { text: comment })
-        console.log(comment)
+        const promisse = API.publishComment(token, postId, { content: comment })
+        promisse
+            .then((res) => {
+                setComments([...comments, res.data])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         setComment("")
     }
 
     return (
-        <CommentContainer>
+        <CommentsContainer>
+            {comments.map(commentRecived => <Comment key={commentRecived.id} comment={commentRecived} />)}
             <CommentInputContainer>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgHMEvAmwb8c8MGAVd5RXwt7szQCwu-QnKR6G9Ze2sCOthXlt1DZsIncqZ4JuNLvM_kcU&usqp=CAU" alt="" />
                 <form onSubmit={handleSendComment}>
@@ -36,6 +43,6 @@ export default function CommentsComponent(props) {
                     <IoPaperPlaneOutline size="15px" color="#FFFFFF" onClick={handleSendComment} />
                 </form>
             </CommentInputContainer>
-        </CommentContainer>
+        </CommentsContainer>
     )
 }

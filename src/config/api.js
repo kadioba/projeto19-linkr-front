@@ -83,6 +83,9 @@ const API = {
   },
   getPostComments: (token, postId) => {
     return axiosInstance.get(`/post/${postId}/comment`, { ...headers(token) });
+  },
+  publishComment: (token, postId, comment) => {
+    return axiosInstance.post(`/post/${postId}/comment`, comment, { ...headers(token) });
   }
 };
 
