@@ -39,8 +39,11 @@ const API = {
   getPostsByHashtag: (token, hashtag) => {
     return axiosInstance.get(`/hashtag/${hashtag}`, { ...headers(token) });
   },
-  getPosts: (token) => {
-    return axiosInstance.get("/posts", { ...headers(token) });
+  getPosts: (token, page = 1) => {
+    return axiosInstance.get("/posts", {
+      ...headers(token),
+      ...params([{ paramName: "page", paramValue: page }]),
+    });
   },
   publishPost: (token, post) => {
     return axiosInstance.post("/post", post, { ...headers(token) });

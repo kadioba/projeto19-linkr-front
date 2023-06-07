@@ -1,14 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
 export const ContainerNavBar = styled.div`
-    width: 100%;
-    height: 72px;
-    background-color: #151515;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    margin-bottom: 53px;
+  width: 100%;
+  height: 72px;
+  background-color: #151515;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin-bottom: 53px;
 
   @media (max-width: 890px) {
     margin-bottom: 0px;
@@ -16,17 +16,17 @@ export const ContainerNavBar = styled.div`
 `;
 
 export const LogoText = styled.p`
-    width: 108px;
-    height: 54px;
-    font-family: 'Passion One';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 49px;
-    line-height: 54px;
-    letter-spacing: 0.05em;
-    color: #FFFFFF;
-    margin-left: 28px;
-    cursor: pointer;
+  width: 108px;
+  height: 54px;
+  font-family: "Passion One";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 49px;
+  line-height: 54px;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-left: 28px;
+  cursor: pointer;
 `;
 
 export const ContainerUserActions = styled.div`

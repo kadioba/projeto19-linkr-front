@@ -75,7 +75,7 @@ export const PictureAndLikes = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   img {
     height: 50px;
     width: 50px;
@@ -101,26 +101,25 @@ export const PostContent = styled.div`
   width: calc(100% - 86px);
 `;
 export const PostHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-top: 19px;
+  > div {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
-    margin-top: 19px;
-    >div{
-        display: flex;
-        align-items: center;
-        margin-right: 23px;
+    margin-right: 23px;
 
-        >svg{
-          cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-          margin-right: 0px;
-        }
+    > svg {
+      cursor: pointer;
     }
-; 
-`
+
+    @media (max-width: 600px) {
+      margin-right: 0px;
+    }
+  }
+`;
 
 export const AuthorName = styled.h1`
   width: 300px;
@@ -132,7 +131,7 @@ export const AuthorName = styled.h1`
   color: white;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;              
+  overflow: hidden;
   text-overflow: ellipsis;
 
   :hover {
@@ -249,6 +248,5 @@ export const ContentInput = styled.textarea`
   background: #ffffff;
   border-radius: 7px;
   border: none;
-  resize: none; 
+  resize: none;
 `;
-

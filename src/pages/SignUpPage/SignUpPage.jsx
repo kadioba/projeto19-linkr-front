@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as S from "./styles";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext";
+import useTokenContext from "../../contexts/TokenContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -13,8 +13,7 @@ export default function SignUpPage() {
     picture: "",
   });
   const [loading, setLoading] = useState(false);
-  const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
-  const { token } = useMyContext();
+  const { token } = useTokenContext();
 
   function handleForm(e) {
     setForm({
@@ -27,7 +26,7 @@ export default function SignUpPage() {
     if (token) {
       navigate("/timeline");
     }
-  }, [navigate, token]); 
+  }, [navigate, token]);
 
   const getEmptyFields = (form) => {
     return Object.keys(form).filter((field) => form[field] === "");
@@ -109,7 +108,6 @@ export default function SignUpPage() {
         </div>
       </S.Banner>
       <S.FormContainer>
-        {isSignUpSuccessful && <S.SuccessMessage>Success! Redirecting to Sign In...</S.SuccessMessage>}
         <form onSubmit={signup}>
           <S.Input
             data-test="email"

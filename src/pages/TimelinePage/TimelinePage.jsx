@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
+import API from "../../config/api";
+import useInterval from "../../hooks/useInterval";
+import useTokenContext from "../../contexts/TokenContext";
+import useUserContext from "../../contexts/UserContext";
 import PostForm from "../../components/PostForm/PostForm";
+import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
+import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
+import NewPostsButton from "../../components/NewPostsButton/NewPostsButton";
 import {
   AppContainer,
   ContentDivider,
@@ -8,39 +15,65 @@ import {
   TrendingHashtagsContainer,
   TrendingHashtagsTitle,
 } from "./styles";
-import useMyContext from "../../contexts/MyContext";
-import TrendingHashtags from "../../components/TrendingHashtags/TrendingHashtags";
-import API from "../../config/api";
-import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
+import { useOutletContext } from "react-router-dom";
 
 export default function TimelinePage() {
-  const { token } = useMyContext();
-  const { user } = useMyContext();
-  const [posts, setPosts] = useState(undefined);
+  const { token } = useTokenContext();
+  const { user } = useUserContext();
+  const { posts, setPosts, fetch, setFetch } = useOutletContext();
   const [loading, setLoading] = useState(false);
+  const [newPosts, setNewPosts] = useState(posts);
+  const [newPostsCount, setNewPostsCount] = useState(0);
 
   useEffect(() => {
-    const requestPosts = API.getPosts(token);
-    requestPosts
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((_err) => {
-        alert("An error occured while trying to fetch the posts, please refresh the page");
-      });
-  }, [loading, token]);
+    const fetchPosts = async () => {
+      try {
+        const { data } = await API.getPosts(token);
+        setPosts(data);
+      } catch (err) {
+        alert("An error occurred while trying to fetch the posts, please refresh the page");
+      }
+    };
+
+    fetchPosts();
+    // eslint-disable-next-line
+  }, [fetch, token]);
+
+  useInterval(
+    () => {
+      const fetchNewPosts = async () => {
+        try {
+          const { data } = await API.getPosts(token);
+          const lastPostId = posts[0].id;
+          const newPostsFromData = data.filter((post) => post.id > lastPostId);
+          const newPostsFromDataLength = newPostsFromData.length;
+          if (newPostsFromDataLength) {
+            const idSet = new Set(newPostsFromData.map((post) => post.id));
+            const mergedArray = [...newPostsFromData, ...posts.filter((post) => !idSet.has(post.id))];
+            setNewPosts(mergedArray);
+            setNewPostsCount(newPostsFromDataLength);
+          }
+        } catch (err) {
+          console.error("Interval API error");
+        }
+      };
+
+      fetchNewPosts();
+    },
+    posts ? 15000 : null
+  );
+
+  const updatePosts = () => {
+    setPosts(newPosts);
+    setNewPostsCount(0);
+  };
 
   return (
     <AppContainer>
       <TimelineContainer>
         <TimelineTitle>timeline</TimelineTitle>
-        <PostForm
-          user={user}
-          token={token}
-          loading={loading}
-          setLoading={setLoading}
-          setPosts={setPosts}
-        />
+        <PostForm user={user} token={token} loading={loading} setLoading={setLoading} setPosts={setPosts} />
+        {newPostsCount ? <NewPostsButton updatePosts={updatePosts} newPostsCount={newPostsCount} /> : null}
         <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
       </TimelineContainer>
       <TrendingHashtagsContainer data-test="trending">

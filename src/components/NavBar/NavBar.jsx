@@ -2,15 +2,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import API from "../../config/api";
-import useMyContext from "../../contexts/MyContext";
 import SearchBar from "../SearchBar/SearchBar";
 import * as S from "./styles";
+import useTokenContext from "../../contexts/TokenContext";
+import useUserContext from "../../contexts/UserContext";
 
 const NavBar = () => {
-  const [showLogout, setShowLogout] = useState(false);
-  const { setUser, user, token, setToken } = useMyContext();
-  const menuRef = useRef(null);
   const navigate = useNavigate();
+  const menuRef = useRef(null);
+
+  const { token, setToken } = useTokenContext();
+  const { user, setUser } = useUserContext();
+
+  const [showLogout, setShowLogout] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
@@ -63,7 +67,9 @@ const NavBar = () => {
           <>
             <MdKeyboardArrowUp onClick={handleToggleMenu} />
             <div data-test="menu">
-              <p onClick={handleLogout} data-test="logout">Logout</p>
+              <p onClick={handleLogout} data-test="logout">
+                Logout
+              </p>
             </div>
           </>
         ) : (
@@ -75,7 +81,7 @@ const NavBar = () => {
           src={user.picture}
           onLoad={handleImageLoad}
           onClick={handleToggleMenu}
-          data-test= "avatar"
+          data-test="avatar"
           style={!imageLoaded ? { display: "none" } : {}}
         />
       </S.ContainerUserActions>
