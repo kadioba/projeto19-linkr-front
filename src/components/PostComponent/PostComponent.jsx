@@ -264,7 +264,6 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <IoPaperPlaneOutline size="15px" color="#FFFFFF" />
           </form>
         </CommentInputContainer>
-
       </CommentContainer>
     </PostOuterContainer>
   );
