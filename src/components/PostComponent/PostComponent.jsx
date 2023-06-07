@@ -26,6 +26,8 @@ import "react-tooltip/dist/react-tooltip.css";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
 import { IoPaperPlaneOutline } from "react-icons/io5";
+import CommentsComponent from "../CommentsComponent/CommentsComponent";
+import { AiOutlineComment } from "react-icons/ai"
 
 export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
   const { token } = useTokenContext();
@@ -45,6 +47,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [newContent, setNewContent] = useState(post.content);
   const [postContent, setPostContent] = useState(post.content);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [commenting, setCommenting] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -211,6 +214,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <span data-test="tooltip">
             <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
           </span>
+          <AiOutlineComment color="white" size="20px" onClick={() => setCommenting(!commenting)} />
         </PictureAndLikes>
         <PostContent>
           <PostHeader>
@@ -255,15 +259,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
         ) : null}
       </PostContainer>
-      <CommentContainer>
-        <CommentInputContainer>
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgHMEvAmwb8c8MGAVd5RXwt7szQCwu-QnKR6G9Ze2sCOthXlt1DZsIncqZ4JuNLvM_kcU&usqp=CAU" alt="" />
-          <form>
-            <input type="text" placeholder="write a comment..." />
-            <IoPaperPlaneOutline size="15px" color="#FFFFFF" />
-          </form>
-        </CommentInputContainer>
-      </CommentContainer>
+      {commenting ? <CommentsComponent token={token} postId={postId} /> : null}
     </PostOuterContainer>
   );
 }

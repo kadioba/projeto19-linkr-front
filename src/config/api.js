@@ -69,6 +69,9 @@ const API = {
   deletePost: (token, id) => {
     return axiosInstance.delete(`/post/${id}`, { ...headers(token) });
   },
+  getPostComments: (token, postId) => {
+    return axiosInstance.get(`/post/${postId}/comment`, { ...headers(token) });
+  }
 };
 
 export default API;

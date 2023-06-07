@@ -63,7 +63,7 @@ export default function UserPage() {
             </>
           )}
         </div>
-        {user.id != id && <button>Follow</button>}
+        {user.id !== id && <button>Follow</button>}
       </S.HeaderUserPage>
       <S.ContentUserPage>
         <div>
