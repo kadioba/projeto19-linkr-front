@@ -68,8 +68,8 @@ export default function UserPage() {
         setDisabledButton(false);
       });
 
-      setDisabledButton(true);
-      setFollowUpdated(true);
+    setDisabledButton(true);
+    setFollowUpdated(true);
   }
 
   return (
@@ -91,13 +91,13 @@ export default function UserPage() {
             </>
           )}
         </div>
-        {user.id != id && 
-            <button disabled={disabledButton} onClick={() => changeFollowState()}>
-              {
-                (disabledButton) ? "..." : (user.following !== undefined && id in user.following) ? "Unfollow" : "Follow"
-              }
-            </button>
-          }
+        {user.id != id &&
+          <button disabled={disabledButton} onClick={() => changeFollowState()}>
+            {
+              (disabledButton) ? "..." : (user.following !== undefined && id in user.following) ? "Unfollow" : "Follow"
+            }
+          </button>
+        }
       </S.HeaderUserPage>
       <S.ContentUserPage>
         <div>

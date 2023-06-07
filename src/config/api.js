@@ -81,6 +81,9 @@ const API = {
   followUser: (token, id) => {
     return axiosInstance.post(`/user/follow/${id}`, null, { ...headers(token) });
   },
+  getPostComments: (token, postId) => {
+    return axiosInstance.get(`/post/${postId}/comment`, { ...headers(token) });
+  }
 };
 
 export default API;
