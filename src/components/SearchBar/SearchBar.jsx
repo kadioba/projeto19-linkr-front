@@ -31,10 +31,27 @@ export default function SearchBar(props) {
           setSearchResultList(res.data);
         })
         .catch((err) => {
-          console.log("An error occurred while trying to fetch the user data, please refresh the page");
+          console.log("An error occurred, please refresh the page");
         });
     }
   }, [search]);
+
+  function sortSearch(searchResult){
+    searchResult.sort((a, b) => {
+      const idA = a.id;
+      const idB = b.id;
+    
+      if (idA in user.following && !(idB in user.following)) {
+        return -1; 
+      } else if (idB in user.following && !(idA in user.following)) {
+        return 1; 
+      }
+    
+      return 0; 
+    });
+
+    return searchResult;
+  }
 
   return (
     <S.ContainerSearchBar header={props.header}>
@@ -52,10 +69,11 @@ export default function SearchBar(props) {
         {search.length === 0 ? <AiOutlineSearch /> : <MdClear onClick={() => setSearch("")} />}
       </S.SearchBar>
       <S.ContainerSearchResults display={isOnFocus && search.length >= 3 ? "true" : undefined}>
-        {searchResultList.map((result, index) => (
+        {sortSearch(searchResultList).map((result, index) => (
           <div key={index} data-test="user-search" onClick={() => navigate(`user/${result.id}`)}>
             <img src={result.picture} alt="User Avatar" />
             <p>{result.username}</p>
+            {(result.id in user.following) && <p>• following</p>}
           </div>
         ))}
       </S.ContainerSearchResults>

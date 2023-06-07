@@ -12,7 +12,7 @@ const NavBar = () => {
   const menuRef = useRef(null);
 
   const { token, setToken } = useTokenContext();
-  const { user, setUser } = useUserContext();
+  const { user, setUser, followUpdated } = useUserContext();
 
   const [showLogout, setShowLogout] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -42,7 +42,7 @@ const NavBar = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [navigate, setUser, token]);
+  }, [navigate, setUser, token, followUpdated]);
 
   const handleToggleMenu = useCallback(() => {
     setShowLogout((prevShowLogout) => !prevShowLogout);
