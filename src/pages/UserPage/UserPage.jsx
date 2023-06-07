@@ -6,6 +6,8 @@ import API from "../../config/api";
 import PostsRenderer from "../../components/PostsRenderer/PostsRenderer";
 import useUserContext from "../../contexts/UserContext";
 import useTokenContext from "../../contexts/TokenContext";
+import InfiniteScroll from "react-infinite-scroller";
+import { LoadingComponent } from "../../components/LoadingComponent/LoadingComponent.jsx";
 
 export default function UserPage() {
   const navigate = useNavigate();
@@ -15,34 +17,43 @@ export default function UserPage() {
   const [posts, setPosts] = useState(undefined);
   const { id } = useParams();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [hasMorePosts, setHasMorePosts] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!token) return navigate("/");
 
-    const requestUserData = API.getUserById(token, id);
-    requestUserData
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log("An error occured while trying to fetch the user data, please refresh the page");
-      });
+    const fetchData = async () => {
+      try {
+        const res = await API.getUserDataWithPosts(token, id);
+        setUserData(res.data.userData);
+        setPosts(res.data.posts);
+        if (res.data?.posts.length >= 10) {
+          setHasMorePosts(true);
+        }
+      } catch (err) {
+        console.log("An error occurred while trying to fetch the user data/posts, please refresh the page");
+      }
+    };
 
-    const requestPosts = API.getPostById(token, id);
-    requestPosts
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((err) => {
-        console.log("An error occured while trying to fetch the posts, please refresh the page");
-      });
-    // eslint-disable-next-line
+    fetchData();
   }, [id]);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
   }, []);
+
+  const fetchMorePosts = async (page) => {
+    try {
+      const { data } = await API.getPostById(token, id, page);
+      const hasMore = data?.length > 0;
+
+      setPosts((prevPosts) => [...prevPosts, ...data]);
+      setHasMorePosts(hasMore);
+    } catch (err) {
+      console.error("Error fetching more posts:", err);
+    }
+  };
 
   return (
     <S.ContainerUserPage>
@@ -67,7 +78,14 @@ export default function UserPage() {
       </S.HeaderUserPage>
       <S.ContentUserPage>
         <div>
-          <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
+          <InfiniteScroll
+            pageStart={1}
+            loadMore={fetchMorePosts}
+            hasMore={hasMorePosts}
+            loader={<LoadingComponent key="loading" />}
+          >
+            <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
+          </InfiniteScroll>
         </div>
         <S.TrendingHashtagsContainer data-test="trending">
           <S.TrendingHashtagsTitle>trending</S.TrendingHashtagsTitle>
