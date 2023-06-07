@@ -52,7 +52,7 @@ export default function UserPage() {
         setDisabledButton(false);
       })
       .catch((err) => {
-        console.log("An error occurred while trying to follow the user, please try again");
+        alert("An error occurred while trying to follow the user, please try again");
         setDisabledButton(false);
       });
 
