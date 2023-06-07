@@ -74,14 +74,14 @@ export const HeaderUserPage = styled.div`
   > button {
     width: 112px;
     height: 31px;
-    background: #1877f2;
+    background: ${(props) => (!props.buttonStyle ? "#1877F2" : "#FFFFFF")};
     border-radius: 5px;
     font-family: "Lato";
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    color: #ffffff;
+    color: ${(props) => (!props.buttonStyle ? "#FFFFFF" : "#1877F2")};
     display: flex;
     justify-content: center;
     align-items: center;

@@ -69,6 +69,9 @@ const API = {
   deletePost: (token, id) => {
     return axiosInstance.delete(`/post/${id}`, { ...headers(token) });
   },
+  followUser: (token, id) => {
+    return axiosInstance.post(`/user/follow/${id}`, null, { ...headers(token) });
+  },
 };
 
 export default API;
