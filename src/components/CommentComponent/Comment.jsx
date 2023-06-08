@@ -12,11 +12,14 @@ export default function Comment({ comment }) {
 
     return (
         <CommentContainer data-test="comment">
-            <img src={comment.picture} alt="" />
-            <div>
-                <h1>{comment.username} {authorOrFollowing()}</h1>
-                <p>{comment.content}</p>
-            </div>
+            <span>
+                <img src={comment.picture} alt="" />
+                <div>
+                    <h1>{comment.username} {authorOrFollowing()}</h1>
+                    <p>{comment.content}</p>
+                </div>
+            </span>
+
         </CommentContainer>
     )
 }

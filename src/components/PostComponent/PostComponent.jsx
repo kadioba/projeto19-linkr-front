@@ -53,6 +53,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   const [loading, setLoading] = useState(false);
 
+  console.log(post)
+
   const inputRef = useRef(null);
 
   const [tooltipId] = useState(`text-likes-${post.id}`);
@@ -193,14 +195,12 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         const user = likeKeys.find((value) => value !== userId);
         const othersCount = howMany - 2;
-        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       } else {
         const othersCount = howMany - 2;
-        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       }
     }
   };
@@ -234,7 +234,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             onClick={() => setCommenting(!commenting)}
           />
           <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
-            11 comments
+            {post.comment_count} comments
           </span>
           <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
           <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
