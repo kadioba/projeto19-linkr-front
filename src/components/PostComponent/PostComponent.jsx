@@ -227,6 +227,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     confirmation ? <ConfirmationDialog onCancel={onCancel} onConfirm={onConfirm} /> : null;
 
   return (
+    <>
       {repost_id !== null ? (
         <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
       ) : null}
