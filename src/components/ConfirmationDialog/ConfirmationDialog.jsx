@@ -1,6 +1,7 @@
 import { Container, Cover, CancelButton, ConfirmButton } from "./styles";
 
 export default function ConfirmationDialog(props) {
+  console.log("entrei no ConfirmationDialog!");
   const { onCancel, onConfirm } = props;
 
   const confirmationConfig = {
