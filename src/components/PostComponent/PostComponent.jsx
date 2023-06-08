@@ -35,6 +35,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   let { reposter_username } = post
   const { token } = useTokenContext();
   const { refresh, setRefresh } = useRefreshContext();
+  const [ repostCounter, setRepostCounter ] = useState(Number(repost_count))
 
   const navigate = useNavigate();
 
@@ -171,6 +172,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     setLoading(true);
     setRepostConfirmation(false);
     setLoading(false);
+    createRepost()
   }
 
   const likesText = () => {
@@ -207,8 +209,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   async function createRepost() {
     try {
-      return await API.createRepost(token, post.id)
-
+      await API.createRepost(token, post.id)
+      return setRepostCounter(repostCounter + 1)
     } catch (err) {
       console.log(err);
       return alert("Oops! Repost was unsuccessful. Please try again");
@@ -218,7 +220,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   reposter_username = userId === reposter_user_id ? "you" : reposter_username;
 
 
-  let repostString = repost_count == 1 ? "re-post" : "re-posts";
+  let repostString = repostCounter == 1 ? "re-post" : "re-posts";
 
 
   const renderConfirmationDialog = (confirmation, onCancel, onConfirm) =>
@@ -258,7 +260,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             </h2>
             <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
             <h2 data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
-            {repost_count} {repostString}
+            {repostCounter} {repostString}
             </h2>
           </PictureLikesCommentsAndRepost>
           <PostContent>
