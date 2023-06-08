@@ -1,7 +1,8 @@
 import { Container, Cover, CancelButton, ConfirmButton } from "./styles";
 
 export default function ConfirmationDialog(props) {
-  const { onCancel, onConfirm } = props;
+  const { onCancel, onConfirm, actionType } = props;
+
 
   const confirmationConfig = {
     submitDelete: {
@@ -16,12 +17,8 @@ export default function ConfirmationDialog(props) {
     },
   };
 
-  const actionType = onConfirm.name;
-  const { message, cancelText, confirmText } = confirmationConfig[actionType];
-
-  const confirmAction = () => {
-    onConfirm(actionType);
-  };
+  
+  const { message, cancelText, confirmText } = confirmationConfig[actionType] || {};
 
   return (
     <Cover>
@@ -31,7 +28,7 @@ export default function ConfirmationDialog(props) {
           <CancelButton data-test="cancel" onClick={onCancel}>
             {cancelText}
           </CancelButton>
-          <ConfirmButton data-test="confirm" onClick={confirmAction}>
+          <ConfirmButton data-test="confirm" onClick={onConfirm}>
             {confirmText}
           </ConfirmButton>
         </div>
