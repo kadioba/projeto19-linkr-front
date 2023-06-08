@@ -259,7 +259,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
         ) : null}
       </PostContainer>
-      {commenting ? <CommentsComponent token={token} postId={postId} /> : null}
+      {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
     </PostOuterContainer>
   );
 }
