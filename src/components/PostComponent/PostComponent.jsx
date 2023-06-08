@@ -283,7 +283,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
         {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
       </PostContainer>
-      {commenting ? <CommentsComponent token={token} postId={postId} /> : null}
+      {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
     </PostOuterContainer>
   );
 }
