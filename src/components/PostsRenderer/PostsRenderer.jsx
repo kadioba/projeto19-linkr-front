@@ -19,8 +19,6 @@ function PostsRenderer({ posts, user, setPosts }) {
       </h1>
     );
 
-  console.log(posts)
-
   return (
     <>
       {posts.map((post) => (

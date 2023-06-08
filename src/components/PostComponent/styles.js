@@ -13,7 +13,7 @@ export const PostContainer = styled.div`
     color: white;
   }
 `;
-export const PictureAndLikes = styled.div`
+export const PictureLikesCommentsAndRepost = styled.div`
   width: 86px;
   display: flex;
   flex-direction: column;
@@ -38,6 +38,7 @@ export const PictureAndLikes = styled.div`
     text-align: center;
     color: white;
     cursor: default;
+    margin-bottom: 22px;
   }
 `;
 export const PostContent = styled.div`

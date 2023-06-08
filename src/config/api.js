@@ -81,6 +81,9 @@ const API = {
   followUser: (token, id) => {
     return axiosInstance.post(`/user/follow/${id}`, null, { ...headers(token) });
   },
+  createRepost: (token, postId) => {
+    return axiosInstance.post(`/post/repost/${postId}`, null, { ...headers(token) })
+  }
 };
 
 export default API;

@@ -3,11 +3,11 @@ import { FaRegHeart, FaHeart, FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import API from "../../config/api";
+import { BiRepost } from 'react-icons/bi';
 import {
   AuthorName,
   ImageContent,
   LinkContent,
-  PictureAndLikes,
   PostContainer,
   PostContent,
   PostText,
@@ -15,6 +15,7 @@ import {
   ContentInput,
   EspacoIcones,
   PostHeader,
+  PictureLikesCommentsAndRepost,
 } from "./styles";
 import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 import LinkrImage from "../../assets/linkr-image.jpg";
@@ -191,9 +192,21 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     }
   };
 
-  if (userId === reposter_user_id) {
-    reposter_username = "you"
-  } 
+  async function createRepost(){
+    try {
+      return await API.createRepost(token, post.id)
+      
+    } catch (err) {
+      console.log(err);
+      return alert("Oops! Repost was unsuccessful. Please try again");
+    }
+  }
+
+  reposter_username = userId === reposter_user_id ? "you" : reposter_username;
+
+
+  let repostString = repost_count == 1 ? "re-post" : "re-posts";
+
 
   return (
     <>
@@ -201,7 +214,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
       ) : null}
       <PostContainer data-test="post">
-        <PictureAndLikes>
+        <PictureLikesCommentsAndRepost>
           <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
           <span data-test="like-btn" onClick={likeHandler}>
             {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
@@ -217,7 +230,13 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           <span data-test="tooltip">
             <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
           </span>
-        </PictureAndLikes>
+          <span>
+            <BiRepost color="white" size="20px" onClick={createRepost}/>
+          </span>
+          <h2>
+            {repost_count} {repostString}
+          </h2>
+        </PictureLikesCommentsAndRepost>
         <PostContent>
           <PostHeader>
             <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
