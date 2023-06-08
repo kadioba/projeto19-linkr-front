@@ -11,10 +11,10 @@ function PostsRenderer({ posts, user, setPosts }) {
       <h1 data-test="message" style={{ color: "white" }}>
         {
           location.pathname === "/timeline"
-          ? (Object.keys(user.following).length === 0
+            ? (Object.keys(user.following).length === 0
               ? "You don't follow anyone yet. Search for new friends!"
               : "No posts found from your friends")
-          : "There are no posts yet"
+            : "There are no posts yet"
         }
       </h1>
     );

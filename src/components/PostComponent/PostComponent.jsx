@@ -15,14 +15,20 @@ import {
   ContentInput,
   EspacoIcones,
   PostHeader,
+  PostOuterContainer,
+  CommentContainer,
+  CommentInputContainer,
   PictureLikesCommentsAndRepost,
 } from "./styles";
-import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
 import LinkrImage from "../../assets/linkr-image.jpg";
 import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
+import { IoPaperPlaneOutline } from "react-icons/io5";
+import { BiRepost } from "react-icons/bi";
+import CommentsComponent from "../CommentsComponent/CommentsComponent";
+import { AiOutlineComment } from "react-icons/ai";
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.jsx";
 import RepostComponent from "../RepostComponent/RepostComponent.jsx";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, _posts }) {
@@ -45,6 +51,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [newContent, setNewContent] = useState(post.content);
   const [postContent, setPostContent] = useState(post.content);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [repostConfirmation, setRepostConfirmation] = useState(false);
+  const [commenting, setCommenting] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -160,6 +168,12 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       });
   }
 
+  function submitRepost() {
+    setLoading(true);
+    setRepostConfirmation(false);
+    setLoading(false);
+  }
+
   const likesText = () => {
     const likeKeys = Object.keys(myPost.liked_by);
 
@@ -208,65 +222,96 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   let repostString = repost_count == 1 ? "re-post" : "re-posts";
 
 
+  const renderConfirmationDialog = (confirmation, onCancel, onConfirm) =>
+    confirmation ? <ConfirmationDialog onCancel={onCancel} onConfirm={onConfirm} /> : null;
+
   return (
     <>
       {repost_id !== null ? (
         <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
       ) : null}
+      <PostOuterContainer>
       <PostContainer data-test="post">
-        <PictureLikesCommentsAndRepost>
-          <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
-          <span data-test="like-btn" onClick={likeHandler}>
-            {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
-          </span>
-          <h2
-            data-test="counter"
-            data-tooltip-id={tooltipId}
-            data-tooltip-content={likesText()}
-            data-tooltip-place="bottom"
-          >
-            {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
-          </h2>
-          <span data-test="tooltip">
-            <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
-          </span>
+          <PictureLikesCommentsAndRepost>
+            <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
+            <span data-test="like-btn" onClick={likeHandler}>
+              {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
+            </span>
+            <h2
+              data-test="counter"
+              data-tooltip-id={tooltipId}
+              data-tooltip-content={likesText()}
+              data-tooltip-place="bottom"
+            >
+              {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
+            </h2>
+            <span data-test="tooltip">
+              <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
+            </span>
           <span>
             <BiRepost color="white" size="20px" onClick={createRepost}/>
           </span>
           <h2>
             {repost_count} {repostString}
           </h2>
+            <AiOutlineComment
+            data-test="comment-btn"
+            color="white"
+            size="20px"
+            onClick={() => setCommenting(!commenting)}
+          />
+          <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
+            11 comments
+          </span>
+          <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
+          <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
+            0 re-posts
+          </span>
         </PictureLikesCommentsAndRepost>
-        <PostContent>
-          <PostHeader>
-            <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
-              {post.username}
-            </AuthorName>
-            {userId === post.user_id ? (
-              <div>
-                <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
-                <EspacoIcones />
-                <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
-              </div>
-            ) : null}
-          </PostHeader>
-          {editing ? (
-            <ContentInput
-              ref={inputRef}
-              value={newContent}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              disabled={loading}
-              data-test="edit-input"
-            />
-          ) : (
-            <PostText data-test="description">
-              <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
-                {postContent}
-              </Tagify>
-            </PostText>
-          )}
+          <PostContent>
+            <PostHeader>
+              <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
+                {post.username}
+              </AuthorName>
+              {userId === post.user_id ? (
+                <div>
+                  <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
+                  <EspacoIcones />
+                  <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
+                </div>
+              ) : null}
+            </PostHeader>
+            {editing ? (
+              <ContentInput
+                ref={inputRef}
+                value={newContent}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                disabled={loading}
+                data-test="edit-input"
+              />
+            ) : (
+              <PostText data-test="description">
+                <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
+                  {postContent}
+                </Tagify>
+              </PostText>
+            )}
 
+          <LinkContent data-test="link" href={post.url} target="_blank">
+            <div>
+              <h1>{post.url_title}</h1>
+              <p>{post.url_description}</p>
+              <h2>{post.url}</h2>
+            </div>
+            <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
+          </LinkContent>
+        </PostContent>
+        {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
+        {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
+      </PostContainer>
+      {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
+    </PostOuterContainer>
           <LinkContent data-test="link" href={post.url} target="_blank">
             <div>
               <h1>{post.url_title}</h1>

@@ -1,5 +1,14 @@
 import styled from "styled-components";
 
+export const PostOuterContainer = styled.div`
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  background-color: #1E1E1E;
+  margin-bottom: 16px;
+
+`;
+
 export const PostContainer = styled.div`
   width: 100%;
   height: auto;
@@ -8,7 +17,6 @@ export const PostContainer = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   box-sizing: border-box;
-  margin-bottom: 16px;
   h1 {
     color: white;
   }
@@ -18,7 +26,7 @@ export const PictureLikesCommentsAndRepost = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  
   img {
     height: 50px;
     width: 50px;
@@ -45,25 +53,26 @@ export const PostContent = styled.div`
   width: calc(100% - 86px);
 `;
 export const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  margin-top: 19px;
-  > div {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-right: 23px;
+    margin-bottom: 8px;
+    margin-top: 19px;
+    >div{
+        display: flex;
+        align-items: center;
+        margin-right: 23px;
 
-    > svg {
-      cursor: pointer;
-    }
+        >svg{
+          cursor: pointer;
+        }
 
-    @media (max-width: 600px) {
-      margin-right: 0px;
+        @media (max-width: 600px) {
+          margin-right: 0px;
+        }
     }
-  }
-`;
+; 
+`
 
 export const AuthorName = styled.h1`
   width: 300px;
@@ -75,7 +84,7 @@ export const AuthorName = styled.h1`
   color: white;
   cursor: pointer;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden;              
   text-overflow: ellipsis;
 
   :hover {
@@ -192,5 +201,6 @@ export const ContentInput = styled.textarea`
   background: #ffffff;
   border-radius: 7px;
   border: none;
-  resize: none;
+  resize: none; 
 `;
+

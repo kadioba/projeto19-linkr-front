@@ -5,7 +5,7 @@ export default function NewPostsButton(props) {
   const { newPostsCount, updatePosts } = props;
 
   return (
-    <S.NewPostsButton onClick={updatePosts}>
+    <S.NewPostsButton data-test="load-btn" onClick={updatePosts}>
       <span>
         Load {newPostsCount} new post{newPostsCount > 1 ? "s" : ""}, load more!
       </span>
