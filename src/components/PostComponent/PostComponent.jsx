@@ -223,8 +223,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   let repostString = repostCounter == 1 ? "re-post" : "re-posts";
 
-  const renderConfirmationDialog = (confirmation, onCancel, onConfirm) =>
-    confirmation ? <ConfirmationDialog onCancel={onCancel} onConfirm={onConfirm} /> : null;
+  const renderConfirmationDialog = (confirmation, actionType, onCancel, onConfirm) =>
+    confirmation ? <ConfirmationDialog actionType={actionType} onCancel={onCancel} onConfirm={onConfirm} /> : null;
 
   return (
     <>
@@ -305,8 +305,8 @@ export default function PostComponent({ postId, post, userId, username, setPosts
               <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
             </LinkContent>
           </PostContent>
-          {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
-          {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
+          {renderConfirmationDialog(deleteConfirmation, 'submitDelete', () => setDeleteConfirmation(false), submitDelete)}
+          {renderConfirmationDialog(repostConfirmation, 'submitRepost', () => setRepostConfirmation(false), submitRepost)}
         </PostContainer>
         {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
       </PostOuterContainer>
