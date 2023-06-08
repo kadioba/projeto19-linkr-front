@@ -34,13 +34,13 @@ export default function CommentsComponent(props) {
     }
 
     return (
-        <CommentsContainer>
+        <CommentsContainer data-test="comment-box">
             {comments.map(commentRecived => <Comment key={commentRecived.id} comment={commentRecived} />)}
             <CommentInputContainer>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgHMEvAmwb8c8MGAVd5RXwt7szQCwu-QnKR6G9Ze2sCOthXlt1DZsIncqZ4JuNLvM_kcU&usqp=CAU" alt="" />
                 <form onSubmit={handleSendComment}>
-                    <input value={comment} type="text" placeholder="write a comment..." onChange={(e) => setComment(e.target.value)} />
-                    <IoPaperPlaneOutline size="15px" color="#FFFFFF" onClick={handleSendComment} />
+                    <input data-test="comment-input" value={comment} type="text" placeholder="write a comment..." onChange={(e) => setComment(e.target.value)} />
+                    <IoPaperPlaneOutline data-test="comment-submit" size="15px" color="#FFFFFF" onClick={handleSendComment} />
                 </form>
             </CommentInputContainer>
         </CommentsContainer>

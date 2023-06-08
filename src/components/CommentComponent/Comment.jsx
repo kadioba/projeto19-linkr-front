@@ -11,7 +11,7 @@ export default function Comment({ comment }) {
     }
 
     return (
-        <CommentContainer>
+        <CommentContainer data-test="comment">
             <img src={comment.picture} alt="" />
             <div>
                 <h1>{comment.username} {authorOrFollowing()}</h1>

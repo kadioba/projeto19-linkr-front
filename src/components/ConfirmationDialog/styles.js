@@ -45,7 +45,7 @@ export const Container = styled.div`
   }
 `;
 
-export const RetrieveButton = styled.button`
+export const CancelButton = styled.button`
   width: 134px;
   height: 37px;
   background-color: #ffffff;
@@ -59,7 +59,7 @@ export const RetrieveButton = styled.button`
   border: none;
 `;
 
-export const DeleteButton = styled.button`
+export const ConfirmButton = styled.button`
   width: 134px;
   height: 37px;
   background-color: #1877f2;

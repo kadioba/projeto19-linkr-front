@@ -92,7 +92,7 @@ export default function UserPage() {
           )}
         </div>
         {user.id != id &&
-          <button disabled={disabledButton} onClick={() => changeFollowState()}>
+          <button data-test="follow-btn" disabled={disabledButton} onClick={() => changeFollowState()}>
             {
               (disabledButton) ? "..." : (user.following !== undefined && id in user.following) ? "Unfollow" : "Follow"
             }
