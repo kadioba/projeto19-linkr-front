@@ -21,7 +21,6 @@ import {
 } from "./styles";
 import LinkrImage from "../../assets/linkr-image.jpg";
 import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
 import { IoPaperPlaneOutline } from "react-icons/io5";
