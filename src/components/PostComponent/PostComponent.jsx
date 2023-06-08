@@ -25,7 +25,6 @@ import { Tooltip } from "react-tooltip";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { BiRepost } from "react-icons/bi";
 import CommentsComponent from "../CommentsComponent/CommentsComponent";
 import { AiOutlineComment } from "react-icons/ai";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.jsx";
@@ -206,10 +205,10 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     }
   };
 
-  async function createRepost(){
+  async function createRepost() {
     try {
       return await API.createRepost(token, post.id)
-      
+
     } catch (err) {
       console.log(err);
       return alert("Oops! Repost was unsuccessful. Please try again");
@@ -231,7 +230,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
         <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
       ) : null}
       <PostOuterContainer>
-      <PostContainer data-test="post">
+        <PostContainer data-test="post">
           <PictureLikesCommentsAndRepost>
             <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
             <span data-test="like-btn" onClick={likeHandler}>
@@ -248,26 +247,26 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <span data-test="tooltip">
               <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
             </span>
-          <span>
-            <BiRepost color="white" size="20px" onClick={createRepost}/>
-          </span>
-          <h2>
-            {repost_count} {repostString}
-          </h2>
+            <span>
+              <BiRepost color="white" size="20px" onClick={createRepost} />
+            </span>
+            <h2>
+              {repost_count} {repostString}
+            </h2>
             <AiOutlineComment
-            data-test="comment-btn"
-            color="white"
-            size="20px"
-            onClick={() => setCommenting(!commenting)}
-          />
-          <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
-            11 comments
-          </span>
-          <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
-          <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
-            0 re-posts
-          </span>
-        </PictureLikesCommentsAndRepost>
+              data-test="comment-btn"
+              color="white"
+              size="20px"
+              onClick={() => setCommenting(!commenting)}
+            />
+            <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
+              11 comments
+            </span>
+            <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
+            <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
+              0 re-posts
+            </span>
+          </PictureLikesCommentsAndRepost>
           <PostContent>
             <PostHeader>
               <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
@@ -298,33 +297,20 @@ export default function PostComponent({ postId, post, userId, username, setPosts
               </PostText>
             )}
 
-          <LinkContent data-test="link" href={post.url} target="_blank">
-            <div>
-              <h1>{post.url_title}</h1>
-              <p>{post.url_description}</p>
-              <h2>{post.url}</h2>
-            </div>
-            <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
-          </LinkContent>
-        </PostContent>
-        {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
-        {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
-      </PostContainer>
-      {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
-    </PostOuterContainer>
-          <LinkContent data-test="link" href={post.url} target="_blank">
-            <div>
-              <h1>{post.url_title}</h1>
-              <p>{post.url_description}</p>
-              <h2>{post.url}</h2>
-            </div>
-            <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
-          </LinkContent>
-        </PostContent>
-        {deleteConfirmation ? (
-          <DeleteConfirmation setDeleteConfirmation={setDeleteConfirmation} submitDelete={submitDelete} />
-        ) : null}
-      </PostContainer>
+            <LinkContent data-test="link" href={post.url} target="_blank">
+              <div>
+                <h1>{post.url_title}</h1>
+                <p>{post.url_description}</p>
+                <h2>{post.url}</h2>
+              </div>
+              <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
+            </LinkContent>
+          </PostContent>
+          {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
+          {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
+        </PostContainer>
+        {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
+      </PostOuterContainer>
     </>
   );
 }
