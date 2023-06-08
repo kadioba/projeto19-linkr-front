@@ -53,8 +53,6 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   const [loading, setLoading] = useState(false);
 
-  console.log(post)
-
   const inputRef = useRef(null);
 
   const [tooltipId] = useState(`text-likes-${post.id}`);
