@@ -3,11 +3,11 @@ import { FaRegHeart, FaHeart, FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import API from "../../config/api";
+import { BiRepost } from 'react-icons/bi';
 import {
   AuthorName,
   ImageContent,
   LinkContent,
-  PictureAndLikes,
   PostContainer,
   PostContent,
   PostText,
@@ -18,20 +18,24 @@ import {
   PostOuterContainer,
   CommentContainer,
   CommentInputContainer,
+  PictureLikesCommentsAndRepost,
 } from "./styles";
 import LinkrImage from "../../assets/linkr-image.jpg";
 import { Tooltip } from "react-tooltip";
 import useTokenContext from "../../contexts/TokenContext";
 import useRefreshContext from "../../contexts/RefreshContext";
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { BiRepost } from "react-icons/bi";
 import CommentsComponent from "../CommentsComponent/CommentsComponent";
 import { AiOutlineComment } from "react-icons/ai";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.jsx";
+import RepostComponent from "../RepostComponent/RepostComponent.jsx";
 
-export default function PostComponent({ postId, post, userId, username, setPosts, posts }) {
+export default function PostComponent({ postId, post, userId, username, setPosts, _posts }) {
+  const { repost_id, reposter_user_id, repost_count } = post
+  let { reposter_username } = post
   const { token } = useTokenContext();
   const { refresh, setRefresh } = useRefreshContext();
+  const [ repostCounter, setRepostCounter ] = useState(Number(repost_count))
 
   const navigate = useNavigate();
 
@@ -168,6 +172,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     setLoading(true);
     setRepostConfirmation(false);
     setLoading(false);
+    createRepost()
   }
 
   const likesText = () => {
@@ -192,97 +197,116 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         const user = likeKeys.find((value) => value !== userId);
         const othersCount = howMany - 2;
-        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       } else {
         const othersCount = howMany - 2;
-        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${
-          othersCount > 1 ? "s" : ""
-        } curtiram esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
+          } curtiram esse post`;
       }
     }
   };
+
+  async function createRepost() {
+    try {
+      await API.createRepost(token, post.id)
+      return setRepostCounter(repostCounter + 1)
+    } catch (err) {
+      console.log(err);
+      return alert("Oops! Repost was unsuccessful. Please try again");
+    }
+  }
+
+  reposter_username = userId === reposter_user_id ? "you" : reposter_username;
+
+
+  let repostString = repostCounter == 1 ? "re-post" : "re-posts";
+
 
   const renderConfirmationDialog = (confirmation, onCancel, onConfirm) =>
     confirmation ? <ConfirmationDialog onCancel={onCancel} onConfirm={onConfirm} /> : null;
 
   return (
-    <PostOuterContainer>
-      <PostContainer data-test="post">
-        <PictureAndLikes>
-          <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
-          <span data-test="like-btn" onClick={likeHandler}>
-            {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
-          </span>
-          <h2
-            data-test="counter"
-            data-tooltip-id={tooltipId}
-            data-tooltip-content={likesText()}
-            data-tooltip-place="bottom"
-          >
-            {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
-          </h2>
-          <span data-test="tooltip">
-            <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
-          </span>
-          <AiOutlineComment
-            data-test="comment-btn"
-            color="white"
-            size="20px"
-            onClick={() => setCommenting(!commenting)}
-          />
-          <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
-            11 comments
-          </span>
-          <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
-          <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
-            0 re-posts
-          </span>
-        </PictureAndLikes>
-        <PostContent>
-          <PostHeader>
-            <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
-              {post.username}
-            </AuthorName>
-            {userId === post.user_id ? (
-              <div>
-                <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
-                <EspacoIcones />
-                <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
-              </div>
-            ) : null}
-          </PostHeader>
-          {editing ? (
-            <ContentInput
-              ref={inputRef}
-              value={newContent}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-              disabled={loading}
-              data-test="edit-input"
+    <>
+      {repost_id !== null ? (
+        <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
+      ) : null}
+      <PostOuterContainer>
+        <PostContainer data-test="post">
+          <PictureLikesCommentsAndRepost>
+            <img src={post.picture} alt="" onClick={() => navigate(`/user/${post.user_id}`)} />
+            <span data-test="like-btn" onClick={likeHandler}>
+              {liked ? <FaHeart color="red" size="20px" /> : <FaRegHeart color="white" size="20px" />}
+            </span>
+            <h2
+              data-test="counter"
+              data-tooltip-id={tooltipId}
+              data-tooltip-content={likesText()}
+              data-tooltip-place="bottom"
+            >
+              {howMany} like{howMany > 1 || howMany === 0 ? "s" : ""}
+            </h2>
+            <span data-test="tooltip">
+              <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
+            </span>
+            <AiOutlineComment
+              data-test="comment-btn"
+              color="white"
+              size="20px"
+              onClick={() => setCommenting(!commenting)}
             />
-          ) : (
-            <PostText data-test="description">
-              <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
-                {postContent}
-              </Tagify>
-            </PostText>
-          )}
+            <h2 data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
+              11 comments
+            </h2>
+            <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
+            <h2 data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
+            {repostCounter} {repostString}
+            </h2>
+          </PictureLikesCommentsAndRepost>
+          <PostContent>
+            <PostHeader>
+              <AuthorName data-test="username" onClick={() => navigate(`/user/${post.user_id}`)}>
+                {post.username}
+              </AuthorName>
+              {userId === post.user_id ? (
+                <div>
+                  <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
+                  <EspacoIcones />
+                  <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
+                </div>
+              ) : null}
+            </PostHeader>
+            {editing ? (
+              <ContentInput
+                ref={inputRef}
+                value={newContent}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                disabled={loading}
+                data-test="edit-input"
+              />
+            ) : (
+              <PostText data-test="description">
+                <Tagify onClick={(tag) => onHashtagClick(tag)} tagStyle={tagStyle} detectMentions={false}>
+                  {postContent}
+                </Tagify>
+              </PostText>
+            )}
 
-          <LinkContent data-test="link" href={post.url} target="_blank">
-            <div>
-              <h1>{post.url_title}</h1>
-              <p>{post.url_description}</p>
-              <h2>{post.url}</h2>
-            </div>
-            <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
-          </LinkContent>
-        </PostContent>
-        {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
-        {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
-      </PostContainer>
-      {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
-    </PostOuterContainer>
+            <LinkContent data-test="link" href={post.url} target="_blank">
+              <div>
+                <h1>{post.url_title}</h1>
+                <p>{post.url_description}</p>
+                <h2>{post.url}</h2>
+              </div>
+              <ImageContent src={post.url_picture} alt="Link Image" onError={handleImageError} />
+            </LinkContent>
+          </PostContent>
+          {renderConfirmationDialog(deleteConfirmation, () => setDeleteConfirmation(false), submitDelete)}
+          {renderConfirmationDialog(repostConfirmation, () => setRepostConfirmation(false), submitRepost)}
+        </PostContainer>
+        {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
+      </PostOuterContainer>
+    </>
   );
 }
