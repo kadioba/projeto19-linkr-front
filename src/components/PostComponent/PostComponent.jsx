@@ -247,25 +247,19 @@ export default function PostComponent({ postId, post, userId, username, setPosts
             <span data-test="tooltip">
               <Tooltip id={tooltipId} style={{ backgroundColor: "#FFFFFF", color: "#505050" }} />
             </span>
-            <span>
-              <BiRepost color="white" size="20px" onClick={createRepost} />
-            </span>
-            <h2>
-              {repost_count} {repostString}
-            </h2>
             <AiOutlineComment
               data-test="comment-btn"
               color="white"
               size="20px"
               onClick={() => setCommenting(!commenting)}
             />
-            <span data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
+            <h2 data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
               11 comments
-            </span>
+            </h2>
             <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
-            <span data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
-              0 re-posts
-            </span>
+            <h2 data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
+            {repost_count} {repostString}
+            </h2>
           </PictureLikesCommentsAndRepost>
           <PostContent>
             <PostHeader>
