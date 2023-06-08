@@ -49,6 +49,7 @@ export default function CommentsComponent(props) {
                 console.log(err)
             })
         setComment("")
+
     }
 
     return (
