@@ -18,7 +18,7 @@ export default function ConfirmationDialog(props) {
   };
 
   const actionType = onConfirm.name;
-  const { message, cancelText, confirmText } = confirmationConfig[actionType];
+  const { message, cancelText, confirmText } = confirmationConfig[actionType] || {};
 
   const confirmAction = () => {
     onConfirm(actionType);
