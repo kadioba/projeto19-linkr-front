@@ -13,7 +13,7 @@ const headers = (token) => ({
   },
 });
 
-const params = (param) => ({
+const params = (param = []) => ({
   params: param.reduce((acc, param) => {
     acc[param.paramName] = param.paramValue;
     return acc;
@@ -42,10 +42,16 @@ const API = {
       ...headers(token),
     });
   },
-  getPosts: (token, page = 1) => {
+  getPosts: (token, page = 1, source = "") => {
+    const paramsArray = [{ paramName: "page", paramValue: page }];
+
+    if (source) {
+      paramsArray.push({ paramName: "source", paramValue: source });
+    }
+
     return axiosInstance.get("/posts", {
       ...headers(token),
-      ...params([{ paramName: "page", paramValue: page }]),
+      ...params(paramsArray),
     });
   },
   publishPost: (token, post) => {
@@ -86,7 +92,7 @@ const API = {
   },
   publishComment: (token, postId, comment) => {
     return axiosInstance.post(`/post/${postId}/comment`, comment, { ...headers(token) });
-  }
+  },
 };
 
 export default API;

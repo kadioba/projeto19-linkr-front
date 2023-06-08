@@ -6,6 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import * as S from "./styles";
 import useTokenContext from "../../contexts/TokenContext";
 import useUserContext from "../../contexts/UserContext";
+import { Tooltip } from "react-tooltip";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -83,7 +84,10 @@ const NavBar = () => {
           onClick={handleToggleMenu}
           data-test="avatar"
           style={!imageLoaded ? { display: "none" } : {}}
+          data-tooltip-id="username"
+          data-tooltip-content={user.username}
         />
+        <Tooltip id="username" />
       </S.ContainerUserActions>
     </S.ContainerNavBar>
   );

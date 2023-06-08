@@ -31,7 +31,7 @@ export default function TimelinePage() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const { data } = await API.getPosts(token);
+        const { data } = await API.getPosts(token, undefined, "TimelinePage");
         setPosts(data);
         if (data?.length >= 10) {
           setHasMorePosts(true);
@@ -49,15 +49,23 @@ export default function TimelinePage() {
     () => {
       const fetchNewPosts = async () => {
         try {
-          const { data } = await API.getPosts(token);
-          const lastPostId = posts[0].id;
-          const newPostsFromData = data.filter((post) => post.id > lastPostId);
-          const newPostsFromDataLength = newPostsFromData.length;
-          if (newPostsFromDataLength) {
-            const idSet = new Set(newPostsFromData.map((post) => post.id));
-            const mergedArray = [...newPostsFromData, ...posts.filter((post) => !idSet.has(post.id))];
-            setNewPosts(mergedArray);
-            setNewPostsCount(newPostsFromDataLength);
+          const { data } = await API.getPosts(token, undefined, "fetchNewPosts");
+          const lastPostTimestamp = posts[0].created_at;
+          let index = -1;
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].created_at <= lastPostTimestamp) {
+              break;
+            }
+            index = i;
+          }
+          if (index !== -1) {
+            const newPostsFromData = data.slice(0, index + 1);
+            const newPostsFromDataLength = newPostsFromData.length;
+            if (newPostsFromDataLength) {
+              const mergedArray = [...newPostsFromData, ...posts];
+              setNewPosts(mergedArray);
+              setNewPostsCount(newPostsFromDataLength);
+            }
           }
         } catch (err) {
           console.error("Interval API error");
@@ -80,7 +88,7 @@ export default function TimelinePage() {
       return;
     }
     try {
-      const { data } = await API.getPosts(token, page);
+      const { data } = await API.getPosts(token, page, "InfiniteScroll");
       const hasMore = data?.length > 0;
 
       setPosts((prevPosts) => [...prevPosts, ...data]);
@@ -97,10 +105,12 @@ export default function TimelinePage() {
         <PostForm user={user} token={token} loading={loading} setLoading={setLoading} setPosts={setPosts} />
         {newPostsCount ? <NewPostsButton updatePosts={updatePosts} newPostsCount={newPostsCount} /> : null}
         <InfiniteScroll
+          initialLoad={false}
           pageStart={1}
           loadMore={fetchMorePosts}
           hasMore={hasMorePosts}
           loader={<LoadingComponent key="loading" />}
+          threshold={800}
         >
           <PostsRenderer posts={posts} user={user} setPosts={setPosts} />
         </InfiniteScroll>
