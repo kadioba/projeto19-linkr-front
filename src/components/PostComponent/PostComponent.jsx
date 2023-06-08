@@ -3,7 +3,7 @@ import { FaRegHeart, FaHeart, FaPencilAlt, FaTrash } from "react-icons/fa";
 import { Tagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import API from "../../config/api";
-import { BiRepost } from 'react-icons/bi';
+import { BiRepost } from "react-icons/bi";
 import {
   AuthorName,
   ImageContent,
@@ -31,11 +31,11 @@ import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog.jsx";
 import RepostComponent from "../RepostComponent/RepostComponent.jsx";
 
 export default function PostComponent({ postId, post, userId, username, setPosts, _posts }) {
-  const { repost_id, reposter_user_id, repost_count } = post
-  let { reposter_username } = post
+  const { repost_id, reposter_user_id, repost_count } = post;
+  let { reposter_username } = post;
   const { token } = useTokenContext();
   const { refresh, setRefresh } = useRefreshContext();
-  const [ repostCounter, setRepostCounter ] = useState(Number(repost_count))
+  const [repostCounter, setRepostCounter] = useState(Number(repost_count));
 
   const navigate = useNavigate();
 
@@ -172,7 +172,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
     setLoading(true);
     setRepostConfirmation(false);
     setLoading(false);
-    createRepost()
+    createRepost();
   }
 
   const likesText = () => {
@@ -197,20 +197,22 @@ export default function PostComponent({ postId, post, userId, username, setPosts
       if (liked) {
         const user = likeKeys.find((value) => value !== userId);
         const othersCount = howMany - 2;
-        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
-          } curtiram esse post`;
+        return `Você, ${myPost.liked_by[likeKeys[user]]} e mais ${othersCount} pessoa${
+          othersCount > 1 ? "s" : ""
+        } curtiram esse post`;
       } else {
         const othersCount = howMany - 2;
-        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${othersCount > 1 ? "s" : ""
-          } curtiram esse post`;
+        return `${myPost.liked_by[likeKeys[0]]}, ${myPost.liked_by[likeKeys[1]]} e mais ${othersCount} pessoa${
+          othersCount > 1 ? "s" : ""
+        } curtiram esse post`;
       }
     }
   };
 
   async function createRepost() {
     try {
-      await API.createRepost(token, post.id)
-      return setRepostCounter(repostCounter + 1)
+      await API.createRepost(token, post.id);
+      return setRepostCounter(repostCounter + 1);
     } catch (err) {
       console.log(err);
       return alert("Oops! Repost was unsuccessful. Please try again");
@@ -219,18 +221,14 @@ export default function PostComponent({ postId, post, userId, username, setPosts
 
   reposter_username = userId === reposter_user_id ? "you" : reposter_username;
 
-
   let repostString = repostCounter == 1 ? "re-post" : "re-posts";
-
 
   const renderConfirmationDialog = (confirmation, onCancel, onConfirm) =>
     confirmation ? <ConfirmationDialog onCancel={onCancel} onConfirm={onConfirm} /> : null;
 
   return (
     <>
-      {repost_id !== null ? (
-        <RepostComponent repost_id={repost_id} reposter_username={reposter_username} />
-      ) : null}
+      {repost_id !== null ? <RepostComponent repost_id={repost_id} reposter_username={reposter_username} /> : null}
       <PostOuterContainer>
         <PostContainer data-test="post">
           <PictureLikesCommentsAndRepost>
@@ -256,11 +254,11 @@ export default function PostComponent({ postId, post, userId, username, setPosts
               onClick={() => setCommenting(!commenting)}
             />
             <h2 data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
-              11 comments
+              {post.comment_count} comments
             </h2>
             <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
             <h2 data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
-            {repostCounter} {repostString}
+              {repostCounter} {repostString}
             </h2>
           </PictureLikesCommentsAndRepost>
           <PostContent>
@@ -272,7 +270,12 @@ export default function PostComponent({ postId, post, userId, username, setPosts
                 <div>
                   <FaPencilAlt data-test="edit-btn" color="white" size="19px" onClick={() => setEditing(!editing)} />
                   <EspacoIcones />
-                  <FaTrash data-test="delete-btn" color="white" size="19px" onClick={() => setDeleteConfirmation(true)} />
+                  <FaTrash
+                    data-test="delete-btn"
+                    color="white"
+                    size="19px"
+                    onClick={() => setDeleteConfirmation(true)}
+                  />
                 </div>
               ) : null}
             </PostHeader>
