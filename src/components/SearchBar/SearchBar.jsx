@@ -69,7 +69,8 @@ export default function SearchBar(props) {
         {search.length === 0 ? <AiOutlineSearch /> : <MdClear onClick={() => setSearch("")} />}
       </S.SearchBar>
       <S.ContainerSearchResults display={isOnFocus && search.length >= 3 ? "true" : undefined}>
-        {sortSearch(searchResultList).map((result, index) => (
+        { (search.length >= 3 && searchResultList.length === 0) ? <p>Nenhum usuário foi encontrado...</p> :
+        sortSearch(searchResultList).map((result, index) => (
           <div key={index} data-test="user-search" onClick={() => navigate(`user/${result.id}`)}>
             <img src={result.picture} alt="User Avatar" />
             <p>{result.username}</p>

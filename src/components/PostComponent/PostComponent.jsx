@@ -53,6 +53,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [repostConfirmation, setRepostConfirmation] = useState(false);
   const [commenting, setCommenting] = useState(false);
+  const [commentsCount, setCommentsCount] = useState(post.comment_count);
 
   const [loading, setLoading] = useState(false);
 
@@ -254,7 +255,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
               onClick={() => setCommenting(!commenting)}
             />
             <h2 data-test="comment-counter" style={{ color: "white", fontSize: "10px" }}>
-              {post.comment_count} comments
+              {commentsCount} comments
             </h2>
             <BiRepost data-test="repost-btn" color="white" size="20px" onClick={() => setRepostConfirmation(true)} />
             <h2 data-test="repost-counter" style={{ color: "white", fontSize: "10px" }}>
@@ -308,7 +309,7 @@ export default function PostComponent({ postId, post, userId, username, setPosts
           {renderConfirmationDialog(deleteConfirmation, 'submitDelete', () => setDeleteConfirmation(false), submitDelete)}
           {renderConfirmationDialog(repostConfirmation, 'submitRepost', () => setRepostConfirmation(false), submitRepost)}
         </PostContainer>
-        {commenting ? <CommentsComponent token={token} postId={postId} postUserId={post.user_id} /> : null}
+        {commenting ? <CommentsComponent setCommentsCount={setCommentsCount} commentsCount={commentsCount} token={token} postId={postId} postUserId={post.user_id} /> : null}
       </PostOuterContainer>
     </>
   );

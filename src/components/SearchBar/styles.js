@@ -69,6 +69,21 @@ export const ContainerSearchResults = styled.div`
   flex-direction: column;
   overflow-y: auto;
 
+  > p {
+    width: 100%;
+    height: 54px;
+    background-color: #e7e7e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 23px;
+    color: #515151;
+  }
+
   > div {
     width: 100%;
     height: 54px;

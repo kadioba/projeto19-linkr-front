@@ -7,15 +7,12 @@ import useUserContext from "../../contexts/UserContext";
 
 export default function CommentsComponent(props) {
 
-    const { token, postId } = props
+    const { token, postId, commentsCount, setCommentsCount } = props
     const { user } = useUserContext();
 
     const [comment, setComment] = useState("")
     const [comments, setComments] = useState([])
     const [isAuthor, setIsAuthor] = useState(false)
-
-    console.log(props.postUserId)
-    console.log(user.id)
 
     useEffect(() => {
         verifyAuthor()
@@ -44,6 +41,7 @@ export default function CommentsComponent(props) {
                 const newComment = { ...res.data, picture: user.picture, username: user.username, is_author: isAuthor }
                 console.log(newComment)
                 setComments([...comments, newComment])
+                setCommentsCount(Number(commentsCount) + 1)
             })
             .catch((err) => {
                 console.log(err)
