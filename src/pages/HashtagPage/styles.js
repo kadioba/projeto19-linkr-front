@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const AppContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: auto;
   background-color: charcoal;
   display: flex;
   /* flex-direction: column; */
